@@ -5,6 +5,12 @@
     public class CheckNameTests
     {
         [Fact]
+        public void Should_check_name_of_all_class()
+        {
+            Check.Assembly("CheckIt.Tests.Data.dll").Class().Name().Matche("^[A-Z].+$");
+        }
+
+        [Fact]
         public void Should_check_name_of_class()
         {
             Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").Name().Matche("^[A-Z].+$");

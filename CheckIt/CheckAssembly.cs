@@ -42,5 +42,15 @@ namespace CheckIt
 
             return new CheckInterface(interfaces);            
         }
+
+        public CheckClass Class()
+        {
+            return this.Class("");
+        }
+
+        public CheckInterface Interfaces()
+        {
+            return this.Interfaces("");
+        }
     }
 }
