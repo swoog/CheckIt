@@ -15,11 +15,35 @@ namespace CheckIt
             this.assemblies = assemblies;
         }
 
+        public CheckMatch Name()
+        {
+            var values = this.assemblies.Select(a => new CheckMatchValue(a, a.FullName)).ToList();
+
+            return new CheckMatch(values, "assembly");
+        }
+
+        public CheckClass Class()
+        {
+            return this.Class("");
+        }
+
         public CheckClass Class(string regex)
         {
             var classes = this.FindTypes(regex, t => t.IsClass);
 
             return new CheckClass(classes);
+        }
+
+        public CheckInterface Interfaces()
+        {
+            return this.Interfaces("");
+        }
+
+        public CheckInterface Interfaces(string interface1)
+        {
+            var interfaces = this.FindTypes(interface1, i => i.IsInterface);
+
+            return new CheckInterface(interfaces);
         }
 
         private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
@@ -30,30 +54,6 @@ namespace CheckIt
                     .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
             return classes;
-        }
-
-        public CheckMatch Name()
-        {
-            var values = this.assemblies.Select(a => new CheckMatchValue(a, a.FullName)).ToList();
-
-            return new CheckMatch(values, "assembly");
-        }
-
-        public CheckInterface Interfaces(string interface1)
-        {
-            var interfaces = this.FindTypes(interface1, i => i.IsInterface);
-
-            return new CheckInterface(interfaces);
-        }
-
-        public CheckClass Class()
-        {
-            return this.Class("");
-        }
-
-        public CheckInterface Interfaces()
-        {
-            return this.Interfaces("");
         }
     }
 }

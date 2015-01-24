@@ -44,6 +44,7 @@
     <Compile Include="CheckClass.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckMatch.cs" />
+    <Compile Include="CheckMatchValue.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
