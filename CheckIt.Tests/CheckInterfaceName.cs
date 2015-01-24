@@ -7,13 +7,23 @@
         [Fact]
         public void Should_check_name_for_all_interface()
         {
-            Check.Assembly().Interfaces().Name().Matche("^I[A-Z]+");
+            Check.Assembly("CheckIt.dll").Interfaces().Name().Matche("^I[A-Z]+");
         }
 
         [Fact]
         public void Should_check_name_when_type_is_interface()
         {
-            Check.Assembly().Interfaces("").Name().Matche("^I[A-Z]+");
+            Check.Assembly("CheckIt.dll").Interfaces("").Name().Matche("^I[A-Z]+");
+        }
+
+        [Fact]
+        public void Should_check_name_when_type_is_interface_and_pattern_is_wrong()
+        {
+            var e = Assert.Throws<MatchException>(
+                () =>
+                    { Check.Assembly().Interfaces("ErrorInterface").Name().Matche("^C[A-Z]+"); });
+
+            Assert.Equal("The folowing interface doesn't respect pattern '^C[A-Z]+' :\nErrorInterface", e.Message);
         }
     }
 }

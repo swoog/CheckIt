@@ -1,5 +1,6 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -14,15 +15,21 @@ namespace CheckIt
             this.assemblies = assemblies;
         }
 
-        public CheckClass Class(string class1)
+        public CheckClass Class(string regex)
+        {
+            var classes = this.FindTypes(regex, t => t.IsClass);
+
+            return new CheckClass(classes);
+        }
+
+        private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
         {
             var classes =
                 this.assemblies.SelectMany(a => a.GetTypes())
-                    .Where(t => t.IsClass)
-                    .Where(c => Regex.Match(c.Name, class1).Success)
+                    .Where(predicate)
+                    .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
-
-            return new CheckClass(classes);
+            return classes;
         }
 
         public CheckMatch Name()
@@ -34,13 +41,9 @@ namespace CheckIt
 
         public CheckInterface Interfaces(string interface1)
         {
-            var interfaces =
-                this.assemblies.SelectMany(a => a.GetTypes())
-                    .Where(t => t.IsInterface)
-                    .Where(c => Regex.Match(c.Name, interface1).Success)
-                    .ToList();
+            var interfaces = this.FindTypes(interface1, i => i.IsInterface);
 
-            return new CheckInterface(interfaces);            
+            return new CheckInterface(interfaces);
         }
 
         public CheckClass Class()
