@@ -31,5 +31,16 @@ namespace CheckIt
 
             return new CheckMatch(values, "assembly");
         }
+
+        public CheckInterface Interfaces(string interface1)
+        {
+            var interfaces =
+                this.assemblies.SelectMany(a => a.GetTypes())
+                    .Where(t => t.IsInterface)
+                    .Where(c => Regex.Match(c.Name, interface1).Success)
+                    .ToList();
+
+            return new CheckInterface(interfaces);            
+        }
     }
 }

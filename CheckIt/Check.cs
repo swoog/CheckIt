@@ -25,5 +25,10 @@ namespace CheckIt
 
             return new CheckAssembly(assemblies);
         }
+
+        public static CheckAssembly Assembly()
+        {
+            return Assembly("*.dll");
+        }
     }
 }
