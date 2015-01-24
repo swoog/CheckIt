@@ -7,7 +7,7 @@
         [Fact]
         public void Should_check_namespace_of_class()
         {
-            Check.Assembly("CheckIt.Tests.Data").Class("Class1").NameSpace().Matche("CheckIt.Tests.Data");
+            Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").NameSpace().Matche("CheckIt.Tests.Data");
         }
 
         [Fact]
@@ -16,7 +16,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("CheckIt.Tests.Data").Class("Class1").NameSpace().Matche("Toto");
+                    Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").NameSpace().Matche("Toto");
                 });
 
             Assert.Equal("The folowing class doesn't respect pattern 'Toto' :\nClass1", e.Message);

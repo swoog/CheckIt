@@ -1,20 +1,22 @@
 namespace CheckIt
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
 
     public class Check
     {
         public static CheckAssembly Assembly(string matchAssemblies)
         {
-            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*.dll"))
-            {
-                System.Reflection.Assembly.LoadFile(file);
-            }
+            var assemblies = new List<Assembly>();
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(c => Regex.Match(c.FullName, matchAssemblies).Success).ToList();
+            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, matchAssemblies))
+            {
+                assemblies.Add(System.Reflection.Assembly.LoadFile(file));
+            }
 
             if (assemblies.Count == 0)
             {

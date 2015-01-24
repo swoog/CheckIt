@@ -7,13 +7,13 @@
         [Fact]
         public void Should_check_name_of_class()
         {
-            Check.Assembly("CheckIt.Tests.Data").Class("Class1").Name().Matche("^[A-Z].+$");
+            Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").Name().Matche("^[A-Z].+$");
         }
 
         [Fact]
         public void Should_check_not_match_name()
         {
-            Check.Assembly("CheckIt.Tests.Data").Class("Class1").Name().NotMatche("^Toto$");
+            Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").Name().NotMatche("^Toto$");
         }
 
         [Fact]
@@ -22,7 +22,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("CheckIt.Tests.Data").Class("Class1").Name().Matche("^[a-z].+$");
+                    Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").Name().Matche("^[a-z].+$");
                 });
 
             Assert.Equal("The folowing class doesn't respect pattern '^[a-z].+$' :\nClass1", e.Message);
@@ -34,7 +34,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("CheckIt.Tests.Data").Class("Class1").Name().NotMatche("[0-9]$");
+                    Check.Assembly("CheckIt.Tests.Data.dll").Class("Class1").Name().NotMatche("[0-9]$");
                 });
 
             Assert.Equal("The folowing class match pattern '[0-9]$' :\nClass1", e.Message);

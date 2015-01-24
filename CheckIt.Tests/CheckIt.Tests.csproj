@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckNameSpaceTests.cs" />
+    <Compile Include="CheckAssemblyNameTests.cs" />
     <Compile Include="CheckNameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

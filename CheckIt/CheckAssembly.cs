@@ -24,5 +24,12 @@ namespace CheckIt
 
             return new CheckClass(classes);
         }
+
+        public CheckMatch Name()
+        {
+            var values = this.assemblies.Select(a => new CheckMatchValue(a, a.FullName)).ToList();
+
+            return new CheckMatch(values, "assembly");
+        }
     }
 }
