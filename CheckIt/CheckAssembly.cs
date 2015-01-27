@@ -1,12 +1,13 @@
 namespace CheckIt
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    public class CheckAssembly
+    public class CheckAssembly : IEnumerable<CheckAssembly2>
     {
         private readonly IEnumerable<Assembly> assemblies;
 
@@ -17,7 +18,7 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var values = this.assemblies.Select(a => new CheckMatchValue(a, a.FullName)).ToList();
+            var values = this.assemblies.Select(a => new CheckMatchValue(a, a.GetName().Name)).ToList();
 
             return new CheckMatch(values, "assembly");
         }
@@ -54,6 +55,26 @@ namespace CheckIt
                     .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
             return classes;
+        }
+
+        public IEnumerator<CheckAssembly2> GetEnumerator()
+        {
+            return this.assemblies.Select(a=>new CheckAssembly2(a.GetName().Name)).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+    }
+
+    public class CheckAssembly2
+    {
+        public string Name { get; set; }
+
+        public CheckAssembly2(string name)
+        {
+            this.Name = name;
         }
     }
 }

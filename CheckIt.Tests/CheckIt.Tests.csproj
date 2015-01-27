@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckAssemblyTests.cs" />
     <Compile Include="CheckInterfaceName.cs" />
     <Compile Include="CheckNameSpaceTests.cs" />
     <Compile Include="CheckAssemblyNameTests.cs" />

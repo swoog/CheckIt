@@ -5,7 +5,13 @@
     public class CheckAssemblyNameTests
     {
         [Fact]
-        public void Should_check_assembly_name_of_class()
+        public void Should_check_assembly_name()
+        {
+            Check.Assembly("CheckIt.dll").Name().Matche("^CheckIt$");
+        }
+
+        [Fact]
+        public void Should_check_assembly_when_wildcare()
         {
             Check.Assembly("CheckIt.*.dll").Name().Matche("^CheckIt");
         }
