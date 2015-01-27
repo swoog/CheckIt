@@ -8,7 +8,7 @@ namespace CheckIt
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    public class CheckAssemblies : IEnumerable<CheckAssembly2>
+    public class CheckAssemblies : IEnumerable<CheckAssembly>
     {
         private string matchAssemblies;
 
@@ -17,25 +17,9 @@ namespace CheckIt
             this.matchAssemblies = matchAssemblies;
         }
 
-        private IEnumerable<Assembly> GetAssemblies()
-        {
-            var hasAssemblies = false;
-
-            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
-            {
-                hasAssemblies = true;
-                yield return Assembly.LoadFile(file);
-            }
-
-            if (!hasAssemblies)
-            {
-                throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
-            }
-        }
-
         public CheckMatch Name()
         {
-            var values = this.GetAssemblies().Select(a => new CheckMatchValue(a, a.GetName().Name)).ToList();
+            var values = this.Select(a => new CheckMatchValue(a.Assembly, a.Name)).ToList();
 
             return new CheckMatch(values, "assembly");
         }
@@ -64,34 +48,40 @@ namespace CheckIt
             return new CheckInterface(interfaces);
         }
 
-        private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
+        public IEnumerator<CheckAssembly> GetEnumerator()
         {
-            var classes =
-                this.GetAssemblies().SelectMany(a => a.GetTypes())
-                    .Where(predicate)
-                    .Where(c => Regex.Match(c.Name, regex).Success)
-                    .ToList();
-            return classes;
-        }
-
-        public IEnumerator<CheckAssembly2> GetEnumerator()
-        {
-            return this.GetAssemblies().Select(a => new CheckAssembly2(a.GetName().Name)).GetEnumerator();
+            return this.GetAssemblies().Select(a => new CheckAssembly(a, a.GetName().Name)).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
-    }
 
-    public class CheckAssembly2
-    {
-        public string Name { get; set; }
-
-        public CheckAssembly2(string name)
+        private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
         {
-            this.Name = name;
+            var classes =
+                this.SelectMany(a => a.Assembly.GetTypes())
+                    .Where(predicate)
+                    .Where(c => Regex.Match(c.Name, regex).Success)
+                    .ToList();
+            return classes;
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+            var hasAssemblies = false;
+
+            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
+            {
+                hasAssemblies = true;
+                yield return Assembly.LoadFile(file);
+            }
+
+            if (!hasAssemblies)
+            {
+                throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
+            }
         }
     }
 }
