@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Check.cs" />
-    <Compile Include="CheckAssembly.cs" />
+    <Compile Include="CheckAssemblies.cs" />
     <Compile Include="CheckClass.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckMatch.cs" />

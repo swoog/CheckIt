@@ -3,22 +3,39 @@ namespace CheckIt
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    public class CheckAssembly : IEnumerable<CheckAssembly2>
+    public class CheckAssemblies : IEnumerable<CheckAssembly2>
     {
-        private readonly IEnumerable<Assembly> assemblies;
+        private string matchAssemblies;
 
-        public CheckAssembly(IEnumerable<Assembly> assemblies)
+        public CheckAssemblies(string matchAssemblies)
         {
-            this.assemblies = assemblies;
+            this.matchAssemblies = matchAssemblies;
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+            var hasAssemblies = false;
+
+            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
+            {
+                hasAssemblies = true;
+                yield return Assembly.LoadFile(file);
+            }
+
+            if (!hasAssemblies)
+            {
+                throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
+            }
         }
 
         public CheckMatch Name()
         {
-            var values = this.assemblies.Select(a => new CheckMatchValue(a, a.GetName().Name)).ToList();
+            var values = this.GetAssemblies().Select(a => new CheckMatchValue(a, a.GetName().Name)).ToList();
 
             return new CheckMatch(values, "assembly");
         }
@@ -50,7 +67,7 @@ namespace CheckIt
         private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
         {
             var classes =
-                this.assemblies.SelectMany(a => a.GetTypes())
+                this.GetAssemblies().SelectMany(a => a.GetTypes())
                     .Where(predicate)
                     .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
@@ -59,7 +76,7 @@ namespace CheckIt
 
         public IEnumerator<CheckAssembly2> GetEnumerator()
         {
-            return this.assemblies.Select(a=>new CheckAssembly2(a.GetName().Name)).GetEnumerator();
+            return this.GetAssemblies().Select(a => new CheckAssembly2(a.GetName().Name)).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

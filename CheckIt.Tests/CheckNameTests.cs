@@ -1,5 +1,7 @@
 ﻿namespace CheckIt.Tests
 {
+    using System.Linq;
+
     using Xunit;
 
     public class CheckNameTests
@@ -52,7 +54,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("Toto");
+                    Check.Assembly("Toto").Count();
                 });
 
             Assert.Equal("No assembly found that match 'Toto'", e.Message);

@@ -9,24 +9,12 @@ namespace CheckIt
 
     public class Check
     {
-        public static CheckAssembly Assembly(string matchAssemblies)
+        public static CheckAssemblies Assembly(string matchAssemblies)
         {
-            var assemblies = new List<Assembly>();
-
-            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, matchAssemblies))
-            {
-                assemblies.Add(System.Reflection.Assembly.LoadFile(file));
-            }
-
-            if (assemblies.Count == 0)
-            {
-                throw new MatchException(string.Format("No assembly found that match '{0}'", matchAssemblies));
-            }
-
-            return new CheckAssembly(assemblies);
+            return new CheckAssemblies(matchAssemblies);
         }
 
-        public static CheckAssembly Assembly()
+        public static CheckAssemblies Assembly()
         {
             return Assembly("*.dll");
         }
