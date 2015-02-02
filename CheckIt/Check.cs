@@ -18,5 +18,14 @@ namespace CheckIt
         {
             return Assembly("*.dll");
         }
+
+        public static CheckSources Source(string p)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CheckSources
+    {
     }
 }
