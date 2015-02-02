@@ -12,7 +12,7 @@ namespace CheckIt
     {
         private readonly string matchAssemblies;
 
-        public CheckAssemblies(string matchAssemblies)
+        public CheckAssemblies(string basePath, string matchAssemblies)
         {
             this.matchAssemblies = matchAssemblies;
         }

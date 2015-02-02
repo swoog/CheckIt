@@ -43,14 +43,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckAssemblyTests.cs" />
-    <Compile Include="CheckInterfaceName.cs" />
-    <Compile Include="CheckNameSpaceTests.cs" />
-    <Compile Include="CheckAssemblyNameTests.cs" />
-    <Compile Include="CheckNameTests.cs" />
+    <Compile Include="CheckAssembly\CheckAssemblyTests.cs" />
+    <Compile Include="CheckAssembly\CheckInterfaceName.cs" />
+    <Compile Include="CheckAssembly\CheckNameSpaceTests.cs" />
+    <Compile Include="CheckAssembly\CheckAssemblyNameTests.cs" />
+    <Compile Include="CheckAssembly\CheckNameTests.cs" />
+    <Compile Include="CheckSources\CheckSourcesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

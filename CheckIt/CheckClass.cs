@@ -9,5 +9,10 @@ namespace CheckIt
             : base(types, "class")
         {
         }
+
+        public CheckClass(string className)
+            : base(null, "class")
+        {
+        }
     }
 }

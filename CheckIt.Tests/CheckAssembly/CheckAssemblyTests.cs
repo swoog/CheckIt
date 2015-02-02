@@ -1,4 +1,4 @@
-﻿namespace CheckIt.Tests
+﻿namespace CheckIt.Tests.CheckAssembly
 {
     using System.Linq;
 
