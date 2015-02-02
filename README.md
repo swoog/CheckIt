@@ -10,3 +10,8 @@ The goal of CheckIt, is to create unit tests like :
         }
         
 With this unit test you have created a constraint on your code.
+
+The last compilation is on myget repository :
+https://www.myget.org/F/swoog/
+
+And the stable package is on nuget : https://www.nuget.org/packages/CheckIt/
