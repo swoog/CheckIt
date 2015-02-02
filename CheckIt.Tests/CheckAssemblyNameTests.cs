@@ -5,15 +5,21 @@
     public class CheckAssemblyNameTests
     {
         [Fact]
-        public void Should_check_assembly_name_of_class()
+        public void Should_check_assembly_name()
         {
-            Check.Assembly("CheckIt.*.dll").Name().Matche("^CheckIt");
+            Check.Assembly("CheckIt.dll").Name().Match("^CheckIt$");
+        }
+
+        [Fact]
+        public void Should_check_assembly_when_wildcare()
+        {
+            Check.Assembly("CheckIt.*.dll").Name().Match("^CheckIt");
         }
 
         [Fact]
         public void Should_check_not_match_assembly_name()
         {
-            Check.Assembly("CheckIt.*.dll").Name().NotMatche("^Toto$");
+            Check.Assembly("CheckIt.*.dll").Name().NotMatch("^Toto$");
         }
 
         [Fact]
@@ -22,7 +28,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("CheckIt*.dll").Name().Matche("^Toto");
+                    Check.Assembly("CheckIt*.dll").Name().Match("^Toto");
                 });
 
             Assert.Equal("The folowing assembly doesn't respect pattern '^Toto' :\nCheckIt\nCheckIt.Tests\nCheckIt.Tests.Data", e.Message);
@@ -34,7 +40,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("*.dll").Name().NotMatche("^CheckIt");
+                    Check.Assembly("*.dll").Name().NotMatch("^CheckIt");
                 });
 
             Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt\nCheckIt.Tests\nCheckIt.Tests.Data", e.Message);

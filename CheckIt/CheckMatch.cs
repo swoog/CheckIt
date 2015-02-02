@@ -18,7 +18,7 @@ namespace CheckIt
             this.type = type;
         }
 
-        public void Matche(string regex)
+        public void Match(string regex)
         {
             this.Test(
                 regex,
@@ -26,7 +26,7 @@ namespace CheckIt
                 "The folowing {0} doesn't respect pattern '{1}' :\n{2}");
         }
 
-        public void NotMatche(string regex)
+        public void NotMatch(string regex)
         {
             this.Test(
                 regex,
