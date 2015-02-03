@@ -32,7 +32,7 @@ namespace CheckIt
 
         public CheckClass Class(string regex)
         {
-            var classes = this.FindTypes(regex, t => t.IsClass);
+            var classes = this.FindTypes(regex, t => t.IsClass && !t.Name.StartsWith("<>c__"));
 
             return new CheckClass(classes);
         }
