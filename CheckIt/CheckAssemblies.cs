@@ -6,6 +6,7 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public class CheckAssemblies : IEnumerable<CheckAssembly>
@@ -31,7 +32,7 @@ namespace CheckIt
 
         public CheckClass Class(string regex)
         {
-            var classes = this.FindTypes(regex, t => t.IsClass);
+            var classes = this.FindTypes(regex, t => t.IsClass && !t.Name.StartsWith("<>c__"));
 
             return new CheckClass(classes);
         }
@@ -61,11 +62,24 @@ namespace CheckIt
         private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
         {
             var classes =
-                this.SelectMany(a => a.Assembly.GetTypes())
+                this.SelectMany(GetTypes)
                     .Where(predicate)
                     .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
             return classes;
+        }
+
+        private static IEnumerable<Type> GetTypes(CheckAssembly a)
+        {
+            try
+            {
+                return a.Assembly.GetTypes();
+            }
+            catch
+            {
+                // TODO : AG : Log this exception error
+                return new Type[0];
+            }
         }
 
         private IEnumerable<Assembly> GetAssemblies()
@@ -75,7 +89,20 @@ namespace CheckIt
             foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
             {
                 hasAssemblies = true;
-                yield return Assembly.LoadFile(file);
+                Assembly assembly = null;
+                try
+                {
+                    assembly = Assembly.LoadFile(file);
+                }
+                catch
+                {
+                    // TODO : AG : Log this exception error
+                }
+
+                if (assembly != null)
+                {
+                    yield return assembly;
+                }
             }
 
             if (!hasAssemblies)
