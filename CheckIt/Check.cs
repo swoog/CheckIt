@@ -82,7 +82,12 @@ namespace CheckIt
 
         public CheckClasses Class(string classPattern)
         {
-            return new CheckClasses(this.SelectMany(s => s.Class(classPattern)));
+            return new CheckClasses(this.GetClassess(classPattern));
+        }
+
+        private IEnumerable<CheckClass> GetClassess(string classPattern)
+        {
+            return this.SelectMany(s => s.Class(classPattern));
         }
 
         public CheckClasses Class()
@@ -117,7 +122,7 @@ namespace CheckIt
         {
             if (this.Count() == 0)
             {
-                throw new MatchException("");
+                throw new MatchException("No class found");
             }
         }
     }
@@ -135,10 +140,10 @@ namespace CheckIt
         {
             var project = this.OpenProjectAsync();
 
-            return new CheckClasses(this.GetClasses(project));
+            return new CheckClasses(this.GetClasses(project, classPattern));
         }
 
-        private IEnumerable<CheckClass> GetClasses(Project project)
+        private IEnumerable<CheckClass> GetClasses(Project project, string classPattern)
         {
             foreach (var document in project.Documents)
             {
@@ -147,7 +152,10 @@ namespace CheckIt
 
                 foreach (var checkClass in checkClasses)
                 {
-                    yield return checkClass;
+                    if (Regex.Match(checkClass.ClassName, classPattern).Success)
+                    {
+                        yield return checkClass;                        
+                    }
                 }
             }
         }
@@ -156,7 +164,9 @@ namespace CheckIt
         {
             var visitor = new CheckClassVisitor();
 
-            return visitor.Visit(syntaxTreeAsync.GetRoot());
+            visitor.Visit(syntaxTreeAsync.GetRoot());
+
+            return visitor.GetClasses();
         }
 
         private static SyntaxTree GetSyntaxTreeAsync(Document document)
@@ -179,11 +189,18 @@ namespace CheckIt
         }
     }
 
-    internal class CheckClassVisitor : CSharpSyntaxVisitor<IEnumerable<CheckClass>>
+    internal class CheckClassVisitor : CSharpSyntaxWalker
     {
-        public override IEnumerable<CheckClass> VisitClassDeclaration(ClassDeclarationSyntax node)
+        private List<CheckClass> classes = new List<CheckClass>(); 
+
+        public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            yield return new CheckClass(node.Identifier.ValueText);
+            this.classes.Add(new CheckClass(node.Identifier.ValueText));
         }
+
+        public List<CheckClass> GetClasses()
+        {
+            return this.classes;
+        } 
     }
 }

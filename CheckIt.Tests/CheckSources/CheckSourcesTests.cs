@@ -38,7 +38,7 @@
                         Check.Sources("CheckIt.Tests.Data.csproj").Class("NotFoundClass").HasAny();
                     });
 
-            Assert.Equal("No class found that match pattern 'NotFoundClass'", ex.Message);
+            Assert.Equal("No class found", ex.Message);
         }
     }
 }

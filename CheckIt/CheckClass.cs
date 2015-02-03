@@ -5,6 +5,8 @@ namespace CheckIt
 
     public class CheckClass : CheckType
     {
+        public string ClassName { get; set; }
+
         public CheckClass(List<Type> types)
             : base(types, "class")
         {
@@ -13,6 +15,7 @@ namespace CheckIt
         public CheckClass(string className)
             : base(null, "class")
         {
+            this.ClassName = className;
         }
     }
 }
