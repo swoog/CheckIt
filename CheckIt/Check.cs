@@ -125,6 +125,13 @@ namespace CheckIt
                 throw new MatchException("No class found");
             }
         }
+
+        public CheckMatch Name()
+        {
+            var values = this.Select(c => new CheckMatchValue(c.ClassName, c.ClassName)).ToList();
+
+            return new CheckMatch(values, "class");
+        }
     }
 
     public class CheckSource
