@@ -4,22 +4,27 @@
 
     public class CheckAssemblyNameTests
     {
+        public CheckAssemblyNameTests()
+        {
+            Check.SetBasePathSearch(@"..\..\..\CheckIt\");
+        }
+
         [Fact]
         public void Should_check_assembly_name()
         {
-            Check.Assembly("CheckIt.dll").Name().Match("^CheckIt$");
+            Check.Assembly("CheckIt").Name().Match("^CheckIt$");
         }
 
         [Fact]
         public void Should_check_assembly_when_wildcare()
         {
-            Check.Assembly("CheckIt.*.dll").Name().Match("^CheckIt");
+            Check.Assembly("CheckIt.*").Name().Match("^CheckIt");
         }
 
         [Fact]
         public void Should_check_not_match_assembly_name()
         {
-            Check.Assembly("CheckIt.*.dll").Name().NotMatch("^Toto$");
+            Check.Assembly("CheckIt.*").Name().NotMatch("^Toto$");
         }
 
         [Fact]

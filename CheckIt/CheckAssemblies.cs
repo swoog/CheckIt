@@ -11,10 +11,13 @@ namespace CheckIt
 
     public class CheckAssemblies : IEnumerable<CheckAssembly>
     {
-        private readonly string matchAssemblies;
+        private readonly IEnumerable<CheckAssembly> checkAssemblies;
 
-        public CheckAssemblies(string basePath, string matchAssemblies)
+        private string matchAssemblies;
+
+        public CheckAssemblies(IEnumerable<CheckAssembly> checkAssemblies, string matchAssemblies)
         {
+            this.checkAssemblies = checkAssemblies;
             this.matchAssemblies = matchAssemblies;
         }
 
@@ -51,7 +54,7 @@ namespace CheckIt
 
         public IEnumerator<CheckAssembly> GetEnumerator()
         {
-            return this.GetAssemblies().Select(a => new CheckAssembly(a, a.GetName().Name)).GetEnumerator();
+            return this.GetAssemblies().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -82,27 +85,15 @@ namespace CheckIt
             }
         }
 
-        private IEnumerable<Assembly> GetAssemblies()
+        private IEnumerable<CheckAssembly> GetAssemblies()
         {
             var hasAssemblies = false;
 
-            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
+            foreach (var assembly in this.checkAssemblies)
             {
                 hasAssemblies = true;
-                Assembly assembly = null;
-                try
-                {
-                    assembly = Assembly.LoadFile(file);
-                }
-                catch
-                {
-                    // TODO : AG : Log this exception error
-                }
 
-                if (assembly != null)
-                {
-                    yield return assembly;
-                }
+                yield return assembly;
             }
 
             if (!hasAssemblies)

@@ -13,5 +13,10 @@ namespace CheckIt
             this.Assembly = assembly;
             this.Name = name;
         }
+
+        public CheckAssembly(string name)
+        {
+            this.Name = name;
+        }
     }
 }

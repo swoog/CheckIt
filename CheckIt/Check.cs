@@ -20,7 +20,7 @@ namespace CheckIt
 
         public static CheckAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckAssemblies(basePath, matchAssemblies);
+            return Sources("*.csproj").Assembly(matchAssemblies);
         }
 
         public static CheckAssemblies Assembly()
@@ -94,6 +94,11 @@ namespace CheckIt
         {
             return this.Class(string.Empty);
         }
+
+        public CheckAssemblies Assembly(string matchAssemblies)
+        {
+            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => a.Name == matchAssemblies), matchAssemblies);
+        }
     }
 
     public class CheckClasses : IEnumerable<CheckClass>
@@ -161,7 +166,7 @@ namespace CheckIt
                 {
                     if (Regex.Match(checkClass.ClassName, classPattern).Success)
                     {
-                        yield return checkClass;                        
+                        yield return checkClass;
                     }
                 }
             }
@@ -194,11 +199,18 @@ namespace CheckIt
 
             return t.Result;
         }
+
+        public CheckAssembly Assembly()
+        {
+            var project = OpenProjectAsync();
+
+            return new CheckAssembly(project.AssemblyName);
+        }
     }
 
     internal class CheckClassVisitor : CSharpSyntaxWalker
     {
-        private List<CheckClass> classes = new List<CheckClass>(); 
+        private List<CheckClass> classes = new List<CheckClass>();
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
@@ -208,6 +220,6 @@ namespace CheckIt
         public List<CheckClass> GetClasses()
         {
             return this.classes;
-        } 
+        }
     }
 }
