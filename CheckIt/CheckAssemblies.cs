@@ -75,7 +75,7 @@ namespace CheckIt
             {
                 return a.Assembly.GetTypes();
             }
-            catch 
+            catch
             {
                 // TODO : AG : Log this exception error
                 return new Type[0];
@@ -89,7 +89,20 @@ namespace CheckIt
             foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
             {
                 hasAssemblies = true;
-                yield return Assembly.LoadFile(file);
+                Assembly assembly = null;
+                try
+                {
+                    assembly = Assembly.LoadFile(file);
+                }
+                catch
+                {
+                    // TODO : AG : Log this exception error
+                }
+
+                if (assembly != null)
+                {
+                    yield return assembly;
+                }
             }
 
             if (!hasAssemblies)
