@@ -10,7 +10,7 @@ namespace CheckIt
 
     public class CheckAssemblies : IEnumerable<CheckAssembly>
     {
-        private string matchAssemblies;
+        private readonly string matchAssemblies;
 
         public CheckAssemblies(string matchAssemblies)
         {
