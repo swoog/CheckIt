@@ -170,7 +170,8 @@ namespace CheckIt
 
         private Project OpenProjectAsync()
         {
-            var t = MSBuildWorkspace.Create().OpenProjectAsync(this.file.FullName);
+            var msBuildWorkspace = MSBuildWorkspace.Create();
+            var t = msBuildWorkspace.OpenProjectAsync(this.file.FullName);
 
             t.Wait();
 
