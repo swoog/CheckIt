@@ -6,6 +6,7 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public class CheckAssemblies : IEnumerable<CheckAssembly>
@@ -61,11 +62,24 @@ namespace CheckIt
         private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
         {
             var classes =
-                this.SelectMany(a => a.Assembly.GetTypes())
+                this.SelectMany(GetTypes)
                     .Where(predicate)
                     .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
             return classes;
+        }
+
+        private static IEnumerable<Type> GetTypes(CheckAssembly a)
+        {
+            try
+            {
+                return a.Assembly.GetTypes();
+            }
+            catch 
+            {
+                // TODO : AG : Log this exception error
+                return new Type[0];
+            }
         }
 
         private IEnumerable<Assembly> GetAssemblies()
