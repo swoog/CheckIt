@@ -6,7 +6,7 @@
     {
         public CheckAssemblyNameTests()
         {
-            Check.SetBasePathSearch(@"..\..\..\CheckIt\");
+            Check.SetBasePathSearch(@"..\..\..\");
         }
 
         [Fact]

@@ -6,6 +6,7 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
@@ -53,7 +54,7 @@ namespace CheckIt
 
         public IEnumerator<CheckSource> GetEnumerator()
         {
-            foreach (var file in this.GetFiles())
+            foreach (var file in this.GetFiles(this.basePath))
             {
                 yield return new CheckSource(file);
             }
@@ -62,16 +63,32 @@ namespace CheckIt
         private IEnumerable<FileInfo> GetFiles()
         {
             var hasFiles = false;
-
-            foreach (var file in Directory.GetFiles(this.basePath, this.projectfilePattern))
+            foreach (var file in this.GetFiles(this.basePath))
             {
                 hasFiles = true;
-                yield return new FileInfo(file);
+                yield return file;
             }
 
             if (!hasFiles)
             {
                 throw new MatchException(string.Format("No project found that match '{0}'", this.projectfilePattern));
+            }
+        } 
+
+        private IEnumerable<FileInfo> GetFiles(string path)
+        {
+
+            foreach (var file in Directory.GetFiles(path, this.projectfilePattern))
+            {
+                yield return new FileInfo(file);
+            }
+
+            foreach (var directory in Directory.GetDirectories(path))
+            {
+                foreach (var fileInfo in this.GetFiles(directory))
+                {
+                    yield return fileInfo;
+                }
             }
         }
 
@@ -97,9 +114,10 @@ namespace CheckIt
 
         public CheckAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => a.Name == matchAssemblies), matchAssemblies);
+            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => FileUtil.FilenameMatchesPattern(a.Name ,matchAssemblies)), matchAssemblies);
         }
     }
+
 
     public class CheckClasses : IEnumerable<CheckClass>
     {
@@ -137,6 +155,64 @@ namespace CheckIt
 
             return new CheckMatch(values, "class");
         }
+    }
+
+    /// <summary>
+    /// A set of file utilities.
+    /// </summary>
+    public struct FileUtil
+    {
+
+
+        /// <summary>
+        ///   Checks if name matches pattern with '?' and '*' wildcards.
+        /// </summary>
+        /// <param name="filename">
+        ///   Name to match.
+        /// </param>
+        /// <param name="pattern">
+        ///   Pattern to match to.
+        /// </param>
+        /// <returns>
+        ///   <c>true</c> if name matches pattern, otherwise <c>false</c>.
+        /// </returns>
+        public static bool FilenameMatchesPattern(string filename, string pattern)
+        {
+            // prepare the pattern to the form appropriate for Regex class
+            StringBuilder sb = new StringBuilder(pattern);
+            // remove superflous occurences of  "?*" and "*?"
+            while (sb.ToString().IndexOf("?*") != -1)
+            {
+                sb.Replace("?*", "*");
+            }
+            while (sb.ToString().IndexOf("*?") != -1)
+            {
+                sb.Replace("*?", "*");
+            }
+            // remove superflous occurences of asterisk '*'
+            while (sb.ToString().IndexOf("**") != -1)
+            {
+                sb.Replace("**", "*");
+            }
+            // if only asterisk '*' is left, the mask is ".*"
+            if (sb.ToString().Equals("*")) pattern = ".*";
+            else
+            {
+                // replace '.' with "\."
+                sb.Replace(".", "\\.");
+                // replaces all occurrences of '*' with ".*" 
+                sb.Replace("*", ".*");
+                // replaces all occurrences of '?' with '.*' 
+                sb.Replace("?", ".");
+                // add "\b" to the beginning and end of the pattern
+                sb.Insert(0, "\\b");
+                sb.Append("\\b");
+                pattern = sb.ToString();
+            }
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            return regex.IsMatch(filename);
+        }
+
     }
 
     public class CheckSource
