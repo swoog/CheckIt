@@ -116,8 +116,42 @@ namespace CheckIt
         {
             return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies)), matchAssemblies);
         }
+
+        public CheckFiles File(string checkCs)
+        {
+            throw new NotImplementedException();
+        }
     }
 
+    public class CheckFiles : IEnumerable<CheckFile>
+    {
+        public IEnumerator<CheckFile> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public CheckContains Contains()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CheckContains
+    {
+        public void Class(string check)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CheckFile
+    {
+    }
 
     public class CheckClasses : IEnumerable<CheckClass>
     {

@@ -117,6 +117,7 @@
     <Compile Include="CheckAssembly\CheckAssemblyNameTests.cs" />
     <Compile Include="CheckAssembly\CheckNameTests.cs" />
     <Compile Include="CheckSources\CheckClassNameTests.cs" />
+    <Compile Include="CheckSources\CheckFileTests.cs" />
     <Compile Include="CheckSources\CheckSourcesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
