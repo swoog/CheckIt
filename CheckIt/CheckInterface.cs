@@ -11,6 +11,12 @@ namespace CheckIt
         {
         }
 
-        public string InterfaceName { get; set; }
+        public CheckInterface(string interfaceName)
+            : base(null, "interface")
+        {
+            this.InterfaceName = interfaceName;
+        }
+
+        public string InterfaceName { get; private set; }
     }
 }

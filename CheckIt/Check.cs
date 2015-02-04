@@ -285,7 +285,7 @@ namespace CheckIt
         {
             var project = OpenProjectAsync();
 
-            return new CheckAssembly(string.Format("{0}.dll", project.AssemblyName), project.AssemblyName);
+            return new CheckAssembly(project);
         }
     }
 
@@ -293,14 +293,26 @@ namespace CheckIt
     {
         private List<CheckClass> classes = new List<CheckClass>();
 
+        private List<CheckInterface> interfaces = new List<CheckInterface>();
+
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             this.classes.Add(new CheckClass(node.Identifier.ValueText));
         }
 
+        public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
+        {
+            this.interfaces.Add(new CheckInterface(node.Identifier.ValueText));
+        }
+
         public List<CheckClass> GetClasses()
         {
             return this.classes;
+        }
+
+        public IEnumerable<CheckInterface> GetInterfaces()
+        {
+            return this.interfaces;
         }
     }
 }

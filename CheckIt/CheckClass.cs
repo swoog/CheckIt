@@ -5,7 +5,7 @@ namespace CheckIt
 
     public class CheckClass : CheckType
     {
-        public string ClassName { get; set; }
+        public string ClassName { get; private set; }
 
         public CheckClass(List<Type> types)
             : base(types, "class")
