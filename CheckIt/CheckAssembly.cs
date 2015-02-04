@@ -10,13 +10,16 @@ namespace CheckIt
     {
         private readonly Project project;
 
+        private readonly Compilation compile;
+
         public string FileName { get; set; }
 
         public string Name { get; private set; }
 
-        public CheckAssembly(Project project)
+        public CheckAssembly(Project project, Compilation compile)
         {
             this.project = project;
+            this.compile = compile;
             this.FileName = string.Format("{0}.dll", project.AssemblyName);
             this.Name = project.AssemblyName;
         }
@@ -45,7 +48,9 @@ namespace CheckIt
 
         private IEnumerable<CheckClass> VisitClass(SyntaxTree syntaxTreeAsync)
         {
-            var visitor = new CheckClassVisitor();
+            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+
+            var visitor = new CheckClassVisitor(semanticModel);
 
             visitor.Visit(syntaxTreeAsync.GetRoot());
 
@@ -85,7 +90,9 @@ namespace CheckIt
 
         private IEnumerable<CheckInterface> VisitInterface(SyntaxTree syntaxTreeAsync)
         {
-            var visitor = new CheckClassVisitor();
+            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+
+            var visitor = new CheckClassVisitor(semanticModel);
 
             visitor.Visit(syntaxTreeAsync.GetRoot());
 

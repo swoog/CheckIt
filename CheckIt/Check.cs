@@ -158,7 +158,9 @@ namespace CheckIt
 
         public CheckMatch NameSpace()
         {
-            throw new NotImplementedException();
+            var values = this.Select(c => new CheckMatchValue(c.ClassName, c.ClassNameSpace)).ToList();
+
+            return new CheckMatch(values, "class");
         }
     }
 
@@ -233,15 +235,17 @@ namespace CheckIt
         {
             var project = this.OpenProjectAsync();
 
-            return new CheckClasses(this.GetClasses(project, classPattern));
+            var compile = project.GetCompilationAsync().Result;
+
+            return new CheckClasses(this.GetClasses(project, classPattern, compile));
         }
 
-        private IEnumerable<CheckClass> GetClasses(Project project, string classPattern)
+        private IEnumerable<CheckClass> GetClasses(Project project, string classPattern, Compilation compile)
         {
             foreach (var document in project.Documents)
             {
                 var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.VisitClass(syntaxTreeAsync);
+                var checkClasses = this.VisitClass(syntaxTreeAsync, compile);
 
                 foreach (var checkClass in checkClasses)
                 {
@@ -253,9 +257,11 @@ namespace CheckIt
             }
         }
 
-        private IEnumerable<CheckClass> VisitClass(SyntaxTree syntaxTreeAsync)
+        private IEnumerable<CheckClass> VisitClass(SyntaxTree syntaxTreeAsync, Compilation compile)
         {
-            var visitor = new CheckClassVisitor();
+            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+            
+            var visitor = new CheckClassVisitor(semanticModel);
 
             visitor.Visit(syntaxTreeAsync.GetRoot());
 
@@ -285,19 +291,28 @@ namespace CheckIt
         {
             var project = OpenProjectAsync();
 
-            return new CheckAssembly(project);
+            var compile = project.GetCompilationAsync().Result;
+
+            return new CheckAssembly(project, compile);
         }
     }
 
     internal class CheckClassVisitor : CSharpSyntaxWalker
     {
+        private readonly SemanticModel semanticModel;
+
         private List<CheckClass> classes = new List<CheckClass>();
 
         private List<CheckInterface> interfaces = new List<CheckInterface>();
 
+        public CheckClassVisitor(SemanticModel semanticModel)
+        {
+            this.semanticModel = semanticModel;
+        }
+
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            this.classes.Add(new CheckClass(node.Identifier.ValueText));
+            this.classes.Add(new CheckClass(node.Identifier.ValueText, this.semanticModel.GetDeclaredSymbol(node).ToDisplayString()));
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
