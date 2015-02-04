@@ -155,6 +155,11 @@ namespace CheckIt
 
             return new CheckMatch(values, "class");
         }
+
+        public CheckMatch NameSpace()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

@@ -28,28 +28,24 @@ namespace CheckIt
             return new CheckMatch(values, "assembly");
         }
 
-        public CheckClass Class()
+        public CheckClasses Class()
         {
             return this.Class("");
         }
 
-        public CheckClass Class(string regex)
+        public CheckClasses Class(string regex)
         {
-            var classes = this.FindTypes(regex, t => t.IsClass && !t.Name.StartsWith("<>c__"));
-
-            return new CheckClass(classes);
+            return new CheckClasses(this.SelectMany(a => a.Class(regex)));
         }
 
-        public CheckInterface Interfaces()
+        public CheckInterfaces Interfaces()
         {
             return this.Interfaces("");
         }
 
-        public CheckInterface Interfaces(string interface1)
+        public CheckInterfaces Interfaces(string interface1)
         {
-            var interfaces = this.FindTypes(interface1, i => i.IsInterface);
-
-            return new CheckInterface(interfaces);
+            return new CheckInterfaces(this.SelectMany(a => a.Interface(interface1)));
         }
 
         public IEnumerator<CheckAssembly> GetEnumerator()
@@ -100,6 +96,33 @@ namespace CheckIt
             {
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
+        }
+    }
+
+    public class CheckInterfaces : IEnumerable<CheckInterface>
+    {
+        private readonly IEnumerable<CheckInterface> interfaces;
+
+        public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
+        {
+            this.interfaces = interfaces;
+        }
+
+        public IEnumerator<CheckInterface> GetEnumerator()
+        {
+            return this.interfaces.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public CheckMatch Name()
+        {
+            var values = this.Select(i => new CheckMatchValue(i.InterfaceName, i.InterfaceName)).ToList();
+
+            return new CheckMatch(values, "interface");
         }
     }
 }

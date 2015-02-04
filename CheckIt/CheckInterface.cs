@@ -10,5 +10,7 @@ namespace CheckIt
             : base(interfaces, "interface")
         {
         }
+
+        public string InterfaceName { get; set; }
     }
 }

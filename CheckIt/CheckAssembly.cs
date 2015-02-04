@@ -1,5 +1,6 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
     using System.Reflection;
 
     public class CheckAssembly
@@ -12,6 +13,16 @@ namespace CheckIt
         {
             this.FileName = fileName;
             this.Name = name;
+        }
+
+        public CheckClasses Class(string regex)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public CheckInterfaces Interface(string regex)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
