@@ -4,18 +4,13 @@ namespace CheckIt
 
     public class CheckAssembly
     {
+        public string FileName { get; set; }
+
         public string Name { get; private set; }
 
-        public Assembly Assembly { get; private set; }
-
-        public CheckAssembly(Assembly assembly, string name)
+        public CheckAssembly(string fileName, string name)
         {
-            this.Assembly = assembly;
-            this.Name = name;
-        }
-
-        public CheckAssembly(string name)
-        {
+            this.FileName = fileName;
             this.Name = name;
         }
     }

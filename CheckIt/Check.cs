@@ -73,7 +73,7 @@ namespace CheckIt
             {
                 throw new MatchException(string.Format("No project found that match '{0}'", this.projectfilePattern));
             }
-        } 
+        }
 
         private IEnumerable<FileInfo> GetFiles(string path)
         {
@@ -114,7 +114,7 @@ namespace CheckIt
 
         public CheckAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => FileUtil.FilenameMatchesPattern(a.Name ,matchAssemblies)), matchAssemblies);
+            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies)), matchAssemblies);
         }
     }
 
@@ -205,8 +205,8 @@ namespace CheckIt
                 // replaces all occurrences of '?' with '.*' 
                 sb.Replace("?", ".");
                 // add "\b" to the beginning and end of the pattern
-                sb.Insert(0, "\\b");
-                sb.Append("\\b");
+                sb.Insert(0, "^");
+                sb.Append("$");
                 pattern = sb.ToString();
             }
             Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
@@ -280,7 +280,7 @@ namespace CheckIt
         {
             var project = OpenProjectAsync();
 
-            return new CheckAssembly(project.AssemblyName);
+            return new CheckAssembly(string.Format("{0}.dll", project.AssemblyName), project.AssemblyName);
         }
     }
 

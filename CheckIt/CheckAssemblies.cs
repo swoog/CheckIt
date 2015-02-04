@@ -23,7 +23,7 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var values = this.Select(a => new CheckMatchValue(a.Assembly, a.Name)).ToList();
+            var values = this.Select(a => new CheckMatchValue(a.Name, a.Name)).ToList();
 
             return new CheckMatch(values, "assembly");
         }
@@ -76,7 +76,7 @@ namespace CheckIt
         {
             try
             {
-                return a.Assembly.GetTypes();
+                return null;
             }
             catch
             {
