@@ -5,6 +5,8 @@ namespace CheckIt
 
     public class CheckMatchValue
     {
+        private readonly string name;
+
         public CheckMatchValue(Assembly assembly, string value)
         {
             this.Assembly = assembly;
@@ -14,6 +16,12 @@ namespace CheckIt
         public CheckMatchValue(Type type, string value)
         {
             this.Type = type;
+            this.Value = value;
+        }
+
+        public CheckMatchValue(string name, string value)
+        {
+            this.name = name;
             this.Value = value;
         }
 
@@ -27,6 +35,11 @@ namespace CheckIt
         {
             get
             {
+                if (!string.IsNullOrEmpty(this.name))
+                {
+                    return this.name;
+                }
+
                 if (this.Type != null)
                 {
                     return this.Type.Name;

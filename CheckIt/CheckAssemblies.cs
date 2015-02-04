@@ -6,51 +6,51 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public class CheckAssemblies : IEnumerable<CheckAssembly>
     {
-        private readonly string matchAssemblies;
+        private readonly IEnumerable<CheckAssembly> checkAssemblies;
 
-        public CheckAssemblies(string matchAssemblies)
+        private string matchAssemblies;
+
+        public CheckAssemblies(IEnumerable<CheckAssembly> checkAssemblies, string matchAssemblies)
         {
+            this.checkAssemblies = checkAssemblies;
             this.matchAssemblies = matchAssemblies;
         }
 
         public CheckMatch Name()
         {
-            var values = this.Select(a => new CheckMatchValue(a.Assembly, a.Name)).ToList();
+            var values = this.Select(a => new CheckMatchValue(a.Name, a.Name)).ToList();
 
             return new CheckMatch(values, "assembly");
         }
 
-        public CheckClass Class()
+        public CheckClasses Class()
         {
             return this.Class("");
         }
 
-        public CheckClass Class(string regex)
+        public CheckClasses Class(string regex)
         {
-            var classes = this.FindTypes(regex, t => t.IsClass);
-
-            return new CheckClass(classes);
+            return new CheckClasses(this.SelectMany(a => a.Class(regex)));
         }
 
-        public CheckInterface Interfaces()
+        public CheckInterfaces Interfaces()
         {
             return this.Interfaces("");
         }
 
-        public CheckInterface Interfaces(string interface1)
+        public CheckInterfaces Interfaces(string pattern)
         {
-            var interfaces = this.FindTypes(interface1, i => i.IsInterface);
-
-            return new CheckInterface(interfaces);
+            return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
         }
 
         public IEnumerator<CheckAssembly> GetEnumerator()
         {
-            return this.GetAssemblies().Select(a => new CheckAssembly(a, a.GetName().Name)).GetEnumerator();
+            return this.GetAssemblies().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -61,27 +61,68 @@ namespace CheckIt
         private List<Type> FindTypes(string regex, Func<Type, bool> predicate)
         {
             var classes =
-                this.SelectMany(a => a.Assembly.GetTypes())
+                this.SelectMany(GetTypes)
                     .Where(predicate)
                     .Where(c => Regex.Match(c.Name, regex).Success)
                     .ToList();
             return classes;
         }
 
-        private IEnumerable<Assembly> GetAssemblies()
+        private static IEnumerable<Type> GetTypes(CheckAssembly a)
+        {
+            try
+            {
+                return null;
+            }
+            catch
+            {
+                // TODO : AG : Log this exception error
+                return new Type[0];
+            }
+        }
+
+        private IEnumerable<CheckAssembly> GetAssemblies()
         {
             var hasAssemblies = false;
 
-            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, this.matchAssemblies))
+            foreach (var assembly in this.checkAssemblies)
             {
                 hasAssemblies = true;
-                yield return Assembly.LoadFile(file);
+
+                yield return assembly;
             }
 
             if (!hasAssemblies)
             {
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
+        }
+    }
+
+    public class CheckInterfaces : IEnumerable<CheckInterface>
+    {
+        private readonly IEnumerable<CheckInterface> interfaces;
+
+        public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
+        {
+            this.interfaces = interfaces;
+        }
+
+        public IEnumerator<CheckInterface> GetEnumerator()
+        {
+            return this.interfaces.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public CheckMatch Name()
+        {
+            var values = this.Select(i => new CheckMatchValue(i.InterfaceName, i.InterfaceName)).ToList();
+
+            return new CheckMatch(values, "interface");
         }
     }
 }

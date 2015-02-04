@@ -1,9 +1,14 @@
-﻿namespace CheckIt.Tests
+﻿namespace CheckIt.Tests.CheckAssembly
 {
     using Xunit;
 
     public class CheckNameSpaceTests
     {
+        public CheckNameSpaceTests()
+        {
+            Check.SetBasePathSearch(@"..\..\..\CheckIt.Tests.Data\");
+        }
+
         [Fact]
         public void Should_check_namespace_of_class()
         {
