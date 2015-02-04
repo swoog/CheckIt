@@ -43,9 +43,9 @@ namespace CheckIt
             return this.Interfaces("");
         }
 
-        public CheckInterfaces Interfaces(string interface1)
+        public CheckInterfaces Interfaces(string pattern)
         {
-            return new CheckInterfaces(this.SelectMany(a => a.Interface(interface1)));
+            return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
         }
 
         public IEnumerator<CheckAssembly> GetEnumerator()

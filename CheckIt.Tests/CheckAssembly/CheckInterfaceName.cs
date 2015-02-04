@@ -4,6 +4,11 @@
 
     public class CheckInterfaceName
     {
+        public CheckInterfaceName()
+        {
+            Check.SetBasePathSearch(@"..\..\..\");
+        }
+
         [Fact]
         public void Should_check_name_for_all_interface()
         {

@@ -54,7 +54,7 @@ namespace CheckIt
 
         public IEnumerator<CheckSource> GetEnumerator()
         {
-            foreach (var file in this.GetFiles(this.basePath))
+            foreach (var file in this.GetFiles())
             {
                 yield return new CheckSource(file);
             }
