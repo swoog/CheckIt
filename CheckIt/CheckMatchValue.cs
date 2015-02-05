@@ -7,12 +7,6 @@ namespace CheckIt
     {
         private readonly string name;
 
-        public CheckMatchValue(Assembly assembly, string value)
-        {
-            this.Assembly = assembly;
-            this.Value = value;
-        }
-
         public CheckMatchValue(Type type, string value)
         {
             this.Type = type;
