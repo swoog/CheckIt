@@ -1,8 +1,6 @@
 namespace CheckIt
 {
-    using System.Collections.Generic;
     using System.IO;
-    using System.Text.RegularExpressions;
 
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.MSBuild;
@@ -22,44 +20,7 @@ namespace CheckIt
 
             var compile = project.GetCompilationAsync().Result;
 
-            return new CheckClasses(this.GetClasses(project, classPattern, compile));
-        }
-
-        private IEnumerable<CheckClass> GetClasses(Project project, string classPattern, Compilation compile)
-        {
-            foreach (var document in project.Documents)
-            {
-                var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.VisitClass(syntaxTreeAsync, compile);
-
-                foreach (var checkClass in checkClasses)
-                {
-                    if (Regex.Match(checkClass.Name, classPattern).Success)
-                    {
-                        yield return checkClass;
-                    }
-                }
-            }
-        }
-
-        private IEnumerable<CheckClass> VisitClass(SyntaxTree syntaxTreeAsync, Compilation compile)
-        {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
-            
-            var visitor = new CheckClassVisitor(semanticModel);
-
-            visitor.Visit(syntaxTreeAsync.GetRoot());
-
-            return visitor.Get<CheckClass>();
-        }
-
-        private static SyntaxTree GetSyntaxTreeAsync(Document document)
-        {
-            var st = document.GetSyntaxTreeAsync();
-
-            st.Wait();
-
-            return st.Result;
+            return new CheckClasses(project, compile, classPattern);
         }
 
         private Project OpenProjectAsync()

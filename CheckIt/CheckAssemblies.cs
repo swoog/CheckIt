@@ -12,7 +12,7 @@ namespace CheckIt
 
         public CheckAssemblies(IEnumerable<CheckAssembly> checkAssemblies, string matchAssemblies)
         {
-            this.checkAssemblies = checkAssemblies;
+            this.checkAssemblies = checkAssemblies.Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies));
             this.matchAssemblies = matchAssemblies;
         }
 

@@ -79,7 +79,7 @@ namespace CheckIt
 
         public CheckAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies)), matchAssemblies);
+            return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
         }
     }
 }
