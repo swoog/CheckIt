@@ -67,11 +67,6 @@ namespace CheckIt
             return this.SelectMany(s => s.Class(classPattern));
         }
 
-        public CheckClasses Class()
-        {
-            return this.Class(string.Empty);
-        }
-
         public CheckAssemblies Assembly(string matchAssemblies)
         {
             return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
