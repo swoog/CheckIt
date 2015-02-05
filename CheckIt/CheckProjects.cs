@@ -81,5 +81,10 @@ namespace CheckIt
         {
             return new CheckFiles(this.SelectMany(p => p.File(matchFiles)));
         }
+
+        public CheckInterfaces Interfaces()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

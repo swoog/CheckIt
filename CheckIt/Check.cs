@@ -38,5 +38,15 @@ namespace CheckIt
         {
             return new CheckFiles(pattern);
         }
+
+        public static CheckClasses Class()
+        {
+            return Class(string.Empty);
+        }
+
+        public static CheckClasses Class(string pattern)
+        {
+            return new CheckClasses(pattern);
+        }
     }
 }

@@ -8,9 +8,11 @@ namespace CheckIt
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-    public class CheckTypes<T> : CheckEnumerableBase<T>
+    public abstract class CheckTypes<T, T2> : CheckEnumerableBase<T>
         where T : CheckType
     {
+        private readonly string pattern;
+
         private readonly string typeName;
 
         protected IEnumerable<T> classes;
@@ -30,6 +32,12 @@ namespace CheckIt
         protected CheckTypes(Document document, Compilation compile, string pattern, string typeName)
         {
             this.classes = this.Get(document, pattern, compile);
+            this.typeName = typeName;
+        }
+
+        protected CheckTypes(string pattern, string typeName)
+        {
+            this.pattern = pattern;
             this.typeName = typeName;
         }
 
@@ -107,5 +115,7 @@ namespace CheckIt
 
             return new CheckMatch(values, this.typeName);
         }
+
+        public abstract IPatternContains<T2> FromProject(string pattern);
     }
 }

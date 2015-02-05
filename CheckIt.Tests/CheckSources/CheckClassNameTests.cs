@@ -14,7 +14,7 @@
         [Fact]
         public void Should_check_class_name_start_upper_case_when_call_sources()
         {
-            Check.Project(@"CheckIt.Tests.Data.csproj").Class().Name().Match("^[A-Z]");
+            Check.Class().FromProject(@"CheckIt.Tests.Data.csproj").Have().Name().Match("^[A-Z]");
         }
 
         [Fact]

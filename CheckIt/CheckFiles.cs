@@ -5,7 +5,7 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains
+    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains<CheckFiles>
     {
         private readonly IEnumerable<CheckFile> checkFiles;
 
@@ -51,12 +51,17 @@ namespace CheckIt
             return new CheckContains(this);
         }
 
+        public CheckFiles Have()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public CheckClasses Class(string match)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(match)));
         }
 
-        public IPatternContains FromProject(string pattern)
+        public IPatternContains<CheckFiles> FromProject(string pattern)
         {
             return this.GetFilesFromProject(pattern);
         }
