@@ -1,6 +1,7 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -10,9 +11,7 @@ namespace CheckIt
     {
         private readonly SemanticModel semanticModel;
 
-        private List<CheckClass> classes = new List<CheckClass>();
-
-        private List<CheckInterface> interfaces = new List<CheckInterface>();
+        private List<CheckType> types = new List<CheckType>();
 
         public CheckClassVisitor(SemanticModel semanticModel)
         {
@@ -21,22 +20,17 @@ namespace CheckIt
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            this.classes.Add(new CheckClass(node.Identifier.ValueText, this.semanticModel.GetDeclaredSymbol(node).ToDisplayString()));
+            this.types.Add(new CheckClass(node.Identifier.ValueText, this.semanticModel.GetDeclaredSymbol(node).ToDisplayString()));
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
-            this.interfaces.Add(new CheckInterface(node.Identifier.ValueText));
+            this.types.Add(new CheckInterface(node.Identifier.ValueText));
         }
 
-        public List<CheckClass> GetClasses()
+        public IEnumerable<T> Get<T>()
         {
-            return this.classes;
-        }
-
-        public IEnumerable<CheckInterface> GetInterfaces()
-        {
-            return this.interfaces;
+            return this.types.OfType<T>();
         }
     }
 }

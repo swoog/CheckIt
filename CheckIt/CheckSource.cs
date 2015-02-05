@@ -50,7 +50,7 @@ namespace CheckIt
 
             visitor.Visit(syntaxTreeAsync.GetRoot());
 
-            return visitor.GetClasses();
+            return visitor.Get<CheckClass>();
         }
 
         private static SyntaxTree GetSyntaxTreeAsync(Document document)
