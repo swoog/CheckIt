@@ -7,7 +7,7 @@
         [Fact]
         public void Should_contains_class_when_check_source()
         {
-            Check.Sources("*.csproj").File("Check.cs").Contains().Class("Check");
+            Check.Project("*.csproj").File("Check.cs").Contains().Class("Check");
         }
     }
 }

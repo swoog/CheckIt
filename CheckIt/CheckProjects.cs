@@ -5,23 +5,23 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
-    public class CheckSources : IEnumerable<CheckSource>
+    public class CheckProjects : CheckEnumerableBase<CheckProject>
     {
         private readonly string basePath;
 
         private readonly string projectfilePattern;
 
-        public CheckSources(string basePath, string projectfilePattern)
+        public CheckProjects(string basePath, string projectfilePattern)
         {
             this.basePath = basePath;
             this.projectfilePattern = projectfilePattern;
         }
 
-        public IEnumerator<CheckSource> GetEnumerator()
+        protected override IEnumerable<CheckProject> Gets()
         {
             foreach (var file in this.GetFiles())
             {
-                yield return new CheckSource(file);
+                yield return new CheckProject(file);
             }
         }
 
@@ -57,11 +57,6 @@ namespace CheckIt
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
         public CheckClasses Class(string classPattern)
         {
             return new CheckClasses(this.GetClassess(classPattern));
@@ -79,7 +74,7 @@ namespace CheckIt
 
         public CheckAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckAssemblies(this.Select(s => s.Assembly()).Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies)), matchAssemblies);
+            return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
         }
 
         public CheckFile File(string checkCs)

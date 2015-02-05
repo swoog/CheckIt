@@ -7,7 +7,7 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckTypes<T> : IEnumerable<T>
+    public class CheckTypes<T> : CheckEnumerableBase<T>
         where T : CheckType
     {
         private readonly string typeName;
@@ -63,17 +63,12 @@ namespace CheckIt
             return visitor.Get<T>();
         }
 
-        public IEnumerator<T> GetEnumerator()
+        protected override IEnumerable<T> Gets()
         {
             foreach (var checkClass in this.classes)
             {
                 yield return checkClass;
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
 
         public void HasAny()
