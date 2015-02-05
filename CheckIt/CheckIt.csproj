@@ -120,6 +120,8 @@
     <Compile Include="CheckType.cs" />
     <Compile Include="CheckTypes.cs" />
     <Compile Include="FileUtil.cs" />
+    <Compile Include="IPatternContains.cs" />
+    <Compile Include="IProjects.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

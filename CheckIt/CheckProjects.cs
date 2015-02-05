@@ -5,7 +5,7 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
-    public class CheckProjects : CheckEnumerableBase<CheckProject>
+    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects
     {
         private readonly string basePath;
 

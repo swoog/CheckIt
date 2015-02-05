@@ -5,9 +5,16 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckFiles : CheckEnumerableBase<CheckFile>
+    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains
     {
         private readonly IEnumerable<CheckFile> checkFiles;
+
+        private string pattern;
+
+        public CheckFiles(string pattern)
+        {
+            this.pattern = pattern;
+        }
 
         public CheckFiles(IEnumerable<CheckFile> checkFiles)
         {
@@ -29,7 +36,14 @@ namespace CheckIt
 
         protected override IEnumerable<CheckFile> Gets()
         {
-            return this.checkFiles;
+            if (this.checkFiles != null)
+            {
+                return this.checkFiles;
+            }
+            else
+            {
+                return this.GetFilesFromProject("*.csproj");
+            }
         }
 
         public CheckContains Contains()
@@ -40,6 +54,16 @@ namespace CheckIt
         public CheckClasses Class(string match)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(match)));
+        }
+
+        public IPatternContains FromProject(string pattern)
+        {
+            return this.GetFilesFromProject(pattern);
+        }
+
+        private CheckFiles GetFilesFromProject(string pattern)
+        {
+            return new CheckProjects(Check.basePath, pattern).File(this.pattern);
         }
     }
 }

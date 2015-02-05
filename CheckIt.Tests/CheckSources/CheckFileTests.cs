@@ -12,7 +12,25 @@
         [Fact]
         public void Should_contains_class_when_check_source()
         {
-            Check.Project("*.csproj").File("Check.cs").Contains().Class("Check");
+            Check.File("Check.cs").FromProject("*.csproj").Contains().Class("Check");
+        }
+
+        [Fact]
+        public void Should_contains_class_when_check_specific_file()
+        {
+            Check.File("Check.cs").FromProject("CheckIt.Tests.Data.csproj").Contains().Class("ClassHaveDifferentNameFromFile");
+        }
+
+        [Fact]
+        public void Should_throw_error_when_check_specific_file_not_found()
+        {
+            var e = Assert.Throws<MatchException>(
+                () =>
+                    {
+                        Check.File("Check.cs").FromProject("CheckIt.csproj").Contains().Class("ClassHaveDifferentNameFromFile");
+                    });
+
+            Assert.Equal("No class found that match 'ClassHaveDifferentNameFromFile'.", e.Message);
         }
 
         [Fact]
@@ -27,7 +45,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Project("*.csproj").File("Check.cs").Contains().Class("NotFoundClass");
+                        Check.File("Check.cs").FromProject("*.csproj").Contains().Class("NotFoundClass");
                     });
 
             Assert.Equal("No class found that match 'NotFoundClass'.", e.Message);
