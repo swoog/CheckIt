@@ -1,5 +1,6 @@
 namespace CheckIt
 {
+    using System;
     using System.Text;
     using System.Text.RegularExpressions;
 
@@ -8,8 +9,6 @@ namespace CheckIt
     /// </summary>
     public struct FileUtil
     {
-
-
         /// <summary>
         ///   Checks if name matches pattern with '?' and '*' wildcards.
         /// </summary>
@@ -27,21 +26,27 @@ namespace CheckIt
             // prepare the pattern to the form appropriate for Regex class
             StringBuilder sb = new StringBuilder(pattern);
             // remove superflous occurences of  "?*" and "*?"
-            while (sb.ToString().IndexOf("?*") != -1)
+            while (sb.ToString().IndexOf("?*", StringComparison.Ordinal) != -1)
             {
                 sb.Replace("?*", "*");
             }
-            while (sb.ToString().IndexOf("*?") != -1)
+
+            while (sb.ToString().IndexOf("*?", StringComparison.Ordinal) != -1)
             {
                 sb.Replace("*?", "*");
             }
+
             // remove superflous occurences of asterisk '*'
-            while (sb.ToString().IndexOf("**") != -1)
+            while (sb.ToString().IndexOf("**", StringComparison.Ordinal) != -1)
             {
                 sb.Replace("**", "*");
             }
+
             // if only asterisk '*' is left, the mask is ".*"
-            if (sb.ToString().Equals("*")) pattern = ".*";
+            if (sb.ToString().Equals("*"))
+            {
+                pattern = ".*";
+            }
             else
             {
                 // replace '.' with "\."
@@ -55,6 +60,7 @@ namespace CheckIt
                 sb.Append("$");
                 pattern = sb.ToString();
             }
+
             Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
             return regex.IsMatch(filename);
         }

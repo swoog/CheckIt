@@ -106,6 +106,7 @@
     <Compile Include="CheckAssembly.cs" />
     <Compile Include="CheckClass.cs" />
     <Compile Include="CheckClasses.cs" />
+    <Compile Include="CheckClassVisitor.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckInterfaces.cs" />
     <Compile Include="CheckMatch.cs" />

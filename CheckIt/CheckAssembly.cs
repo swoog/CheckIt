@@ -1,7 +1,6 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
-    using System.Reflection;
     using System.Text.RegularExpressions;
 
     using Microsoft.CodeAnalysis;
@@ -29,9 +28,9 @@ namespace CheckIt
             return new CheckClasses(this.GetClasses(this.project, classPattern));
         }
 
-        private IEnumerable<CheckClass> GetClasses(Project project, string classPattern)
+        private IEnumerable<CheckClass> GetClasses(Project currentProject, string classPattern)
         {
-            foreach (var document in project.Documents)
+            foreach (var document in currentProject.Documents)
             {
                 var syntaxTreeAsync = GetSyntaxTreeAsync(document);
                 var checkClasses = this.VisitClass(syntaxTreeAsync);
@@ -48,7 +47,7 @@ namespace CheckIt
 
         private IEnumerable<CheckClass> VisitClass(SyntaxTree syntaxTreeAsync)
         {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+            var semanticModel = this.compile.GetSemanticModel(syntaxTreeAsync);
 
             var visitor = new CheckClassVisitor(semanticModel);
 
@@ -71,9 +70,9 @@ namespace CheckIt
             return new CheckInterfaces(this.GetInterfaces(this.project, interfacePattern));
         }
 
-        private IEnumerable<CheckInterface> GetInterfaces(Project project, string interfacePattern)
+        private IEnumerable<CheckInterface> GetInterfaces(Project currentProject, string interfacePattern)
         {
-            foreach (var document in project.Documents)
+            foreach (var document in currentProject.Documents)
             {
                 var syntaxTreeAsync = GetSyntaxTreeAsync(document);
                 var checkClasses = this.VisitInterface(syntaxTreeAsync);
@@ -90,7 +89,7 @@ namespace CheckIt
 
         private IEnumerable<CheckInterface> VisitInterface(SyntaxTree syntaxTreeAsync)
         {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+            var semanticModel = this.compile.GetSemanticModel(syntaxTreeAsync);
 
             var visitor = new CheckClassVisitor(semanticModel);
 
