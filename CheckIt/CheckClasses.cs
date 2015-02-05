@@ -12,8 +12,13 @@ namespace CheckIt
             this.classes = classes;
         }
 
-        public CheckClasses(Project project, Compilation compile, string classPattern)
-            :base(project, compile, classPattern, "class")
+        public CheckClasses(Project project, Compilation compile, string pattern)
+            :base(project, compile, pattern, "class")
+        {
+        }
+
+        public CheckClasses(Document document, Compilation compile, string pattern)
+            : base(document, compile, pattern, "class")
         {
         }
     }

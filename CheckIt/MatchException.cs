@@ -4,8 +4,8 @@ namespace CheckIt
 
     public class MatchException : Exception
     {
-        public MatchException(string message)
-            : base(message)
+        public MatchException(string message, params object[] parameters)
+            : base(string.Format(message, parameters))
         {
         }
     }

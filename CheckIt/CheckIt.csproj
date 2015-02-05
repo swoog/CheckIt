@@ -110,6 +110,7 @@
     <Compile Include="CheckContains.cs" />
     <Compile Include="CheckFile.cs" />
     <Compile Include="CheckEnumerableBase.cs" />
+    <Compile Include="CheckFiles.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckInterfaces.cs" />
     <Compile Include="CheckMatch.cs" />

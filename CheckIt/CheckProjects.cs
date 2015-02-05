@@ -77,9 +77,9 @@ namespace CheckIt
             return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
         }
 
-        public CheckFile File(string checkCs)
+        public CheckFiles File(string matchFiles)
         {
-            throw new System.NotImplementedException();
+            return new CheckFiles(this.SelectMany(p => p.File(matchFiles)));
         }
     }
 }

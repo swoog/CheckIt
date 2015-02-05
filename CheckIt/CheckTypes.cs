@@ -6,6 +6,7 @@ namespace CheckIt
     using System.Text.RegularExpressions;
 
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public class CheckTypes<T> : CheckEnumerableBase<T>
         where T : CheckType
@@ -26,6 +27,12 @@ namespace CheckIt
             this.typeName = typeName;
         }
 
+        protected CheckTypes(Document document, Compilation compile, string pattern, string typeName)
+        {
+            this.classes = this.Get(document, pattern, compile);
+            this.typeName = typeName;
+        }
+
         private static SyntaxTree GetSyntaxTreeAsync(Document document)
         {
             var st = document.GetSyntaxTreeAsync();
@@ -35,19 +42,27 @@ namespace CheckIt
             return st.Result;
         }
 
-        protected IEnumerable<T> Get(Project currentProject, string interfacePattern, Compilation compile)
+        private IEnumerable<T> Get(Document document, string pattern, Compilation compile)
+        {
+            var syntaxTreeAsync = GetSyntaxTreeAsync(document);
+            var checkClasses = this.Visit(syntaxTreeAsync, compile);
+
+            foreach (var checkClass in checkClasses)
+            {
+                if (Regex.Match(checkClass.Name, pattern).Success)
+                {
+                    yield return checkClass;
+                }
+            }
+        }
+
+        protected IEnumerable<T> Get(Project currentProject, string pattern, Compilation compile)
         {
             foreach (var document in currentProject.Documents)
             {
-                var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.Visit(syntaxTreeAsync, compile);
-
-                foreach (var checkClass in checkClasses)
+                foreach (var checkClass in this.Get(document, pattern, compile))
                 {
-                    if (Regex.Match(checkClass.Name, interfacePattern).Success)
-                    {
-                        yield return checkClass;
-                    }
+                    yield return checkClass;
                 }
             }
         }

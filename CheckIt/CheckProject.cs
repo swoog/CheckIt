@@ -1,5 +1,6 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
     using System.IO;
 
     using Microsoft.CodeAnalysis;
@@ -40,6 +41,15 @@ namespace CheckIt
             var compile = project.GetCompilationAsync().Result;
 
             return new CheckAssembly(project, compile);
+        }
+
+        public CheckFiles File(string matchFiles)
+        {
+            var project = this.OpenProjectAsync();
+
+            var compile = project.GetCompilationAsync().Result;
+
+            return new CheckFiles(project, compile);
         }
     }
 }
