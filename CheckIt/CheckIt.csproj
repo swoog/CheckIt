@@ -105,10 +105,19 @@
     <Compile Include="CheckAssemblies.cs" />
     <Compile Include="CheckAssembly.cs" />
     <Compile Include="CheckClass.cs" />
+    <Compile Include="CheckClasses.cs" />
+    <Compile Include="CheckClassVisitor.cs" />
+    <Compile Include="CheckContains.cs" />
+    <Compile Include="CheckFile.cs" />
     <Compile Include="CheckInterface.cs" />
+    <Compile Include="CheckInterfaces.cs" />
     <Compile Include="CheckMatch.cs" />
     <Compile Include="CheckMatchValue.cs" />
+    <Compile Include="CheckSource.cs" />
+    <Compile Include="CheckSources.cs" />
     <Compile Include="CheckType.cs" />
+    <Compile Include="CheckTypes.cs" />
+    <Compile Include="FileUtil.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
