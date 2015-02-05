@@ -14,7 +14,7 @@
         [Fact]
         public void Should_check_class_name_start_upper_case_when_call_sources()
         {
-            Check.Sources(@"CheckIt.Tests.Data.csproj").Class().Name().Match("^[A-Z]");
+            Check.Project(@"CheckIt.Tests.Data.csproj").Class().Name().Match("^[A-Z]");
         }
 
         [Fact]
@@ -23,7 +23,7 @@
             var ex = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Sources("CheckIt.Tests.Data.csproj").Class("Class1").Name().Match("^[a-z]");
+                        Check.Project("CheckIt.Tests.Data.csproj").Class("Class1").Name().Match("^[a-z]");
                     });
 
             Assert.Equal("The folowing class doesn't respect pattern '^[a-z]' :\nClass1", ex.Message);

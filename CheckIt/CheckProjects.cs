@@ -5,23 +5,23 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
-    public class CheckSources : IEnumerable<CheckSource>
+    public class CheckProjects : IEnumerable<CheckProject>
     {
         private readonly string basePath;
 
         private readonly string projectfilePattern;
 
-        public CheckSources(string basePath, string projectfilePattern)
+        public CheckProjects(string basePath, string projectfilePattern)
         {
             this.basePath = basePath;
             this.projectfilePattern = projectfilePattern;
         }
 
-        public IEnumerator<CheckSource> GetEnumerator()
+        public IEnumerator<CheckProject> GetEnumerator()
         {
             foreach (var file in this.GetFiles())
             {
-                yield return new CheckSource(file);
+                yield return new CheckProject(file);
             }
         }
 

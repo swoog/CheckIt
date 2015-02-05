@@ -5,11 +5,11 @@ namespace CheckIt
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.MSBuild;
 
-    public class CheckSource
+    public class CheckProject
     {
         private readonly FileInfo file;
 
-        public CheckSource(FileInfo file)
+        public CheckProject(FileInfo file)
         {
             this.file = file;
         }
