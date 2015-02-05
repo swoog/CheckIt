@@ -4,9 +4,12 @@ namespace CheckIt
     {
         public string Name { get; private set; }
 
-        protected CheckType(string name)
+        public string NameSpace { get; private set; }
+
+        protected CheckType(string name, string nameSpace)
         {
             this.Name = name;
+            this.NameSpace = nameSpace;
         }
     }
 }

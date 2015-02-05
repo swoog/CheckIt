@@ -25,7 +25,7 @@ namespace CheckIt
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
-            this.types.Add(new CheckInterface(node.Identifier.ValueText));
+            this.types.Add(new CheckInterface(node.Identifier.ValueText, this.semanticModel.GetDeclaredSymbol(node).ToDisplayString()));
         }
 
         public IEnumerable<T> Get<T>()

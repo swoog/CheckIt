@@ -43,7 +43,7 @@ namespace CheckIt
 
         public CheckMatch NameSpace()
         {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.ClassNameSpace)).ToList();
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace)).ToList();
 
             return new CheckMatch(values, "class");
         }
