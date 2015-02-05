@@ -33,7 +33,7 @@ namespace CheckIt
             foreach (var document in currentProject.Documents)
             {
                 var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.VisitClass(syntaxTreeAsync);
+                var checkClasses = this.Visit<CheckClass>(syntaxTreeAsync);
 
                 foreach (var checkClass in checkClasses)
                 {
@@ -43,17 +43,6 @@ namespace CheckIt
                     }
                 }
             }
-        }
-
-        private IEnumerable<CheckClass> VisitClass(SyntaxTree syntaxTreeAsync)
-        {
-            var semanticModel = this.compile.GetSemanticModel(syntaxTreeAsync);
-
-            var visitor = new CheckClassVisitor(semanticModel);
-
-            visitor.Visit(syntaxTreeAsync.GetRoot());
-
-            return visitor.Get<CheckClass>();
         }
 
         private static SyntaxTree GetSyntaxTreeAsync(Document document)
@@ -75,7 +64,7 @@ namespace CheckIt
             foreach (var document in currentProject.Documents)
             {
                 var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.VisitInterface(syntaxTreeAsync);
+                var checkClasses = this.Visit<CheckInterface>(syntaxTreeAsync);
 
                 foreach (var checkClass in checkClasses)
                 {
@@ -87,7 +76,7 @@ namespace CheckIt
             }
         }
 
-        private IEnumerable<CheckInterface> VisitInterface(SyntaxTree syntaxTreeAsync)
+        private IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync)
         {
             var semanticModel = this.compile.GetSemanticModel(syntaxTreeAsync);
 
@@ -95,7 +84,7 @@ namespace CheckIt
 
             visitor.Visit(syntaxTreeAsync.GetRoot());
 
-            return visitor.Get<CheckInterface>();
+            return visitor.Get<T>();
         }
     }
 }
