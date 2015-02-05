@@ -9,7 +9,7 @@ namespace CheckIt
 
         public static CheckAssemblies Assembly(string matchAssemblies)
         {
-            return Project("*.csproj").Assembly(matchAssemblies);
+            return Project().Assembly(matchAssemblies);
         }
 
         public static CheckAssemblies Assembly()
@@ -20,6 +20,11 @@ namespace CheckIt
         public static CheckProjects Project(string projectfilePattern)
         {
             return new CheckProjects(basePath, projectfilePattern);
+        }
+
+        private static CheckProjects Project()
+        {
+            return Project("*.csproj");
         }
 
         public static void SetBasePathSearch(string newBasePath)
