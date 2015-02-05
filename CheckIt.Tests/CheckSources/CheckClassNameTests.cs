@@ -23,7 +23,7 @@
             var ex = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Project("CheckIt.Tests.Data.csproj").Class("Class1").Name().Match("^[a-z]");
+                        Check.Class("Class1").FromProject("CheckIt.Tests.Data.csproj").Have().Name().Match("^[a-z]");
                     });
 
             Assert.Equal("The folowing class doesn't respect pattern '^[a-z]' :\nClass1", ex.Message);

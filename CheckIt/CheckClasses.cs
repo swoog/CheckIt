@@ -9,7 +9,6 @@ namespace CheckIt
         public CheckClasses(IEnumerable<CheckClass> classes)
             : base(classes, "class")
         {
-            this.classes = classes;
         }
 
         public CheckClasses(Project project, Compilation compile, string pattern)
@@ -29,7 +28,7 @@ namespace CheckIt
 
         public override IPatternContains<CheckClasses> FromProject(string pattern)
         {
-            return new CheckProjects(Check.basePath, pattern).Class(pattern);
+            return new CheckProjects(Check.basePath, pattern).Class(this.pattern);
         }
 
         public CheckContains Contains()

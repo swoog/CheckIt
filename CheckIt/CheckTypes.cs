@@ -11,11 +11,11 @@ namespace CheckIt
     public abstract class CheckTypes<T, T2> : CheckEnumerableBase<T>
         where T : CheckType
     {
-        private readonly string pattern;
+        protected readonly string pattern;
 
         private readonly string typeName;
 
-        protected IEnumerable<T> classes;
+        private IEnumerable<T> classes;
 
         protected CheckTypes(Project project, Compilation compile, string pattern, string typeName)
         {
