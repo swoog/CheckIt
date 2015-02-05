@@ -1,33 +1,19 @@
 namespace CheckIt
 {
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
-    public class CheckInterfaces : IEnumerable<CheckInterface>
+    using Microsoft.CodeAnalysis;
+
+    public class CheckInterfaces : CheckTypes<CheckInterface>
     {
-        private readonly IEnumerable<CheckInterface> interfaces;
-
         public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
+            : base(interfaces, "interface")
         {
-            this.interfaces = interfaces;
         }
 
-        public IEnumerator<CheckInterface> GetEnumerator()
+        public CheckInterfaces(Project project, Compilation compile, string interfacePattern)
+            : base(project, compile,interfacePattern, "interface")
         {
-            return this.interfaces.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        public CheckMatch Name()
-        {
-            var values = this.Select(i => new CheckMatchValue(i.Name, i.Name)).ToList();
-
-            return new CheckMatch(values, "interface");
         }
     }
 }

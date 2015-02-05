@@ -114,6 +114,7 @@
     <Compile Include="CheckSource.cs" />
     <Compile Include="CheckSources.cs" />
     <Compile Include="CheckType.cs" />
+    <Compile Include="CheckTypes.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
