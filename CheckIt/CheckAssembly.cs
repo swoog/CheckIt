@@ -25,24 +25,12 @@ namespace CheckIt
 
         public CheckClasses Class(string classPattern)
         {
-            return new CheckClasses(this.GetClasses(this.project, classPattern));
+            return new CheckClasses(this.Get<CheckClass>(this.project, classPattern));
         }
 
-        private IEnumerable<CheckClass> GetClasses(Project currentProject, string classPattern)
+        public CheckInterfaces Interface(string interfacePattern)
         {
-            foreach (var document in currentProject.Documents)
-            {
-                var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.Visit<CheckClass>(syntaxTreeAsync);
-
-                foreach (var checkClass in checkClasses)
-                {
-                    if (Regex.Match(checkClass.Name, classPattern).Success)
-                    {
-                        yield return checkClass;
-                    }
-                }
-            }
+            return new CheckInterfaces(this.Get<CheckInterface>(this.project, interfacePattern));
         }
 
         private static SyntaxTree GetSyntaxTreeAsync(Document document)
@@ -54,17 +42,13 @@ namespace CheckIt
             return st.Result;
         }
 
-        public CheckInterfaces Interface(string interfacePattern)
-        {
-            return new CheckInterfaces(this.GetInterfaces(this.project, interfacePattern));
-        }
-
-        private IEnumerable<CheckInterface> GetInterfaces(Project currentProject, string interfacePattern)
+        private IEnumerable<T> Get<T>(Project currentProject, string interfacePattern)
+            where T : CheckType
         {
             foreach (var document in currentProject.Documents)
             {
                 var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-                var checkClasses = this.Visit<CheckInterface>(syntaxTreeAsync);
+                var checkClasses = this.Visit<T>(syntaxTreeAsync);
 
                 foreach (var checkClass in checkClasses)
                 {
