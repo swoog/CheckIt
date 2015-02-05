@@ -37,7 +37,7 @@ namespace CheckIt
 
                 foreach (var checkClass in checkClasses)
                 {
-                    if (Regex.Match(checkClass.ClassName, classPattern).Success)
+                    if (Regex.Match(checkClass.Name, classPattern).Success)
                     {
                         yield return checkClass;
                     }
@@ -68,7 +68,7 @@ namespace CheckIt
 
                 foreach (var checkClass in checkClasses)
                 {
-                    if (Regex.Match(checkClass.InterfaceName, interfacePattern).Success)
+                    if (Regex.Match(checkClass.Name, interfacePattern).Success)
                     {
                         yield return checkClass;
                     }

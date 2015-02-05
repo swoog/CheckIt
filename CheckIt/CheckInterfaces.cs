@@ -25,7 +25,7 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var values = this.Select(i => new CheckMatchValue(i.InterfaceName, i.InterfaceName)).ToList();
+            var values = this.Select(i => new CheckMatchValue(i.Name, i.Name)).ToList();
 
             return new CheckMatch(values, "interface");
         }

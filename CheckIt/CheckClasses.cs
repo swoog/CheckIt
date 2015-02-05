@@ -36,14 +36,14 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var values = this.Select(c => new CheckMatchValue(c.ClassName, c.ClassName)).ToList();
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name)).ToList();
 
             return new CheckMatch(values, "class");
         }
 
         public CheckMatch NameSpace()
         {
-            var values = this.Select(c => new CheckMatchValue(c.ClassName, c.ClassNameSpace)).ToList();
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.ClassNameSpace)).ToList();
 
             return new CheckMatch(values, "class");
         }

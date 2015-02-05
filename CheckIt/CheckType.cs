@@ -2,8 +2,11 @@ namespace CheckIt
 {
     public class CheckType
     {
-        protected CheckType()
+        public string Name { get; private set; }
+
+        protected CheckType(string name)
         {
+            this.Name = name;
         }
     }
 }

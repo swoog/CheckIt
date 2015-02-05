@@ -2,12 +2,9 @@ namespace CheckIt
 {
     public class CheckInterface : CheckType
     {
-        public CheckInterface(string interfaceName)
-            : base()
+        public CheckInterface(string name)
+            : base(name)
         {
-            this.InterfaceName = interfaceName;
         }
-
-        public string InterfaceName { get; private set; }
     }
 }
