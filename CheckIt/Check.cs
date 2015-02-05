@@ -31,5 +31,10 @@ namespace CheckIt
         {
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
         }
+
+        public static CheckFiles File(string pattern)
+        {
+            return Project().File(pattern);
+        }
     }
 }
