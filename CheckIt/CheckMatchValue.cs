@@ -1,46 +1,15 @@
 namespace CheckIt
 {
-    using System;
-    using System.Reflection;
-
     public class CheckMatchValue
     {
-        private readonly string name;
-
-        public CheckMatchValue(Type type, string value)
-        {
-            this.Type = type;
-            this.Value = value;
-        }
-
         public CheckMatchValue(string name, string value)
         {
-            this.name = name;
+            this.Name = name;
             this.Value = value;
         }
-
-        public Assembly Assembly { get; set; }
 
         public string Value { get; private set; }
 
-        public Type Type { get; private set; }
-
-        public string Name
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(this.name))
-                {
-                    return this.name;
-                }
-
-                if (this.Type != null)
-                {
-                    return this.Type.Name;
-                }
-
-                return this.Assembly.GetName().Name;
-            }
-        }
+        public string Name { get; private set; }
     }
 }

@@ -1,10 +1,9 @@
 namespace CheckIt
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckAssemblies : IEnumerable<CheckAssembly>
+    public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>
     {
         private readonly IEnumerable<CheckAssembly> checkAssemblies;
 
@@ -43,17 +42,7 @@ namespace CheckIt
             return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
         }
 
-        public IEnumerator<CheckAssembly> GetEnumerator()
-        {
-            return this.GetAssemblies().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        private IEnumerable<CheckAssembly> GetAssemblies()
+        protected override IEnumerable<CheckAssembly> Gets()
         {
             var hasAssemblies = false;
 

@@ -5,7 +5,7 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
-    public class CheckProjects : IEnumerable<CheckProject>
+    public class CheckProjects : CheckEnumerableBase<CheckProject>
     {
         private readonly string basePath;
 
@@ -17,7 +17,7 @@ namespace CheckIt
             this.projectfilePattern = projectfilePattern;
         }
 
-        public IEnumerator<CheckProject> GetEnumerator()
+        protected override IEnumerable<CheckProject> Gets()
         {
             foreach (var file in this.GetFiles())
             {
@@ -55,11 +55,6 @@ namespace CheckIt
                     yield return fileInfo;
                 }
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
 
         public CheckClasses Class(string classPattern)
