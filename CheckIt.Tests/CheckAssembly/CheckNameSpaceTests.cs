@@ -26,5 +26,11 @@
 
             Assert.Equal("The folowing class doesn't respect pattern 'Toto' :\nClass1", e.Message);
         }
+
+        [Fact]
+        public void Should_check_namespace_of_interface()
+        {
+            Check.Assembly("CheckIt.Tests.Data.dll").Interfaces("ErrorInterface").NameSpace().Match("^CheckIt.Tests.Data$");
+        }
     }
 }
