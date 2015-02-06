@@ -4,13 +4,30 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckContains
+    public class CheckContains<T, T2> : ICheckContains
+        where T : IEnumerable<T2>
     {
-        private readonly CheckFiles checkFiles;
+        protected readonly T checkFiles;
 
-        public CheckContains(CheckFiles checkFiles)
+        public CheckContains(T checkFiles)
         {
             this.checkFiles = checkFiles;
+        }
+
+        public void Any()
+        {
+            if (!this.checkFiles.Any())
+            {
+                throw new MatchException("No class found.");
+            }
+        }
+    }
+
+    public  class CheckFileContains : CheckContains<CheckFiles, CheckFile>, ICheckFilesContains
+    {
+        public CheckFileContains(CheckFiles checkFiles)
+            : base(checkFiles)
+        {
         }
 
         public void Class(string check)

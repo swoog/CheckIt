@@ -16,11 +16,6 @@ namespace CheckIt
             this.compile = compile;
         }
 
-        public CheckContains Contains()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public CheckClasses Class(string match)
         {
             return new CheckClasses(this.document, this.compile, match);

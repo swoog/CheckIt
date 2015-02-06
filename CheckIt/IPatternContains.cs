@@ -1,8 +1,9 @@
 namespace CheckIt
 {
-    public interface IPatternContains<T>
+    public interface IPatternContains<T, T2>
+        where T2 : ICheckContains
     {
-        CheckContains Contains();
+        T2 Contains();
 
         T Have();
     }

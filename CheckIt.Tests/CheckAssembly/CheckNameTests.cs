@@ -6,6 +6,11 @@
 
     public class CheckNameTests
     {
+        public CheckNameTests()
+        {
+            Check.SetBasePathSearch(@"..\..\..\");
+        }
+
         [Fact]
         public void Should_check_name_of_all_class()
         {
@@ -16,6 +21,12 @@
         public void Should_check_name_of_class()
         {
             Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().Name().Match("^[A-Z].+$");
+        }
+
+        [Fact]
+        public void Should_check_name_of_class_when_use_linq()
+        {
+            Check.Class().Where(c => c.Name == "Class1").Have().Name().Match("^Class1$");
         }
 
         [Fact]

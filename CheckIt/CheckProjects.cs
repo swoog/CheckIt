@@ -36,7 +36,7 @@ namespace CheckIt
 
             if (!hasFiles)
             {
-                throw new MatchException(string.Format("No project found that match '{0}'", this.projectfilePattern));
+                throw new MatchException(string.Format("No project found that match '{0}'.", this.projectfilePattern));
             }
         }
 
