@@ -51,5 +51,14 @@ namespace CheckIt
 
             return new CheckFiles(project, compile);
         }
+
+        public CheckInterfaces Interface(string pattern)
+        {
+            var project = this.OpenProjectAsync();
+
+            var compile = project.GetCompilationAsync().Result;
+
+            return new CheckInterfaces(project, compile, pattern);
+        }
     }
 }

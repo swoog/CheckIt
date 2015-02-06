@@ -9,12 +9,12 @@ namespace CheckIt
     {
         internal static string basePath = Environment.CurrentDirectory;
 
-        public static CheckAssemblies Assembly(string matchAssemblies)
+        public static IAssemblies Assembly(string matchAssemblies)
         {
             return new CheckProjects(basePath, "*.csproj").Assembly(matchAssemblies);
         }
 
-        public static CheckAssemblies Assembly()
+        public static IAssemblies Assembly()
         {
             return Assembly("*.dll");
         }
@@ -47,6 +47,16 @@ namespace CheckIt
         public static CheckClasses Class(string pattern)
         {
             return new CheckClasses(pattern);
+        }
+
+        public static CheckInterfaces Interfaces()
+        {
+            return Interfaces(string.Empty);
+        }
+
+        public static CheckInterfaces Interfaces(string pattern)
+        {
+            return new CheckInterfaces(pattern);
         }
     }
 }

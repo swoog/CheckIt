@@ -12,13 +12,19 @@ namespace CheckIt
         }
 
         public CheckInterfaces(Project project, Compilation compile, string interfacePattern)
-            : base(project, compile,interfacePattern, "interface")
+            : base(project, compile, interfacePattern, "interface")
         {
         }
 
-        public override IPatternContains<CheckInterfaces> FromProject(string pattern)
+        public CheckInterfaces(string pattern)
+            : base(pattern, "interface")
         {
-            return new CheckProjects(Check.basePath, pattern).Interfaces();
+
+        }
+
+        protected override CheckInterfaces GetFromProject(string pattern)
+        {
+            return new CheckProjects(Check.basePath, pattern).Interfaces(this.pattern);
         }
 
         public CheckContains Contains()
@@ -28,7 +34,12 @@ namespace CheckIt
 
         public CheckInterfaces Have()
         {
-            throw new System.NotImplementedException();
+            return this;
+        }
+
+        public IPatternContains<CheckInterfaces> FromAssembly(string pattern)
+        {
+            return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Interfaces(this.pattern);
         }
     }
 }

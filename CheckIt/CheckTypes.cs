@@ -10,6 +10,7 @@ namespace CheckIt
 
     public abstract class CheckTypes<T, T2> : CheckEnumerableBase<T>
         where T : CheckType
+        where T2 : IEnumerable<T>, IPatternContains<T2>
     {
         protected readonly string pattern;
 
@@ -88,11 +89,23 @@ namespace CheckIt
 
         protected override IEnumerable<T> Gets()
         {
-            foreach (var checkClass in this.classes)
+            if (this.classes != null)
             {
-                yield return checkClass;
+                foreach (var checkClass in this.classes)
+                {
+                    yield return checkClass;
+                }
+            }
+            else
+            {
+                foreach (var checkType in this.GetFromProject("*.csproj"))
+                {
+                    yield return checkType;
+                }
             }
         }
+
+        protected abstract T2 GetFromProject(string pattern);
 
         public void HasAny()
         {
@@ -116,6 +129,9 @@ namespace CheckIt
             return new CheckMatch(values, this.typeName);
         }
 
-        public abstract IPatternContains<T2> FromProject(string pattern);
+        public IPatternContains<T2> FromProject(string pattern)
+        {
+            return this.GetFromProject(pattern);
+        }
     }
 }

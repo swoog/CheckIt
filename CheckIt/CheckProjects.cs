@@ -79,7 +79,17 @@ namespace CheckIt
 
         public CheckInterfaces Interfaces()
         {
-            throw new System.NotImplementedException();
+            return this.Interfaces(string.Empty);
+        }
+
+        public CheckInterfaces Interfaces(string pattern)
+        {
+            return new CheckInterfaces(this.GetInterfaces(pattern));
+        }
+
+        private IEnumerable<CheckInterface> GetInterfaces(string pattern)
+        {
+            return this.SelectMany(c => c.Interface(pattern));
         }
     }
 }
