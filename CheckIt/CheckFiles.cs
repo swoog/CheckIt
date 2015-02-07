@@ -46,9 +46,9 @@ namespace CheckIt
             }
         }
 
-        public ICheckFilesContains Contains()
+        public ICheckContains<ICheckFilesContains> Contains()
         {
-            return new CheckFileContains(this);
+            return new CheckContains<CheckFileContains>(new CheckFileContains(this));
         }
 
         public CheckFiles Have()
@@ -72,14 +72,17 @@ namespace CheckIt
         }
     }
 
-    public interface ICheckFilesContains : ICheckContains
+    public interface ICheckFilesContains
     {
         void Class(string check);
+
+        void Class();
     }
 
-    public interface ICheckContains
+    public interface ICheckContains<out T>
     {
+        T Any();
 
-        void Any();
+        T One();
     }
 }

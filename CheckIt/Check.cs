@@ -58,5 +58,10 @@ namespace CheckIt
         {
             return new CheckInterfaces(pattern);
         }
+
+        public static CheckFiles File()
+        {
+            return File(string.Empty);
+        }
     }
 }

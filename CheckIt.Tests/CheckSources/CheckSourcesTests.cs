@@ -35,7 +35,7 @@
             var ex = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Class("NotFoundClass").FromProject("CheckIt.Tests.Data.csproj").Contains().Any();
+                        Check.Project("CheckIt.Tests.Data.csproj").Contains().Any().Class("NotFoundClass");
                     });
 
             Assert.Equal("No class found.", ex.Message);

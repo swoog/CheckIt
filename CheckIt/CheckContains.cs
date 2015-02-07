@@ -1,41 +1,59 @@
 namespace CheckIt
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections;
     using System.Linq;
 
-    public class CheckContains<T, T2> : ICheckContains
-        where T : IEnumerable<T2>
+    public class CheckContains<T3> : ICheckContains<T3>
+        where T3 : class, IContains
     {
-        protected readonly T checkFiles;
+        private readonly T3 checkFiles;
 
-        public CheckContains(T checkFiles)
+        public CheckContains(T3 checkFiles)
         {
             this.checkFiles = checkFiles;
         }
 
-        public void Any()
+        public T3 Any()
         {
-            if (!this.checkFiles.Any())
-            {
-                throw new MatchException("No class found.");
-            }
+            this.checkFiles.Predicate = e => e.Count > 0;
+            return this.checkFiles;
+        }
+
+        public T3 One()
+        {
+            this.checkFiles.Predicate = e => e.Count == 1;
+            return this.checkFiles;
         }
     }
 
-    public  class CheckFileContains : CheckContains<CheckFiles, CheckFile>, ICheckFilesContains
+    public interface IContains
     {
+        Predicate<IList> Predicate { get; set; }
+    }
+
+    public  class CheckFileContains : ICheckFilesContains, IContains
+    {
+        private readonly CheckFiles checkFiles;
+
+        public Predicate<IList> Predicate { get; set; }
+
         public CheckFileContains(CheckFiles checkFiles)
-            : base(checkFiles)
         {
+            this.checkFiles = checkFiles;
         }
 
         public void Class(string check)
         {
-            if (!this.checkFiles.Class(check).Any())
+            if (!this.Predicate(this.checkFiles.Class(check).ToList()))
             {
                 throw new MatchException("No class found that match '{0}'.", check);
             }
+        }
+
+        public void Class()
+        {
+            this.Class(string.Empty);
         }
     }
 }

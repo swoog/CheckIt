@@ -1,5 +1,6 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
@@ -90,6 +91,36 @@ namespace CheckIt
         private IEnumerable<CheckInterface> GetInterfaces(string pattern)
         {
             return this.SelectMany(c => c.Interface(pattern));
+        }
+
+        public ICheckContains<ICheckProjectContains> Contains()
+        {
+            return new CheckContains<CheckProjectContains>(new CheckProjectContains(this));
+        }
+
+        public IProjects Have()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public class CheckProjectContains : IContains, ICheckProjectContains
+    {
+        private readonly CheckProjects checkProjects;
+
+        public CheckProjectContains(CheckProjects checkProjects)
+        {
+            this.checkProjects = checkProjects;
+        }
+
+        public Predicate<IList> Predicate { get; set; }
+
+        public void Class(string pattern)
+        {
+            if (!this.Predicate(this.checkProjects.Class(pattern).ToList()))
+            {
+                throw new MatchException("No class found.");
+            }
         }
     }
 }
