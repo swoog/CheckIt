@@ -43,13 +43,13 @@ namespace CheckIt
             return new CheckAssembly(project, compile);
         }
 
-        public CheckFiles File(string matchFiles)
+        public CheckFiles File(string pattern)
         {
             var project = this.OpenProjectAsync();
 
             var compile = project.GetCompilationAsync().Result;
 
-            return new CheckFiles(project, compile);
+            return new CheckFiles(project, compile, pattern);
         }
 
         public CheckInterfaces Interface(string pattern)

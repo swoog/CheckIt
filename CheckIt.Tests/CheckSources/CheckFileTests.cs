@@ -16,15 +16,9 @@
         }
 
         [Fact]
-        public void Should_file_contains_one_contains_class()
-        {
-            Check.File().Contains().One().Class();
-        }
-
-        [Fact]
         public void Should_contains_one_file()
         {
-            Check.File("Check.cs").Contains().One();
+            Check.File("Check.cs").FromProject("CheckIt.csproj").Contains().One().Class();
         }
 
         [Fact]

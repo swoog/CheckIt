@@ -2,6 +2,7 @@ namespace CheckIt
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class CheckContains<T3> : ICheckContains<T3>
@@ -36,6 +37,8 @@ namespace CheckIt
     {
         private readonly CheckFiles checkFiles;
 
+        private List<CheckClass> classes;
+
         public Predicate<IList> Predicate { get; set; }
 
         public CheckFileContains(CheckFiles checkFiles)
@@ -45,7 +48,8 @@ namespace CheckIt
 
         public void Class(string check)
         {
-            if (!this.Predicate(this.checkFiles.Class(check).ToList()))
+            this.classes = this.checkFiles.Class(check).ToList();
+            if (!this.Predicate(this.classes))
             {
                 throw new MatchException("No class found that match '{0}'.", check);
             }

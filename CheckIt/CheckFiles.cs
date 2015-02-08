@@ -21,8 +21,9 @@ namespace CheckIt
             this.checkFiles = checkFiles;
         }
 
-        public CheckFiles(Project project, Compilation compile)
+        public CheckFiles(Project project, Compilation compile, string pattern)
         {
+            this.pattern = pattern;
             this.checkFiles = this.Gets(project, compile);
         }
 
@@ -30,7 +31,10 @@ namespace CheckIt
         {
             foreach (var document in project.Documents)
             {
-                yield return new CheckFile(document, compile);
+                if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
+                {
+                    yield return new CheckFile(document, compile);
+                }
             }
         }
 

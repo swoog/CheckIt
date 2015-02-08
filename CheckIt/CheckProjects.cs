@@ -122,5 +122,10 @@ namespace CheckIt
                 throw new MatchException("No class found.");
             }
         }
+
+        public void Class()
+        {
+            this.Class(string.Empty);
+        }
     }
 }
