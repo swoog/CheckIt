@@ -75,18 +75,4 @@ namespace CheckIt
             return new CheckProjects(Check.basePath, pattern).File(this.pattern);
         }
     }
-
-    public interface ICheckFilesContains
-    {
-        void Class(string check);
-
-        void Class();
-    }
-
-    public interface ICheckContains<out T>
-    {
-        T Any();
-
-        T One();
-    }
 }

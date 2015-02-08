@@ -78,11 +78,6 @@ namespace CheckIt
             return new CheckFiles(this.SelectMany(p => p.File(matchFiles)));
         }
 
-        public CheckInterfaces Interfaces()
-        {
-            return this.Interfaces(string.Empty);
-        }
-
         public CheckInterfaces Interfaces(string pattern)
         {
             return new CheckInterfaces(this.GetInterfaces(pattern));

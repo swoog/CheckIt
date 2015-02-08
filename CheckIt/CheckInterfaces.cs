@@ -42,13 +42,4 @@ namespace CheckIt
             return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Interfaces(this.pattern);
         }
     }
-
-    public interface ICheckInterfacesContains
-    {
-    }
-
-    public interface IInterfaces
-    {
-        CheckMatch Name();
-    }
 }

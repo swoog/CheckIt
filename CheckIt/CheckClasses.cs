@@ -1,7 +1,5 @@
 namespace CheckIt
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
 
     using Microsoft.CodeAnalysis;
@@ -35,7 +33,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains<CheckClassContains>(new CheckClassContains(this));
+            return new CheckContains<CheckClassContains>(new CheckClassContains());
         }
 
 
@@ -48,26 +46,5 @@ namespace CheckIt
         {
             return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Class(this.pattern);
         }
-    }
-
-    public class CheckClassContains : IContains, ICheckClassesContains
-    {
-        public CheckClassContains(CheckClasses checkClasses)
-        {
-            
-        }
-
-        public Predicate<IList> Predicate { get; set; }
-    }
-
-    public interface ICheckClassesContains
-    {
-    }
-
-    public interface IClasses
-    {
-        CheckMatch NameSpace();
-
-        CheckMatch Name();
     }
 }

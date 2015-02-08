@@ -1,7 +1,5 @@
 namespace CheckIt
 {
-    using System.Collections.Generic;
-
     using Microsoft.CodeAnalysis;
 
     public class CheckFile
