@@ -6,7 +6,7 @@ The goal of CheckIt, is to create unit tests like :
         [Fact]
         public void Should_check_name_of_all_class()
         {
-            Check.Assembly("CheckIt.Tests.Data.dll").Class().Name().Match("^[A-Z].+$");
+            Check.Class().FromAssembly("CheckIt.Tests.Data.dll").Have().Name().Match("^[A-Z].+$");
         }
         
 With this unit test you have created a constraint on your code.
