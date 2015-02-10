@@ -29,14 +29,14 @@ namespace CheckIt
             return Project("*.csproj");
         }
 
-        public static void SetBasePathSearch(string newBasePath)
-        {
-            basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
-        }
-
         public static CheckFiles File(string pattern)
         {
             return new CheckFiles(pattern);
+        }
+
+        public static CheckFiles File()
+        {
+            return File(string.Empty);
         }
 
         public static CheckClasses Class()
@@ -57,6 +57,11 @@ namespace CheckIt
         public static CheckInterfaces Interfaces(string pattern)
         {
             return new CheckInterfaces(pattern);
+        }
+
+        public static void SetBasePathSearch(string newBasePath)
+        {
+            basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
         }
     }
 }

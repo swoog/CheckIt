@@ -1,17 +1,14 @@
 namespace CheckIt
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
 
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
         where T : CheckType
         where T2 : IEnumerable<T>, IPatternContains<T3, T4> 
-        where T4 : ICheckContains
     {
         protected readonly string pattern;
 
@@ -107,14 +104,6 @@ namespace CheckIt
         }
 
         protected abstract T2 GetFromProject(string pattern);
-
-        public void HasAny()
-        {
-            if (this.Count() == 0)
-            {
-                throw new MatchException("No class found");
-            }
-        }
 
         public CheckMatch Name()
         {

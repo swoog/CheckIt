@@ -22,19 +22,9 @@ namespace CheckIt
             return new CheckMatch(values, "assembly");
         }
 
-        public CheckClasses Class()
+        public CheckClasses Class(string pattern)
         {
-            return this.Class("");
-        }
-
-        public CheckClasses Class(string regex)
-        {
-            return new CheckClasses(this.SelectMany(a => a.Class(regex)));
-        }
-
-        public CheckInterfaces Interfaces()
-        {
-            return this.Interfaces("");
+            return new CheckClasses(this.SelectMany(a => a.Class(pattern)));
         }
 
         public CheckInterfaces Interfaces(string pattern)

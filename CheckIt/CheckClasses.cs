@@ -4,7 +4,7 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckClasses : CheckTypes<CheckClass, CheckClasses, IClasses, ICheckContains>, IPatternContains<IClasses, ICheckContains>, IClasses
+    public class CheckClasses : CheckTypes<CheckClass, CheckClasses, IClasses, ICheckClassesContains>, IClasses, IPatternContains<IClasses, ICheckClassesContains>
     {
         public CheckClasses(IEnumerable<CheckClass> classes)
             : base(classes, "class")
@@ -31,26 +31,20 @@ namespace CheckIt
             return new CheckProjects(Check.basePath, pattern).Class(this.pattern);
         }
 
-        public ICheckContains Contains()
+        public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains<CheckClasses, CheckClass>(this);
+            return new CheckContains<CheckClassContains>(new CheckClassContains());
         }
+
 
         public IClasses Have()
         {
             return this;
         }
 
-        public IPatternContains<IClasses, ICheckContains> FromAssembly(string pattern)
+        public IPatternContains<IClasses, ICheckClassesContains> FromAssembly(string pattern)
         {
             return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Class(this.pattern);
         }
-    }
-
-    public interface IClasses
-    {
-        CheckMatch NameSpace();
-
-        CheckMatch Name();
     }
 }

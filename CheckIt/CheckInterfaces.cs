@@ -4,7 +4,7 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckInterfaces : CheckTypes<CheckInterface, CheckInterfaces, IInterfaces, ICheckContains>, IPatternContains<IInterfaces, ICheckContains>, IInterfaces
+    public class CheckInterfaces : CheckTypes<CheckInterface, CheckInterfaces, IInterfaces, ICheckInterfacesContains>, IInterfaces, IPatternContains<IInterfaces, ICheckInterfacesContains>
     {
         public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
             : base(interfaces, "interface")
@@ -27,7 +27,7 @@ namespace CheckIt
             return new CheckProjects(Check.basePath, pattern).Interfaces(this.pattern);
         }
 
-        public ICheckContains Contains()
+        public ICheckContains<ICheckInterfacesContains> Contains()
         {
             throw new System.NotImplementedException();
         }
@@ -37,14 +37,9 @@ namespace CheckIt
             return this;
         }
 
-        public IPatternContains<IInterfaces, ICheckContains> FromAssembly(string pattern)
+        public IPatternContains<IInterfaces, ICheckInterfacesContains> FromAssembly(string pattern)
         {
             return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Interfaces(this.pattern);
         }
-    }
-
-    public interface IInterfaces
-    {
-        CheckMatch Name();
     }
 }

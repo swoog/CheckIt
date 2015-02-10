@@ -1,6 +1,6 @@
 namespace CheckIt
 {
-    public interface IProjects
+    public interface IProjects : IPatternContains<IProjects, ICheckProjectContains>
     {
     }
 }
