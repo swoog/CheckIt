@@ -9,24 +9,28 @@ namespace CheckIt
     {
         private readonly FileInfo file;
 
+        private CompilationInfo compilationInfo;
+
         public CheckProject(FileInfo file)
         {
             this.file = file;
+
+            var project = this.OpenProjectAsync(this.file.FullName);
+
+            var compile = project.GetCompilationAsync().Result;
+
+            this.compilationInfo = new CompilationInfo { Project = project, Compile = compile };
         }
 
         public CheckClasses Class(string classPattern)
         {
-            var project = this.OpenProjectAsync();
-
-            var compile = project.GetCompilationAsync().Result;
-
-            return new CheckClasses(project, compile, classPattern);
+            return new CheckClasses(this.compilationInfo, classPattern);
         }
 
-        private Project OpenProjectAsync()
+        private Project OpenProjectAsync(string fileName)
         {
             var msBuildWorkspace = MSBuildWorkspace.Create();
-            var t = msBuildWorkspace.OpenProjectAsync(this.file.FullName);
+            var t = msBuildWorkspace.OpenProjectAsync(fileName);
 
             t.Wait();
 
@@ -35,29 +39,21 @@ namespace CheckIt
 
         public CheckAssembly Assembly()
         {
-            var project = this.OpenProjectAsync();
-
-            var compile = project.GetCompilationAsync().Result;
-
-            return new CheckAssembly(project, compile);
+            return new CheckAssembly(this.compilationInfo);
         }
 
         public CheckFiles File(string pattern)
         {
-            var project = this.OpenProjectAsync();
+            var project = this.OpenProjectAsync(this.file.FullName);
 
             var compile = project.GetCompilationAsync().Result;
 
-            return new CheckFiles(project, compile, pattern);
+            return new CheckFiles(this.compilationInfo, pattern);
         }
 
         public CheckInterfaces Interface(string pattern)
         {
-            var project = this.OpenProjectAsync();
-
-            var compile = project.GetCompilationAsync().Result;
-
-            return new CheckInterfaces(project, compile, pattern);
+            return new CheckInterfaces(this.compilationInfo, pattern);
         }
     }
 }

@@ -21,19 +21,19 @@ namespace CheckIt
             this.checkFiles = checkFiles;
         }
 
-        public CheckFiles(Project project, Compilation compile, string pattern)
+        public CheckFiles(CompilationInfo compilationInfo, string pattern)
         {
             this.pattern = pattern;
-            this.checkFiles = this.Gets(project, compile);
+            this.checkFiles = this.Gets(compilationInfo);
         }
 
-        private IEnumerable<CheckFile> Gets(Project project, Compilation compile)
+        private IEnumerable<CheckFile> Gets(CompilationInfo compilationInfo)
         {
-            foreach (var document in project.Documents)
+            foreach (var document in compilationInfo.Project.Documents)
             {
                 if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
                 {
-                    yield return new CheckFile(document, compile);
+                    yield return new CheckFile(document, compilationInfo.Compile);
                 }
             }
         }
@@ -44,10 +44,8 @@ namespace CheckIt
             {
                 return this.checkFiles;
             }
-            else
-            {
-                return this.GetFilesFromProject("*.csproj");
-            }
+            
+            return this.GetFilesFromProject("*.csproj");
         }
 
         public ICheckContains<ICheckFilesContains> Contains()

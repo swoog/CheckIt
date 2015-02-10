@@ -121,6 +121,7 @@
     <Compile Include="CheckProjects.cs" />
     <Compile Include="CheckType.cs" />
     <Compile Include="CheckTypes.cs" />
+    <Compile Include="CompilationInfo.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />
     <Compile Include="IAssemblies.cs" />

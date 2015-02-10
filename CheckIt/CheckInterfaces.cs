@@ -22,6 +22,11 @@ namespace CheckIt
 
         }
 
+        public CheckInterfaces(CompilationInfo compilationInfo, string pattern)
+            : base(compilationInfo.Project, compilationInfo.Compile, pattern, "interface")
+        {
+        }
+
         protected override CheckInterfaces GetFromProject(string pattern)
         {
             return Check.GetProjects(pattern).Interfaces(this.pattern);

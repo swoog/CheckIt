@@ -26,6 +26,11 @@ namespace CheckIt
         {
         }
 
+        public CheckClasses(CompilationInfo compilationInfo, string pattern)
+            : base(compilationInfo.Project, compilationInfo.Compile, pattern, "class")
+        {
+        }
+
         protected override CheckClasses GetFromProject(string pattern)
         {
             return Check.GetProjects(pattern).Class(this.pattern);
