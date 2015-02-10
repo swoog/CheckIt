@@ -3,15 +3,13 @@ namespace CheckIt
     using System;
     using System.IO;
 
-    using Microsoft.CodeAnalysis;
-
     public class Check
     {
         internal static string basePath = Environment.CurrentDirectory;
 
         public static IAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckProjects(basePath, "*.csproj").Assembly(matchAssemblies);
+            return GetProjects().Assembly(matchAssemblies);
         }
 
         public static IAssemblies Assembly()
@@ -21,12 +19,17 @@ namespace CheckIt
 
         public static IProjects Project(string projectfilePattern)
         {
+            return GetProjects(projectfilePattern);
+        }
+
+        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
+        {
             return new CheckProjects(basePath, projectfilePattern);
         }
 
         private static IProjects Project()
         {
-            return Project("*.csproj");
+            return GetProjects();
         }
 
         public static CheckFiles File(string pattern)

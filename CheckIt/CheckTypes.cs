@@ -5,32 +5,36 @@ namespace CheckIt
     using System.Text.RegularExpressions;
 
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
         where T : CheckType
-        where T2 : IEnumerable<T>, IPatternContains<T3, T4> 
+        where T2 : IEnumerable<T>, IPatternContains<T3, T4>
     {
         protected readonly string pattern;
 
         private readonly string typeName;
 
-        private IEnumerable<T> classes;
+        private readonly IEnumerable<T> classes;
 
         protected CheckTypes(Project project, Compilation compile, string pattern, string typeName)
+            : this(Get(project, compile), pattern, typeName)
         {
-            this.classes = this.Get(project, pattern, compile);
-            this.typeName = typeName;
+        }
+
+        protected CheckTypes(Document document, Compilation compile, string pattern, string typeName)
+            : this(Get(document, compile), pattern, typeName)
+        {
+        }
+
+        private CheckTypes(IEnumerable<T> classes, string pattern, string typeName)
+            : this(classes.Where(c => Regex.Match(c.Name, pattern).Success), typeName)
+        {
         }
 
         protected CheckTypes(IEnumerable<T> classes, string typeName)
         {
             this.classes = classes;
-            this.typeName = typeName;
-        }
-
-        protected CheckTypes(Document document, Compilation compile, string pattern, string typeName)
-        {
-            this.classes = this.Get(document, pattern, compile);
             this.typeName = typeName;
         }
 
@@ -49,32 +53,29 @@ namespace CheckIt
             return st.Result;
         }
 
-        private IEnumerable<T> Get(Document document, string pattern, Compilation compile)
+        private static IEnumerable<T> Get(Document document, Compilation compile)
         {
             var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-            var checkClasses = this.Visit(syntaxTreeAsync, compile);
+            var checkClasses = Visit(syntaxTreeAsync, compile);
 
             foreach (var checkClass in checkClasses)
             {
-                if (Regex.Match(checkClass.Name, pattern).Success)
-                {
-                    yield return checkClass;
-                }
+                yield return checkClass;
             }
         }
 
-        protected IEnumerable<T> Get(Project currentProject, string pattern, Compilation compile)
+        protected static IEnumerable<T> Get(Project currentProject, Compilation compile)
         {
             foreach (var document in currentProject.Documents)
             {
-                foreach (var checkClass in this.Get(document, pattern, compile))
+                foreach (var checkClass in Get(document, compile))
                 {
                     yield return checkClass;
                 }
             }
         }
 
-        private IEnumerable<T> Visit(SyntaxTree syntaxTreeAsync, Compilation compile)
+        private static IEnumerable<T> Visit(SyntaxTree syntaxTreeAsync, Compilation compile)
         {
             var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
 

@@ -11,8 +11,8 @@ namespace CheckIt
         {
         }
 
-        public CheckInterfaces(Project project, Compilation compile, string interfacePattern)
-            : base(project, compile, interfacePattern, "interface")
+        public CheckInterfaces(Project project, Compilation compile, string pattern)
+            : base(project, compile, pattern, "interface")
         {
         }
 
@@ -24,7 +24,7 @@ namespace CheckIt
 
         protected override CheckInterfaces GetFromProject(string pattern)
         {
-            return new CheckProjects(Check.basePath, pattern).Interfaces(this.pattern);
+            return Check.GetProjects(pattern).Interfaces(this.pattern);
         }
 
         public ICheckContains<ICheckInterfacesContains> Contains()
@@ -39,7 +39,7 @@ namespace CheckIt
 
         public IPatternContains<IInterfaces, ICheckInterfacesContains> FromAssembly(string pattern)
         {
-            return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Interfaces(this.pattern);
+            return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
         }
     }
 }

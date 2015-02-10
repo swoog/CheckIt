@@ -72,7 +72,7 @@ namespace CheckIt
 
         private CheckFiles GetFilesFromProject(string pattern)
         {
-            return new CheckProjects(Check.basePath, pattern).File(this.pattern);
+            return Check.GetProjects(pattern).File(this.pattern);
         }
     }
 }

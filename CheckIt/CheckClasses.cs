@@ -28,7 +28,7 @@ namespace CheckIt
 
         protected override CheckClasses GetFromProject(string pattern)
         {
-            return new CheckProjects(Check.basePath, pattern).Class(this.pattern);
+            return Check.GetProjects(pattern).Class(this.pattern);
         }
 
         public ICheckContains<ICheckClassesContains> Contains()
@@ -44,7 +44,7 @@ namespace CheckIt
 
         public IPatternContains<IClasses, ICheckClassesContains> FromAssembly(string pattern)
         {
-            return new CheckProjects(Check.basePath, "*.csproj").Assembly(pattern).Class(this.pattern);
+            return Check.GetProjects().Assembly(pattern).Class(this.pattern);
         }
     }
 }
