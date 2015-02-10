@@ -17,13 +17,13 @@ namespace CheckIt
 
         private readonly IEnumerable<T> classes;
 
-        protected CheckTypes(Project project, Compilation compile, string pattern, string typeName)
-            : this(Get(project, compile), pattern, typeName)
+        protected CheckTypes(CompilationInfo compile, string pattern, string typeName)
+            : this(compile.Get<T>(), pattern, typeName)
         {
         }
 
-        protected CheckTypes(Document document, Compilation compile, string pattern, string typeName)
-            : this(Get(document, compile), pattern, typeName)
+        protected CheckTypes(Document document, CompilationInfo compile, string pattern, string typeName)
+            : this(compile.Get<T>(document), pattern, typeName)
         {
         }
 
@@ -42,48 +42,6 @@ namespace CheckIt
         {
             this.pattern = pattern;
             this.typeName = typeName;
-        }
-
-        private static SyntaxTree GetSyntaxTreeAsync(Document document)
-        {
-            var st = document.GetSyntaxTreeAsync();
-
-            st.Wait();
-
-            return st.Result;
-        }
-
-        private static IEnumerable<T> Get(Document document, Compilation compile)
-        {
-            var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-            var checkClasses = Visit(syntaxTreeAsync, compile);
-
-            foreach (var checkClass in checkClasses)
-            {
-                yield return checkClass;
-            }
-        }
-
-        protected static IEnumerable<T> Get(Project currentProject, Compilation compile)
-        {
-            foreach (var document in currentProject.Documents)
-            {
-                foreach (var checkClass in Get(document, compile))
-                {
-                    yield return checkClass;
-                }
-            }
-        }
-
-        private static IEnumerable<T> Visit(SyntaxTree syntaxTreeAsync, Compilation compile)
-        {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
-
-            var visitor = new CheckClassVisitor(semanticModel);
-
-            visitor.Visit(syntaxTreeAsync.GetRoot());
-
-            return visitor.Get<T>();
         }
 
         protected override IEnumerable<T> Gets()

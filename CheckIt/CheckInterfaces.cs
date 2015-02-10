@@ -11,8 +11,8 @@ namespace CheckIt
         {
         }
 
-        public CheckInterfaces(Project project, Compilation compile, string pattern)
-            : base(project, compile, pattern, "interface")
+        public CheckInterfaces(Project project, CompilationInfo compile, string pattern)
+            : base(compile, pattern, "interface")
         {
         }
 
@@ -23,7 +23,7 @@ namespace CheckIt
         }
 
         public CheckInterfaces(CompilationInfo compilationInfo, string pattern)
-            : base(compilationInfo.Project, compilationInfo.Compile, pattern, "interface")
+            : base(compilationInfo, pattern, "interface")
         {
         }
 

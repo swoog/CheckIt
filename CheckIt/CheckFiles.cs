@@ -33,7 +33,7 @@ namespace CheckIt
             {
                 if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
                 {
-                    yield return new CheckFile(document, compilationInfo.Compile);
+                    yield return new CheckFile(document, compilationInfo);
                 }
             }
         }
