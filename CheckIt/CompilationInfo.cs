@@ -4,7 +4,7 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CompilationInfo
+    public class CompilationInfo : ICompilationInfo
     {
         public Project Project { get; set; }
 

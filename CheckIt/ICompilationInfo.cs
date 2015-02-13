@@ -1,9 +1,18 @@
 namespace CheckIt
 {
-    using System.IO;
+    using System.Collections.Generic;
+
+    using Microsoft.CodeAnalysis;
 
     public interface ICompilationInfo
     {
-        CompilationInfo GetCompilationInfo(FileInfo file);
+        Project Project { get; set; }
+
+        Compilation Compile { get; set; }
+
+        IEnumerable<T> Get<T>(Document document);
+
+        IEnumerable<T> 
+            Get<T>() where T : CheckType;
     }
 }

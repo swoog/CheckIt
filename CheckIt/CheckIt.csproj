@@ -146,6 +146,7 @@
     <Compile Include="ICheckProjectContains.cs" />
     <Compile Include="IClasses.cs" />
     <Compile Include="ICompilationInfo.cs" />
+    <Compile Include="ICompilationInfoFactory.cs" />
     <Compile Include="IContains.cs" />
     <Compile Include="IInterfaces.cs" />
     <Compile Include="IPatternContains.cs" />

@@ -7,7 +7,7 @@ namespace CheckIt.Tests.CheckAssembly
         static AssemblySetup()
         {
             Check.SetBasePathSearch(@"..\..\..\");
-            Locator.Bind<ICompilationInfo, CustomCompilationInfo>(new CustomCompilationInfo());
+            Locator.Bind<ICompilationInfoFactory, CustomCompilationInfoFactory>(new CustomCompilationInfoFactory());
         }
 
         public static void Initialize()

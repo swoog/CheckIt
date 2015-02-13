@@ -11,12 +11,7 @@ namespace CheckIt
         {
         }
 
-        public CheckClasses(Project project, CompilationInfo compile, string pattern)
-            : base(compile, pattern, "class")
-        {
-        }
-
-        public CheckClasses(Document document, CompilationInfo compile, string pattern)
+        public CheckClasses(Document document, ICompilationInfo compile, string pattern)
             : base(document, compile, pattern, "class")
         {
         }
@@ -26,7 +21,7 @@ namespace CheckIt
         {
         }
 
-        public CheckClasses(CompilationInfo compilationInfo, string pattern)
+        public CheckClasses(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "class")
         {
         }

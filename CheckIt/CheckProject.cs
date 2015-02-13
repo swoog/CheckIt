@@ -11,16 +11,16 @@ namespace CheckIt
     {
         private readonly FileInfo file;
 
-        private CompilationInfo compilationInfo;
+        private ICompilationInfo compilationInfo;
 
-        private readonly ICompilationInfo msBuildCompilationInfo;
+        private readonly ICompilationInfoFactory msBuildCompilationInfoFactory;
 
         public CheckProject(FileInfo file)
         {
             this.file = file;
 
-            this.msBuildCompilationInfo = Locator.Get<ICompilationInfo>();
-            this.compilationInfo = this.msBuildCompilationInfo.GetCompilationInfo(file);
+            this.msBuildCompilationInfoFactory = Locator.Get<ICompilationInfoFactory>();
+            this.compilationInfo = this.msBuildCompilationInfoFactory.GetCompilationInfo(file);
         }
 
         public CheckClasses Class(string classPattern)

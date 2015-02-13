@@ -4,13 +4,13 @@ namespace CheckIt.Compilation.MsBuild
 
     using Microsoft.CodeAnalysis;
 
-    public class MsBuildCompilationInfo : ICompilationInfo
+    public class MsBuildCompilationInfoFactory : ICompilationInfoFactory
     {
-        public MsBuildCompilationInfo()
+        public MsBuildCompilationInfoFactory()
         {
         }
 
-        public CompilationInfo GetCompilationInfo(FileInfo file)
+        public ICompilationInfo GetCompilationInfo(FileInfo file)
         {
             var project = this.OpenProjectAsync(file.FullName);
 

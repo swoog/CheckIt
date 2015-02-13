@@ -6,9 +6,9 @@ namespace CheckIt
     {
         private readonly Document document;
 
-        private CompilationInfo compile;
+        private ICompilationInfo compile;
 
-        public CheckFile(Document document, CompilationInfo compile)
+        public CheckFile(Document document, ICompilationInfo compile)
         {
             this.document = document;
             this.compile = compile;

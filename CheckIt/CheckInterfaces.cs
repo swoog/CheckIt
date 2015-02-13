@@ -22,7 +22,7 @@ namespace CheckIt
 
         }
 
-        public CheckInterfaces(CompilationInfo compilationInfo, string pattern)
+        public CheckInterfaces(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "interface")
         {
         }

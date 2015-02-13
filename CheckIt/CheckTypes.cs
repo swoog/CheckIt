@@ -17,12 +17,12 @@ namespace CheckIt
 
         private readonly IEnumerable<T> classes;
 
-        protected CheckTypes(CompilationInfo compile, string pattern, string typeName)
+        protected CheckTypes(ICompilationInfo compile, string pattern, string typeName)
             : this(compile.Get<T>(), pattern, typeName)
         {
         }
 
-        protected CheckTypes(Document document, CompilationInfo compile, string pattern, string typeName)
+        protected CheckTypes(Document document, ICompilationInfo compile, string pattern, string typeName)
             : this(compile.Get<T>(document), pattern, typeName)
         {
         }
