@@ -22,7 +22,14 @@ namespace CheckIt
             return new CheckMatch(values, "assembly");
         }
 
-        public CheckClasses Class(string pattern)
+	    public CheckMatch FileName()
+	    {
+			var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName)).ToList();
+
+			return new CheckMatch(values, "assembly");
+		}
+
+		public CheckClasses Class(string pattern)
         {
             return new CheckClasses(this.SelectMany(a => a.Class(pattern)));
         }
@@ -48,5 +55,15 @@ namespace CheckIt
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
         }
+
+	    public ICheckContains<ICheckAssemblyContains> Contains()
+	    {
+		    throw new System.NotImplementedException();
+	    }
+
+	    public IAssemblies Have()
+	    {
+		    return this;
+	    }
     }
 }

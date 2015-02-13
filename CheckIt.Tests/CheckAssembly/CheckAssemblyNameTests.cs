@@ -9,7 +9,19 @@
             Check.SetBasePathSearch(@"..\..\..\");
         }
 
-        [Fact]
+	    [Fact]
+	    public void Should_check_assembly_name_does_not_end_with_dll()
+	    {
+		    Check.Assembly().Have().Name().NotMatch(@"\.dll$");
+	    }
+
+		[Fact]
+		public void Should_check_assembly_file_name_end_with_dll()
+		{
+			Check.Assembly().Have().FileName().Match(@"\.dll$");
+		}
+
+		[Fact]
         public void Should_check_assembly_name()
         {
             Check.Assembly("CheckIt.dll").Name().Match("^CheckIt$");

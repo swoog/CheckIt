@@ -125,6 +125,7 @@
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />
     <Compile Include="IAssemblies.cs" />
+    <Compile Include="ICheckAssemblyContains.cs" />
     <Compile Include="ICheckClassesContains.cs" />
     <Compile Include="ICheckContains.cs" />
     <Compile Include="ICheckFilesContains.cs" />

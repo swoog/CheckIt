@@ -2,10 +2,10 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
-    public interface IAssemblies : IEnumerable<CheckAssembly>
-    {
-        CheckMatch Name();
+    public interface IAssemblies : IEnumerable<CheckAssembly>, IPatternContains<IAssemblies, ICheckAssemblyContains>
+	{
+		CheckMatch Name();
 
-        CheckInterfaces Interfaces(string empty);
-    }
+	    CheckMatch FileName();
+	}
 }

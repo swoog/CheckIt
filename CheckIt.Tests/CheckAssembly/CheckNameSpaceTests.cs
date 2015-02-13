@@ -30,7 +30,7 @@
         [Fact]
         public void Should_check_namespace_of_interface()
         {
-            Check.Assembly("CheckIt.Tests.Data.dll").Interfaces("ErrorInterface").NameSpace().Match("^CheckIt.Tests.Data$");
+            Check.Interfaces("ErrorInterface").FromAssembly("CheckIt.Tests.Data.dll").Have().NameSpace().Match("^CheckIt.Tests.Data$");
         }
     }
 }
