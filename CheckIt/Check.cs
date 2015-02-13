@@ -5,21 +5,61 @@ namespace CheckIt
 
     public class Check
     {
-        private static string basePath = Environment.CurrentDirectory;
+        internal static string basePath = Environment.CurrentDirectory;
 
-        public static CheckAssemblies Assembly(string matchAssemblies)
+        public static IAssemblies Assembly(string matchAssemblies)
         {
-            return Sources("*.csproj").Assembly(matchAssemblies);
+            return GetProjects().Assembly(matchAssemblies);
         }
 
-        public static CheckAssemblies Assembly()
+        public static IAssemblies Assembly()
         {
             return Assembly("*.dll");
         }
 
-        public static CheckSources Sources(string projectfilePattern)
+        public static IProjects Project(string projectfilePattern)
         {
-            return new CheckSources(basePath, projectfilePattern);
+            return GetProjects(projectfilePattern);
+        }
+
+        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
+        {
+            return new CheckProjects(basePath, projectfilePattern);
+        }
+
+        private static IProjects Project()
+        {
+            return GetProjects();
+        }
+
+        public static CheckFiles File(string pattern)
+        {
+            return new CheckFiles(pattern);
+        }
+
+        public static CheckFiles File()
+        {
+            return File(string.Empty);
+        }
+
+        public static CheckClasses Class()
+        {
+            return Class(string.Empty);
+        }
+
+        public static CheckClasses Class(string pattern)
+        {
+            return new CheckClasses(pattern);
+        }
+
+        public static CheckInterfaces Interfaces()
+        {
+            return Interfaces(string.Empty);
+        }
+
+        public static CheckInterfaces Interfaces(string pattern)
+        {
+            return new CheckInterfaces(pattern);
         }
 
         public static void SetBasePathSearch(string newBasePath)

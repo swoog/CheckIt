@@ -14,7 +14,7 @@
         [Fact]
         public void Should_check_source_code_contains_class_when_call_sources()
         {
-            Check.Sources(@"CheckIt.Tests.Data.csproj").Class().HasAny();
+            Check.Project(@"CheckIt.Tests.Data.csproj").Contains().Any().Class();
         }
 
         [Fact]
@@ -23,10 +23,10 @@
             var ex = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Sources("NotFoundCsProj.csproj").Class().HasAny();
+                        Check.Project("NotFoundCsProj.csproj").Contains().Any().Class();
                     });
 
-            Assert.Equal("No project found that match 'NotFoundCsProj.csproj'", ex.Message);
+            Assert.Equal("No project found that match 'NotFoundCsProj.csproj'.", ex.Message);
         }
 
         [Fact]
@@ -35,10 +35,10 @@
             var ex = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Sources("CheckIt.Tests.Data.csproj").Class("NotFoundClass").HasAny();
+                        Check.Project("CheckIt.Tests.Data.csproj").Contains().Any().Class("NotFoundClass");
                     });
 
-            Assert.Equal("No class found", ex.Message);
+            Assert.Equal("No class found.", ex.Message);
         }
     }
 }

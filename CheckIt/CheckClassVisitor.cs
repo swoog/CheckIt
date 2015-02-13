@@ -20,12 +20,14 @@ namespace CheckIt
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            this.types.Add(new CheckClass(node.Identifier.ValueText, this.semanticModel.GetDeclaredSymbol(node).ToDisplayString()));
+            var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node).ContainingNamespace;
+            this.types.Add(new CheckClass(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString()));
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
-            this.types.Add(new CheckInterface(node.Identifier.ValueText, this.semanticModel.GetDeclaredSymbol(node).ToDisplayString()));
+            var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node).ContainingNamespace;
+            this.types.Add(new CheckInterface(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString()));
         }
 
         public IEnumerable<T> Get<T>()

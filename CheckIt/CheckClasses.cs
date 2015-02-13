@@ -4,17 +4,47 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckClasses : CheckTypes<CheckClass>
+    public class CheckClasses : CheckTypes<CheckClass, CheckClasses, IClasses, ICheckClassesContains>, IClasses, IPatternContains<IClasses, ICheckClassesContains>
     {
         public CheckClasses(IEnumerable<CheckClass> classes)
-            :base(classes, "class")
+            : base(classes, "class")
         {
-            this.classes = classes;
         }
 
-        public CheckClasses(Project project, Compilation compile, string classPattern)
-            :base(project, compile, classPattern, "class")
+	    public CheckClasses(Document document, CompilationInfo compile, string pattern)
+            : base(document, compile, pattern, "class")
         {
+        }
+
+        public CheckClasses(string pattern)
+            : base(pattern, "class")
+        {
+        }
+
+        public CheckClasses(CompilationInfo compilationInfo, string pattern)
+            : base(compilationInfo, pattern, "class")
+        {
+        }
+
+        protected override CheckClasses GetFromProject(string pattern)
+        {
+            return Check.GetProjects(pattern).Class(this.pattern);
+        }
+
+        public ICheckContains<ICheckClassesContains> Contains()
+        {
+            return new CheckContains<CheckClassContains>(new CheckClassContains());
+        }
+
+
+        public IClasses Have()
+        {
+            return this;
+        }
+
+        public IPatternContains<IClasses, ICheckClassesContains> FromAssembly(string pattern)
+        {
+            return Check.GetProjects().Assembly(pattern).Class(this.pattern);
         }
     }
 }

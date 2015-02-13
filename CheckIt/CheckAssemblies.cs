@@ -1,10 +1,9 @@
 namespace CheckIt
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckAssemblies : IEnumerable<CheckAssembly>
+    public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>, IAssemblies
     {
         private readonly IEnumerable<CheckAssembly> checkAssemblies;
 
@@ -12,7 +11,7 @@ namespace CheckIt
 
         public CheckAssemblies(IEnumerable<CheckAssembly> checkAssemblies, string matchAssemblies)
         {
-            this.checkAssemblies = checkAssemblies;
+            this.checkAssemblies = checkAssemblies.Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies));
             this.matchAssemblies = matchAssemblies;
         }
 
@@ -23,19 +22,16 @@ namespace CheckIt
             return new CheckMatch(values, "assembly");
         }
 
-        public CheckClasses Class()
-        {
-            return this.Class("");
-        }
+	    public CheckMatch FileName()
+	    {
+			var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName)).ToList();
 
-        public CheckClasses Class(string regex)
-        {
-            return new CheckClasses(this.SelectMany(a => a.Class(regex)));
-        }
+			return new CheckMatch(values, "assembly");
+		}
 
-        public CheckInterfaces Interfaces()
+		public CheckClasses Class(string pattern)
         {
-            return this.Interfaces("");
+            return new CheckClasses(this.SelectMany(a => a.Class(pattern)));
         }
 
         public CheckInterfaces Interfaces(string pattern)
@@ -43,17 +39,7 @@ namespace CheckIt
             return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
         }
 
-        public IEnumerator<CheckAssembly> GetEnumerator()
-        {
-            return this.GetAssemblies().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        private IEnumerable<CheckAssembly> GetAssemblies()
+        protected override IEnumerable<CheckAssembly> Gets()
         {
             var hasAssemblies = false;
 
@@ -69,5 +55,15 @@ namespace CheckIt
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
         }
+
+	    public ICheckContains<ICheckAssemblyContains> Contains()
+	    {
+		    throw new System.NotImplementedException();
+	    }
+
+	    public IAssemblies Have()
+	    {
+		    return this;
+	    }
     }
 }
