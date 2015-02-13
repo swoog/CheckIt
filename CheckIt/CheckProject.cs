@@ -3,7 +3,9 @@ namespace CheckIt
     using System.IO;
 
     using Microsoft.CodeAnalysis;
+#if DEBUG
     using Microsoft.CodeAnalysis.MSBuild;
+#endif
 
     public class CheckProject
     {
@@ -11,30 +13,19 @@ namespace CheckIt
 
         private CompilationInfo compilationInfo;
 
+        private readonly ICompilationInfo msBuildCompilationInfo;
+
         public CheckProject(FileInfo file)
         {
             this.file = file;
 
-            var project = this.OpenProjectAsync(this.file.FullName);
-
-            var compile = project.GetCompilationAsync().Result;
-
-            this.compilationInfo = new CompilationInfo { Project = project, Compile = compile };
+            this.msBuildCompilationInfo = Locator.Get<ICompilationInfo>();
+            this.compilationInfo = this.msBuildCompilationInfo.GetCompilationInfo(file);
         }
 
         public CheckClasses Class(string classPattern)
         {
             return new CheckClasses(this.compilationInfo, classPattern);
-        }
-
-        private Project OpenProjectAsync(string fileName)
-        {
-            var msBuildWorkspace = MSBuildWorkspace.Create();
-            var t = msBuildWorkspace.OpenProjectAsync(fileName);
-
-            t.Wait();
-
-            return t.Result;
         }
 
         public CheckAssembly Assembly()
@@ -44,10 +35,6 @@ namespace CheckIt
 
         public CheckFiles File(string pattern)
         {
-            var project = this.OpenProjectAsync(this.file.FullName);
-
-            var compile = project.GetCompilationAsync().Result;
-
             return new CheckFiles(this.compilationInfo, pattern);
         }
 

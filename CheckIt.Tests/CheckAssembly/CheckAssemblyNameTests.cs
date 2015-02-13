@@ -1,12 +1,14 @@
 ﻿namespace CheckIt.Tests.CheckAssembly
 {
+    using CheckIt.Compilation.Custom;
+
     using Xunit;
 
     public class CheckAssemblyNameTests
     {
         public CheckAssemblyNameTests()
         {
-            Check.SetBasePathSearch(@"..\..\..\");
+            AssemblySetup.Initialize();
         }
 
         [Fact]
