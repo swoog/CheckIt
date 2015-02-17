@@ -22,7 +22,7 @@ namespace CheckIt
         {
         }
 
-        protected CheckTypes(Document document, ICompilationInfo compile, string pattern, string typeName)
+        protected CheckTypes(ICompilationDocument document, ICompilationInfo compile, string pattern, string typeName)
             : this(compile.Get<T>(document), pattern, typeName)
         {
         }

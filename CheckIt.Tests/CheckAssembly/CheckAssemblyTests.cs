@@ -8,7 +8,7 @@
     {
         public CheckAssemblyTests()
         {
-            Check.SetBasePathSearch(@"..\..\..\CheckIt\");
+            AssemblySetup.Initialize();
         }
 
         [Fact]

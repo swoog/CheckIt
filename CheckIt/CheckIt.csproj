@@ -135,7 +135,7 @@
     <Compile Include="CheckProjects.cs" />
     <Compile Include="CheckType.cs" />
     <Compile Include="CheckTypes.cs" />
-    <Compile Include="CompilationInfo.cs" />
+    <Compile Include="CompilationInfoBase.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />
     <Compile Include="IAssemblies.cs" />
@@ -145,6 +145,7 @@
     <Compile Include="ICheckInterfacesContains.cs" />
     <Compile Include="ICheckProjectContains.cs" />
     <Compile Include="IClasses.cs" />
+    <Compile Include="ICompilationDocument.cs" />
     <Compile Include="ICompilationInfo.cs" />
     <Compile Include="ICompilationInfoFactory.cs" />
     <Compile Include="IContains.cs" />
@@ -158,6 +159,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

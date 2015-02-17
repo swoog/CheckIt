@@ -97,7 +97,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompilationInfo.cs" />
+    <Compile Include="MsBuildCompilationDocument.cs" />
     <Compile Include="MsBuildCompilationInfoFactory.cs" />
+    <Compile Include="MsBuildProjectCompilationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
     {
         public CheckInterfaceName()
         {
-            Check.SetBasePathSearch(@"..\..\..\");
+            AssemblySetup.Initialize();
         }
 
         [Fact]

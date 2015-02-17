@@ -6,13 +6,18 @@ namespace CheckIt
 
     public interface ICompilationInfo
     {
-        Project Project { get; set; }
+        ICompilationProject Project { get; }
 
-        Compilation Compile { get; set; }
-
-        IEnumerable<T> Get<T>(Document document);
+        IEnumerable<T> Get<T>(ICompilationDocument document);
 
         IEnumerable<T> 
             Get<T>() where T : CheckType;
+    }
+
+    public interface ICompilationProject
+    {
+        string AssemblyName { get; }
+
+        List<ICompilationDocument> Documents { get; }
     }
 }

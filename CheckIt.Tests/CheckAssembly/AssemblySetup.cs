@@ -6,13 +6,13 @@ namespace CheckIt.Tests.CheckAssembly
     {
         static AssemblySetup()
         {
-            Check.SetBasePathSearch(@"..\..\..\");
             Locator.Bind<ICompilationInfoFactory, CustomCompilationInfoFactory>(new CustomCompilationInfoFactory());
         }
 
         public static void Initialize()
         {
             // Do static initialization
+            Check.SetBasePathSearch(@"..\..\..\");
         }
     }
 }

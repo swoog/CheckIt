@@ -24,6 +24,9 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="CheckIt\README.txt" target="lib\net45\" />
     <file src="CheckIt\bin\$configuration$\CheckIt.dll" target="lib\net45\" />
+    <file src="CheckIt.Compilation.Custom\bin\$configuration$\CheckIt.Compilation.Custom.dll" target="lib\net45\" />
+    <file src="CheckIt.Compilation.MsBuild\bin\$configuration$\CheckIt.Compilation.MsBuild.dll" target="lib\net45\" />
   </files>
 </package>

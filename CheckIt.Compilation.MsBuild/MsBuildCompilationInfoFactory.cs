@@ -16,7 +16,9 @@ namespace CheckIt.Compilation.MsBuild
 
             var compile = project.GetCompilationAsync().Result;
 
-            var info = new CompilationInfo { Project = project, Compile = compile };
+            var projectInfo = new MsBuildProjectCompilationInfo(project, compile);
+
+            var info = new CompilationInfo(projectInfo);
             return info;
         }
 
