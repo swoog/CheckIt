@@ -66,5 +66,18 @@ namespace CheckIt
         {
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
         }
+
+        public static CheckEach Each()
+        {
+            return new CheckEach();
+        }
+    }
+
+    public class CheckEach
+    {
+        public CheckFiles File(string pattern)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

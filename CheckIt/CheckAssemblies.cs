@@ -48,5 +48,10 @@ namespace CheckIt
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
         }
+
+        public CheckFiles File(string pattern)
+        {
+            return new CheckFiles(this.SelectMany(a => a.File(pattern)));
+        }
     }
 }

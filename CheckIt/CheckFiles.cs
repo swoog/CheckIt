@@ -70,5 +70,10 @@ namespace CheckIt
         {
             return Check.GetProjects(pattern).File(this.pattern);
         }
+
+        public IPatternContains<CheckFiles, ICheckFilesContains> FromAssembly(string pattern)
+        {
+            return Check.GetProjects().Assembly(pattern).File(this.pattern);
+        }
     }
 }

@@ -1,7 +1,5 @@
 namespace CheckIt
 {
-    using Microsoft.CodeAnalysis;
-
     public class CheckAssembly
     {
         private readonly ICompilationInfo compilationInfo;
@@ -25,6 +23,11 @@ namespace CheckIt
         public CheckInterfaces Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
+        }
+
+        public CheckFiles File(string pattern)
+        {
+            return new CheckFiles(this.compilationInfo, pattern);
         }
     }
 }
