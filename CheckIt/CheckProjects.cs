@@ -4,7 +4,7 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
-    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects
+    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
     {
         private readonly string basePath;
 
@@ -56,9 +56,9 @@ namespace CheckIt
             }
         }
 
-        public CheckClasses Class(string classPattern)
+        public CheckClasses Class(string pattern)
         {
-            return new CheckClasses(this.GetClassess(classPattern));
+            return new CheckClasses(this.GetClassess(pattern));
         }
 
         private IEnumerable<CheckClass> GetClassess(string classPattern)

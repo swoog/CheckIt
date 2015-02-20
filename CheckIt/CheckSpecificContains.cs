@@ -7,22 +7,15 @@ namespace CheckIt
 
     public class CheckSpecificContains : IContains, ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
     {
-        private readonly CheckProjects checkProjects;
-
-        private readonly CheckFiles checkFiles;
+        private readonly IObjectsFinder objectsFinder;
 
         public CheckSpecificContains()
         {
         }
 
-        public CheckSpecificContains(CheckFiles checkFiles)
+        public CheckSpecificContains(IObjectsFinder objectsFinder)
         {
-            this.checkFiles = checkFiles;
-        }
-
-        public CheckSpecificContains(CheckProjects checkProjects)
-        {
-            this.checkProjects = checkProjects;
+            this.objectsFinder = objectsFinder;
         }
 
         public Predicate<IList> Predicate { get; set; }
@@ -33,14 +26,9 @@ namespace CheckIt
         {
             List<CheckClass> classes = null;
 
-            if (this.checkProjects != null)
+            if (this.objectsFinder != null)
             {
-                classes = this.checkProjects.Class(pattern).ToList();
-            }
-
-            if (this.checkFiles != null)
-            {
-                classes = this.checkFiles.Class(pattern).ToList();
+                classes = this.objectsFinder.Class(pattern).ToList();
             }
 
             if (!this.Predicate(classes))
@@ -56,7 +44,7 @@ namespace CheckIt
 
         public void Reference(string pattern)
         {
-            if (!this.Predicate(this.checkProjects.Reference(pattern).ToList()))
+            if (!this.Predicate(this.objectsFinder.Reference(pattern).ToList()))
             {
                 throw new MatchException(this.MessageFunc("reference", pattern));
             }

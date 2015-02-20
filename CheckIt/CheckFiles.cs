@@ -1,9 +1,10 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains<CheckFiles, ICheckFilesContains>
+    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains<CheckFiles, ICheckFilesContains>, IObjectsFinder
     {
         private readonly IEnumerable<CheckFile> checkFiles;
 
@@ -59,6 +60,11 @@ namespace CheckIt
         public CheckClasses Class(string match)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(match)));
+        }
+
+        public CheckReferences Reference(string pattern)
+        {
+            throw new NotSupportedException("No references on files");
         }
 
         public IPatternContains<CheckFiles, ICheckFilesContains> FromProject(string pattern)

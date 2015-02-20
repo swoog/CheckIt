@@ -154,6 +154,7 @@
     <Compile Include="ICompilationInfoFactory.cs" />
     <Compile Include="IContains.cs" />
     <Compile Include="IInterfaces.cs" />
+    <Compile Include="IObjectsFinder.cs" />
     <Compile Include="IPatternContains.cs" />
     <Compile Include="IProjects.cs" />
     <Compile Include="Locator.cs" />
