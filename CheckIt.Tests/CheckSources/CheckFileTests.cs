@@ -38,7 +38,7 @@
                         Check.File("Check.cs").FromProject("CheckIt.csproj").Contains().Any().Class("ClassHaveDifferentNameFromFile");
                     });
 
-            Assert.Equal("No class found that match 'ClassHaveDifferentNameFromFile'.", e.Message);
+            Assert.Equal("No class found that match pattern 'ClassHaveDifferentNameFromFile'.", e.Message);
         }
 
         [Fact]
@@ -56,7 +56,7 @@
                         Check.File("Check.cs").FromProject("*.csproj").Contains().Any().Class("NotFoundClass");
                     });
 
-            Assert.Equal("No class found that match 'NotFoundClass'.", e.Message);
+            Assert.Equal("No class found that match pattern 'NotFoundClass'.", e.Message);
         }
     }
 }
