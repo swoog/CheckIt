@@ -13,7 +13,7 @@ namespace CheckIt
 
         public Predicate<IList> Predicate { get; set; }
 
-        public string Message { get; set; }
+        public Func<string, string, string> MessageFunc { get; set; }
 
         public CheckFileContains(CheckFiles checkFiles)
         {

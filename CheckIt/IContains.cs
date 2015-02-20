@@ -7,6 +7,6 @@ namespace CheckIt
     {
         Predicate<IList> Predicate { get; set; }
 
-        string Message { get; set; }
+        Func<string, string, string> MessageFunc { get; set; } 
     }
 }

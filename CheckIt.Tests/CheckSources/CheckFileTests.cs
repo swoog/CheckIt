@@ -1,12 +1,14 @@
 ﻿namespace CheckIt.Tests.CheckSources
 {
+    using CheckIt.Tests.CheckAssembly;
+
     using Xunit;
 
     public class CheckFileTests
     {
         public CheckFileTests()
         {
-            Check.SetBasePathSearch(@"..\..\..\");
+            AssemblySetup.Initialize();
         }
 
         [Fact]

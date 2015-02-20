@@ -53,7 +53,7 @@
                         Check.Project("CheckIt.Tests.Data.csproj").Contains().Any().Class("NotFoundClass");
                     });
 
-            Assert.Equal("No Class found that match pattern 'NotFoundClass'.", ex.Message);
+            Assert.Equal("No class found that match pattern 'NotFoundClass'.", ex.Message);
         }
     }
 }
