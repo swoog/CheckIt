@@ -22,7 +22,7 @@
         {
             var e = Assert.Throws<MatchException>(
                 () => Check.Project("CheckIt.csproj").Contains().Any().Reference("NotFoundReference"));
-            Assert.Equal("No Reference found that match 'NotFoundReference'", e.Message);
+            Assert.Equal("No Reference found that match pattern 'NotFoundReference'.", e.Message);
         }
 
         [Fact]
@@ -30,7 +30,7 @@
         {
             var e = Assert.Throws<MatchException>(
                 () => Check.Project("CheckIt.csproj").Contains().No().Reference("System"));
-            Assert.Equal("Reference found that match 'System'", e.Message);
+            Assert.Equal("Reference found that match pattern 'System'.", e.Message);
         }
     }
 }

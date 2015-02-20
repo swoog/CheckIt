@@ -21,7 +21,12 @@ namespace CheckIt
         {
             if (!this.Predicate(this.checkProjects.Class(pattern).ToList()))
             {
-                throw new MatchException("No class found.");
+                if (string.IsNullOrEmpty(pattern))
+                {
+                    throw new MatchException("No class found.");
+                }
+
+                throw new MatchException(this.Message, "Class", pattern);
             }
         }
 
@@ -34,7 +39,7 @@ namespace CheckIt
         {
             if (!this.Predicate(this.checkProjects.Reference(pattern).ToList()))
             {
-                throw new MatchException(String.Format(this.Message, "Reference", pattern));
+                throw new MatchException(this.Message, "Reference", pattern);
             }
         }
     }

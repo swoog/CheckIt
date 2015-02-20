@@ -50,7 +50,7 @@
                     Check.Assembly("CheckIt.Tests*.dll").Name().NotMatch("^CheckIt");
                 });
 
-            Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt.Tests\nCheckIt.Tests.Data", e.Message);
+            Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt.Tests\nCheckIt.Tests.Data\nCheckIt.Tests.Data.EmptyProject", e.Message);
         }
     }
 }
