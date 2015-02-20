@@ -1,4 +1,4 @@
-namespace CheckIt
+namespace CheckIt.Syntax
 {
     using System.Collections.Generic;
 

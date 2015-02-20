@@ -29,9 +29,9 @@ namespace CheckIt
             return new CheckAssembly(this.compilationInfo);
         }
 
-        public CheckFiles File(string pattern)
+        public Files File(string pattern)
         {
-            return new CheckFiles(this.compilationInfo, pattern);
+            return new Files(this.compilationInfo, pattern);
         }
 
         public CheckInterfaces Interface(string pattern)

@@ -3,6 +3,8 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Syntax;
+
     public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>, IAssemblies
     {
         private readonly IEnumerable<CheckAssembly> checkAssemblies;

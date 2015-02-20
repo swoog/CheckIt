@@ -4,6 +4,8 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
+    using CheckIt.Syntax;
+
     public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
     {
         private readonly string basePath;
@@ -61,7 +63,7 @@ namespace CheckIt
             return new CheckClasses(this.GetClassess(pattern));
         }
 
-        private IEnumerable<CheckClass> GetClassess(string classPattern)
+        private IEnumerable<IClass> GetClassess(string classPattern)
         {
             return this.SelectMany(s => s.Class(classPattern));
         }
@@ -71,9 +73,9 @@ namespace CheckIt
             return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
         }
 
-        public CheckFiles File(string matchFiles)
+        public Files File(string matchFiles)
         {
-            return new CheckFiles(this.SelectMany(p => p.File(matchFiles)));
+            return new Files(this.SelectMany(p => p.File(matchFiles)));
         }
 
         public CheckInterfaces Interfaces(string pattern)
@@ -81,7 +83,7 @@ namespace CheckIt
             return new CheckInterfaces(this.GetInterfaces(pattern));
         }
 
-        private IEnumerable<CheckInterface> GetInterfaces(string pattern)
+        private IEnumerable<IInterface> GetInterfaces(string pattern)
         {
             return this.SelectMany(c => c.Interface(pattern));
         }

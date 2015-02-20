@@ -2,9 +2,11 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
-    public class CheckInterfaces : CheckTypes<CheckInterface, CheckInterfaces, IInterfaces, ICheckInterfacesContains>, IInterfaces, IPatternContains<IInterfaces, ICheckInterfacesContains>
+    using CheckIt.Syntax;
+
+    public class CheckInterfaces : CheckTypes<IInterface, CheckInterfaces, IInterfaces, ICheckInterfacesContains>, IInterfaces, IPatternContains<IInterfaces, ICheckInterfacesContains>
     {
-        public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
+        public CheckInterfaces(IEnumerable<IInterface> interfaces)
             : base(interfaces, "interface")
         {
         }
@@ -39,5 +41,9 @@ namespace CheckIt
         {
             return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
         }
+    }
+
+    public interface IInterface : IType
+    {
     }
 }

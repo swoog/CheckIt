@@ -31,7 +31,7 @@ namespace CheckIt
         }
 
         public IEnumerable<T>
-            Get<T>() where T : CheckType
+            Get<T>() where T : IType
         {
             foreach (var document in this.Project.Documents)
             {

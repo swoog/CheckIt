@@ -1,5 +1,7 @@
 namespace CheckIt
 {
+    using CheckIt.Syntax;
+
     using Humanizer;
 
     public class CheckContains<T3> : ICheckContains<T3>

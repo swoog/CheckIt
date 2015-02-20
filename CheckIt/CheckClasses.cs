@@ -2,11 +2,13 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
+    using CheckIt.Syntax;
+
     using Microsoft.CodeAnalysis;
 
-    public class CheckClasses : CheckTypes<CheckClass, CheckClasses, IClasses, ICheckClassesContains>, IClasses, IPatternContains<IClasses, ICheckClassesContains>
+    public class CheckClasses : CheckTypes<IClass, CheckClasses, IClasses, ICheckClassesContains>, IPatternContains<IClasses, ICheckClassesContains>, IClasses
     {
-        public CheckClasses(IEnumerable<CheckClass> classes)
+        public CheckClasses(IEnumerable<IClass> classes)
             : base(classes, "class")
         {
         }

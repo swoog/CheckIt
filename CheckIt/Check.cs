@@ -3,6 +3,8 @@ namespace CheckIt
     using System;
     using System.IO;
 
+    using CheckIt.Syntax;
+
     public class Check
     {
         internal static string basePath = Environment.CurrentDirectory;
@@ -22,32 +24,27 @@ namespace CheckIt
             return GetProjects(projectfilePattern);
         }
 
-        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
-        {
-            return new CheckProjects(basePath, projectfilePattern);
-        }
-
-        private static IProjects Project()
+        public static IProjects Project()
         {
             return GetProjects();
         }
 
-        public static CheckFiles File(string pattern)
+        public static IFiles File(string pattern)
         {
-            return new CheckFiles(pattern);
+            return new Files(pattern);
         }
 
-        public static CheckFiles File()
+        public static IFiles File()
         {
             return File(string.Empty);
         }
 
-        public static CheckClasses Class()
+        public static IClasses Class()
         {
             return Class(string.Empty);
         }
 
-        public static CheckClasses Class(string pattern)
+        public static IClasses Class(string pattern)
         {
             return new CheckClasses(pattern);
         }
@@ -65,6 +62,11 @@ namespace CheckIt
         public static void SetBasePathSearch(string newBasePath)
         {
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
+        }
+
+        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
+        {
+            return new CheckProjects(basePath, projectfilePattern);
         }
     }
 }

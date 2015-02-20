@@ -5,6 +5,8 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Syntax;
+
     public class CheckSpecificContains : IContains, ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
     {
         private readonly IObjectsFinder objectsFinder;
@@ -24,7 +26,7 @@ namespace CheckIt
 
         public void Class(string pattern)
         {
-            List<CheckClass> classes = null;
+            List<IClass> classes = null;
 
             if (this.objectsFinder != null)
             {
