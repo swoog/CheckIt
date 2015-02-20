@@ -29,7 +29,7 @@ namespace CheckIt
 
         public void Class()
         {
-            this.Class(string.Empty);
+            this.Class("*");
         }
     }
 }

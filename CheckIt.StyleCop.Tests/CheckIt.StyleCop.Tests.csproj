@@ -111,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SA1302InterfaceNamesMustBeginWithITests.cs" />
     <Compile Include="SA1300ElementMustBeginWithUpperCaseLetterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

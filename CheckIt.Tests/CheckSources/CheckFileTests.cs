@@ -21,7 +21,7 @@
             Check.File("Check.cs").FromProject("CheckIt.csproj").Contains().One().Class();
         }
 
-        [Fact]
+		[Fact]
         public void Should_contains_class_when_check_specific_file()
         {
             Check.File("Check.cs").FromProject("CheckIt.Tests.Data.csproj").Contains().Any().Class("ClassHaveDifferentNameFromFile");

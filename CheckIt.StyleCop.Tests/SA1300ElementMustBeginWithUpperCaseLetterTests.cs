@@ -12,7 +12,7 @@
         [Fact]
         public void Should_classes_begin_upper_case_when_rule_is_selected()
         {
-            Check.Sources("CheckIt.csproj").StyleCop().SA1300();
+            Check.Extend().StyleCop().SA1300();
         }
     }
 }

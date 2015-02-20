@@ -2,24 +2,29 @@
 {
     public static class StyleCopExtention
     {
-        public static CheckStyleCop StyleCop(this CheckSources sources)
+        public static CheckStyleCop StyleCop(this Extend extend)
         {
-            return new CheckStyleCop(sources);
+            return new CheckStyleCop(extend);
         }
     }
 
     public class CheckStyleCop
     {
-        private readonly CheckSources sources;
+        private readonly Extend extend;
 
-        public CheckStyleCop(CheckSources sources)
+        public CheckStyleCop(Extend extend)
         {
-            this.sources = sources;
+            this.extend = extend;
         }
 
         public void SA1300()
         {
-            this.sources.Class().Name().Match("^[A-Z]");
+			Check.Class().Have().Name().Match("^[A-Z]");
         }
+
+	    public void SA1302()
+	    {
+		    Check.Interfaces().Have().Name().Match("^I");
+	    }
     }
 }

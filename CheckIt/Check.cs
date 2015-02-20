@@ -27,7 +27,7 @@ namespace CheckIt
             return new CheckProjects(basePath, projectfilePattern);
         }
 
-        private static IProjects Project()
+	    public static IProjects Project()
         {
             return GetProjects();
         }
@@ -67,9 +67,9 @@ namespace CheckIt
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
         }
 
-        public static CheckSources Source(string p)
-        {
-            throw new NotImplementedException();
-        }
+	    public static Extend Extend()
+	    {
+		    return new Extend();
+	    }
     }
 }
