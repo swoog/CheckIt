@@ -1,12 +1,10 @@
 namespace CheckIt
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
-    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects
+    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
     {
         private readonly string basePath;
 
@@ -58,9 +56,9 @@ namespace CheckIt
             }
         }
 
-        public CheckClasses Class(string classPattern)
+        public CheckClasses Class(string pattern)
         {
-            return new CheckClasses(this.GetClassess(classPattern));
+            return new CheckClasses(this.GetClassess(pattern));
         }
 
         private IEnumerable<CheckClass> GetClassess(string classPattern)
@@ -90,37 +88,17 @@ namespace CheckIt
 
         public ICheckContains<ICheckProjectContains> Contains()
         {
-            return new CheckContains<CheckProjectContains>(new CheckProjectContains(this));
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
         }
 
         public IProjects Have()
         {
             throw new System.NotImplementedException();
         }
-    }
 
-    public class CheckProjectContains : IContains, ICheckProjectContains
+        public CheckReferences Reference(string pattern)
     {
-        private readonly CheckProjects checkProjects;
-
-        public CheckProjectContains(CheckProjects checkProjects)
-        {
-            this.checkProjects = checkProjects;
-        }
-
-        public Predicate<IList> Predicate { get; set; }
-
-        public void Class(string pattern)
-        {
-            if (!this.Predicate(this.checkProjects.Class(pattern).ToList()))
-            {
-                throw new MatchException("No class found.");
-            }
-        }
-
-        public void Class()
-        {
-            this.Class("*");
+            return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }
     }
 }

@@ -33,6 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Humanizer">
+      <HintPath>..\packages\Humanizer.1.33.7\lib\portable-win+net40+sl50+wp8+wpa81\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
@@ -61,7 +64,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Desktop">
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Desktop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -83,7 +87,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Collections.Immutable.1.1.32-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.AttributedModel, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -98,9 +102,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Runtime">
+    <Reference Include="System.Composition.Runtime, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Composition.TypedParts, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -122,22 +126,24 @@
     <Compile Include="CheckAssemblies.cs" />
     <Compile Include="CheckAssembly.cs" />
     <Compile Include="CheckClass.cs" />
-    <Compile Include="CheckClassContains.cs" />
     <Compile Include="CheckClasses.cs" />
     <Compile Include="CheckClassVisitor.cs" />
     <Compile Include="CheckContains.cs" />
     <Compile Include="CheckFile.cs" />
     <Compile Include="CheckEnumerableBase.cs" />
-    <Compile Include="CheckFileContains.cs" />
     <Compile Include="CheckFiles.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckInterfaces.cs" />
     <Compile Include="CheckMatch.cs" />
     <Compile Include="CheckMatchValue.cs" />
     <Compile Include="CheckProject.cs" />
+    <Compile Include="CheckSpecificContains.cs" />
     <Compile Include="CheckProjects.cs" />
+    <Compile Include="CheckReference.cs" />
+    <Compile Include="CheckReferences.cs" />
     <Compile Include="CheckType.cs" />
     <Compile Include="CheckTypes.cs" />
+    <Compile Include="CompilationInfoBase.cs" />
     <Compile Include="CompilationInfo.cs" />
     <Compile Include="Extend.cs" />
     <Compile Include="FileUtil.cs" />
@@ -150,16 +156,24 @@
     <Compile Include="ICheckInterfacesContains.cs" />
     <Compile Include="ICheckProjectContains.cs" />
     <Compile Include="IClasses.cs" />
+    <Compile Include="ICompilationDocument.cs" />
+    <Compile Include="ICompilationInfo.cs" />
+    <Compile Include="ICompilationInfoFactory.cs" />
     <Compile Include="IContains.cs" />
     <Compile Include="IInterfaces.cs" />
+    <Compile Include="IObjectsFinder.cs" />
     <Compile Include="IPatternContains.cs" />
     <Compile Include="IProjects.cs" />
+    <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

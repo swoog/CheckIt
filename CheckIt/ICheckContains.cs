@@ -5,5 +5,7 @@ namespace CheckIt
         T Any();
 
         T One();
+
+        T No();
     }
 }

@@ -1,11 +1,10 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using Microsoft.CodeAnalysis;
-
-    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains<CheckFiles, ICheckFilesContains>
+    public class CheckFiles : CheckEnumerableBase<CheckFile>, IPatternContains<CheckFiles, ICheckFilesContains>, IObjectsFinder
     {
         private readonly IEnumerable<CheckFile> checkFiles;
 
@@ -21,13 +20,13 @@ namespace CheckIt
             this.checkFiles = checkFiles;
         }
 
-        public CheckFiles(CompilationInfo compilationInfo, string pattern)
+        public CheckFiles(ICompilationInfo compilationInfo, string pattern)
         {
             this.pattern = pattern;
             this.checkFiles = this.Gets(compilationInfo);
         }
 
-        private IEnumerable<CheckFile> Gets(CompilationInfo compilationInfo)
+        private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
         {
             foreach (var document in compilationInfo.Project.Documents)
             {
@@ -50,7 +49,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckFilesContains> Contains()
         {
-            return new CheckContains<CheckFileContains>(new CheckFileContains(this));
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
         }
 
         public CheckFiles Have()
@@ -61,6 +60,11 @@ namespace CheckIt
         public CheckClasses Class(string match)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(match)));
+        }
+
+        public CheckReferences Reference(string pattern)
+        {
+            throw new NotSupportedException("No references on files");
         }
 
         public IPatternContains<CheckFiles, ICheckFilesContains> FromProject(string pattern)

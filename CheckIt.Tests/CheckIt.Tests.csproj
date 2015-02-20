@@ -35,8 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp">
@@ -55,8 +54,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Desktop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.CodeAnalysis.Desktop">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -75,12 +73,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Workspaces.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -109,8 +105,7 @@
       <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Reflection.Metadata, Version=1.0.17.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System.Reflection.Metadata">
       <HintPath>..\packages\System.Reflection.Metadata.1.0.17-beta\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -124,11 +119,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckAssembly\AssemblySetup.cs" />
     <Compile Include="CheckAssembly\CheckAssemblyTests.cs" />
     <Compile Include="CheckAssembly\CheckInterfaceName.cs" />
     <Compile Include="CheckAssembly\CheckNameSpaceTests.cs" />
     <Compile Include="CheckAssembly\CheckAssemblyNameTests.cs" />
     <Compile Include="CheckAssembly\CheckNameTests.cs" />
+    <Compile Include="CheckReferences\CheckProjectReferenceAssemblyTests.cs" />
     <Compile Include="CheckSources\CheckClassNameTests.cs" />
     <Compile Include="CheckSources\CheckFileTests.cs" />
     <Compile Include="CheckSources\CheckSourcesTests.cs" />
@@ -142,6 +139,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CheckIt.Compilation.Custom\CheckIt.Compilation.Custom.csproj">
+      <Project>{F72A4B78-E097-4FB1-A741-FFC81B7E484D}</Project>
+      <Name>CheckIt.Compilation.Custom</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CheckIt.Tests.Data\CheckIt.Tests.Data.csproj">
       <Project>{7ee60552-e47b-416f-bf56-7c04d294233b}</Project>
       <Name>CheckIt.Tests.Data</Name>

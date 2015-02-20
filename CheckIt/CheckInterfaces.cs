@@ -2,17 +2,10 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
-    using Microsoft.CodeAnalysis;
-
     public class CheckInterfaces : CheckTypes<CheckInterface, CheckInterfaces, IInterfaces, ICheckInterfacesContains>, IInterfaces, IPatternContains<IInterfaces, ICheckInterfacesContains>
     {
         public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
             : base(interfaces, "interface")
-        {
-        }
-
-        public CheckInterfaces(Project project, CompilationInfo compile, string pattern)
-            : base(compile, pattern, "interface")
         {
         }
 
@@ -22,7 +15,7 @@ namespace CheckIt
 
         }
 
-        public CheckInterfaces(CompilationInfo compilationInfo, string pattern)
+        public CheckInterfaces(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "interface")
         {
         }

@@ -1,40 +1,27 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
     using System.IO;
-
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.MSBuild;
 
     public class CheckProject
     {
         private readonly FileInfo file;
 
-        private CompilationInfo compilationInfo;
+        private ICompilationInfo compilationInfo;
+
+        private readonly ICompilationInfoFactory msBuildCompilationInfoFactory;
 
         public CheckProject(FileInfo file)
         {
             this.file = file;
 
-            var project = this.OpenProjectAsync(this.file.FullName);
-
-            var compile = project.GetCompilationAsync().Result;
-
-            this.compilationInfo = new CompilationInfo { Project = project, Compile = compile };
+            this.msBuildCompilationInfoFactory = Locator.Get<ICompilationInfoFactory>();
+            this.compilationInfo = this.msBuildCompilationInfoFactory.GetCompilationInfo(file);
         }
 
         public CheckClasses Class(string classPattern)
         {
             return new CheckClasses(this.compilationInfo, classPattern);
-        }
-
-        private Project OpenProjectAsync(string fileName)
-        {
-            var msBuildWorkspace = MSBuildWorkspace.Create();
-            var t = msBuildWorkspace.OpenProjectAsync(fileName);
-
-            t.Wait();
-
-            return t.Result;
         }
 
         public CheckAssembly Assembly()
@@ -44,16 +31,17 @@ namespace CheckIt
 
         public CheckFiles File(string pattern)
         {
-            var project = this.OpenProjectAsync(this.file.FullName);
-
-            var compile = project.GetCompilationAsync().Result;
-
             return new CheckFiles(this.compilationInfo, pattern);
         }
 
         public CheckInterfaces Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
+        }
+
+        public CheckReferences Reference(string pattern)
+        {
+            return new CheckReferences(this.compilationInfo, pattern);
         }
     }
 }

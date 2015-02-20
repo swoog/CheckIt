@@ -1,12 +1,14 @@
 ﻿namespace CheckIt.Tests.CheckAssembly
 {
+    using CheckIt.Compilation.Custom;
+
     using Xunit;
 
     public class CheckAssemblyNameTests
     {
         public CheckAssemblyNameTests()
         {
-            Check.SetBasePathSearch(@"..\..\..\");
+            AssemblySetup.Initialize();
         }
 
 	    [Fact]
@@ -57,10 +59,10 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("CheckIt.dll").Name().NotMatch("^CheckIt");
+                    Check.Assembly("CheckIt.Tests*.dll").Name().NotMatch("^CheckIt");
                 });
 
-            Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt", e.Message);
+            Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt.Tests\nCheckIt.Tests.Data\nCheckIt.Tests.Data.EmptyProject", e.Message);
         }
     }
 }
