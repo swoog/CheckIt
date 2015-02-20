@@ -144,7 +144,6 @@
     <Compile Include="CheckType.cs" />
     <Compile Include="CheckTypes.cs" />
     <Compile Include="CompilationInfoBase.cs" />
-    <Compile Include="CompilationInfo.cs" />
     <Compile Include="Extend.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />

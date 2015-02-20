@@ -1,11 +1,14 @@
 ﻿namespace CheckIt.StyleCop.Tests
 {
+    using CheckIt.Tests.CheckAssembly;
+
     using Xunit;
 
     public class SA1300ElementMustBeginWithUpperCaseLetterTests
     {
         public SA1300ElementMustBeginWithUpperCaseLetterTests()
         {
+            AssemblySetup.Initialize();
             Check.SetBasePathSearch(@"..\..\..\");
         }
 

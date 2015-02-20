@@ -1,12 +1,15 @@
 ﻿namespace CheckIt.StyleCop.Tests
 {
+    using CheckIt.Tests.CheckAssembly;
+
     using Xunit;
 
     public class SA1302InterfaceNamesMustBeginWithITests
     {
         public SA1302InterfaceNamesMustBeginWithITests()
         {
-            Check.SetBasePathSearch(@"..\..\..\");
+            AssemblySetup.Initialize();
+            Check.SetBasePathSearch(@"..\..\..\CheckIt\");
         }
 
         [Fact]
