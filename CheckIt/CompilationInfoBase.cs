@@ -4,30 +4,19 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CompilationInfo
+    public class CompilationInfoBase : ICompilationInfo
     {
-        public Project Project { get; set; }
+        public ICompilationProject Project { get; protected set; }
 
-        public Compilation Compile { get; set; }
-
-        public IEnumerable<T> Get<T>(Document document)
+        public IEnumerable<T> Get<T>(ICompilationDocument document)
         {
-            var syntaxTreeAsync = GetSyntaxTreeAsync(document);
-            var checkClasses = Visit<T>(syntaxTreeAsync, Compile);
+            var syntaxTreeAsync = document.SyntaxTree;
+            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile);
 
             foreach (var checkClass in checkClasses)
             {
                 yield return checkClass;
             }
-        }
-
-        private static SyntaxTree GetSyntaxTreeAsync(Document document)
-        {
-            var st = document.GetSyntaxTreeAsync();
-
-            st.Wait();
-
-            return st.Result;
         }
 
         private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile)
@@ -41,13 +30,12 @@ namespace CheckIt
             return visitor.Get<T>();
         }
 
-
-        public IEnumerable<T> 
+        public IEnumerable<T>
             Get<T>() where T : CheckType
         {
-            foreach (var document in Project.Documents)
+            foreach (var document in this.Project.Documents)
             {
-                foreach (var checkClass in Get<T>(document))
+                foreach (var checkClass in this.Get<T>(document))
                 {
                     yield return checkClass;
                 }

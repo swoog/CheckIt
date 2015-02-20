@@ -11,7 +11,7 @@ namespace CheckIt
         {
         }
 
-	    public CheckClasses(Document document, CompilationInfo compile, string pattern)
+        public CheckClasses(ICompilationDocument document, ICompilationInfo compile, string pattern)
             : base(document, compile, pattern, "class")
         {
         }
@@ -21,7 +21,7 @@ namespace CheckIt
         {
         }
 
-        public CheckClasses(CompilationInfo compilationInfo, string pattern)
+        public CheckClasses(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "class")
         {
         }
@@ -33,7 +33,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains<CheckClassContains>(new CheckClassContains());
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains());
         }
 
 

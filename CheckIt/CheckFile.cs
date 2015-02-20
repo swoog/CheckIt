@@ -4,11 +4,11 @@ namespace CheckIt
 
     public class CheckFile
     {
-        private readonly Document document;
+        private readonly ICompilationDocument document;
 
-        private CompilationInfo compile;
+        private ICompilationInfo compile;
 
-        public CheckFile(Document document, CompilationInfo compile)
+        public CheckFile(ICompilationDocument document, ICompilationInfo compile)
         {
             this.document = document;
             this.compile = compile;

@@ -4,13 +4,13 @@ namespace CheckIt
 
     public class CheckAssembly
     {
-        private readonly CompilationInfo compilationInfo;
+        private readonly ICompilationInfo compilationInfo;
 
         public string FileName { get; private set; }
 
         public string Name { get; private set; }
 
-        public CheckAssembly(CompilationInfo compilationInfo)
+        public CheckAssembly(ICompilationInfo compilationInfo)
         {
             this.compilationInfo = compilationInfo;
             this.FileName = string.Format("{0}.dll", compilationInfo.Project.AssemblyName);
