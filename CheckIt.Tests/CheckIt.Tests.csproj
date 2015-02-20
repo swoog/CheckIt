@@ -110,6 +110,7 @@
     <Compile Include="CheckAssembly\CheckNameSpaceTests.cs" />
     <Compile Include="CheckAssembly\CheckAssemblyNameTests.cs" />
     <Compile Include="CheckAssembly\CheckNameTests.cs" />
+    <Compile Include="CheckReferences\CheckProjectReferenceAssemblyTests.cs" />
     <Compile Include="CheckSources\CheckClassNameTests.cs" />
     <Compile Include="CheckSources\CheckFileTests.cs" />
     <Compile Include="CheckSources\CheckSourcesTests.cs" />

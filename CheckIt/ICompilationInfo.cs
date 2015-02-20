@@ -10,7 +10,7 @@ namespace CheckIt
 
         IEnumerable<T> Get<T>(ICompilationDocument document);
 
-        IEnumerable<T> 
+        IEnumerable<T>
             Get<T>() where T : CheckType;
     }
 
@@ -19,5 +19,12 @@ namespace CheckIt
         string AssemblyName { get; }
 
         List<ICompilationDocument> Documents { get; }
+
+        List<ICompilationReference> References { get; }
+    }
+
+    public interface ICompilationReference
+    {
+        string Name { get; }
     }
 }

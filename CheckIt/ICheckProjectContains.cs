@@ -5,5 +5,7 @@ namespace CheckIt
         void Class(string pattern);
 
         void Class();
+
+        void Reference(string pattern);
     }
 }

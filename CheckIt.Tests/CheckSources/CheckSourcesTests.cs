@@ -2,12 +2,15 @@
 {
     using System.Linq;
 
+    using CheckIt.Tests.CheckAssembly;
+
     using Xunit;
 
     public class CheckSourcesTests
     {
         public CheckSourcesTests()
         {
+            AssemblySetup.Initialize();
             Check.SetBasePathSearch(@"..\..\..\CheckIt.Tests.Data\");
         }
 

@@ -13,6 +13,8 @@ namespace CheckIt
 
         public Predicate<IList> Predicate { get; set; }
 
+        public string Message { get; set; }
+
         public CheckFileContains(CheckFiles checkFiles)
         {
             this.checkFiles = checkFiles;

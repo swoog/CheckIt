@@ -132,7 +132,10 @@
     <Compile Include="CheckMatch.cs" />
     <Compile Include="CheckMatchValue.cs" />
     <Compile Include="CheckProject.cs" />
+    <Compile Include="CheckProjectContains.cs" />
     <Compile Include="CheckProjects.cs" />
+    <Compile Include="CheckReference.cs" />
+    <Compile Include="CheckReferences.cs" />
     <Compile Include="CheckType.cs" />
     <Compile Include="CheckTypes.cs" />
     <Compile Include="CompilationInfoBase.cs" />

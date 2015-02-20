@@ -1,7 +1,5 @@
 namespace CheckIt
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -97,30 +95,10 @@ namespace CheckIt
         {
             throw new System.NotImplementedException();
         }
-    }
 
-    public class CheckProjectContains : IContains, ICheckProjectContains
-    {
-        private readonly CheckProjects checkProjects;
-
-        public CheckProjectContains(CheckProjects checkProjects)
+        public CheckReferences Reference(string pattern)
         {
-            this.checkProjects = checkProjects;
-        }
-
-        public Predicate<IList> Predicate { get; set; }
-
-        public void Class(string pattern)
-        {
-            if (!this.Predicate(this.checkProjects.Class(pattern).ToList()))
-            {
-                throw new MatchException("No class found.");
-            }
-        }
-
-        public void Class()
-        {
-            this.Class(string.Empty);
+            return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }
     }
 }
