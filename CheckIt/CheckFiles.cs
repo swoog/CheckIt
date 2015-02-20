@@ -48,7 +48,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckFilesContains> Contains()
         {
-            return new CheckContains<CheckProjectContains>(new CheckProjectContains(null, this));
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
         }
 
         public CheckFiles Have()

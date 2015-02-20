@@ -5,16 +5,24 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckProjectContains : IContains, ICheckProjectContains, ICheckFilesContains
+    public class CheckSpecificContains : IContains, ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
     {
         private readonly CheckProjects checkProjects;
 
         private readonly CheckFiles checkFiles;
 
-        public CheckProjectContains(CheckProjects checkProjects, CheckFiles checkFiles)
+        public CheckSpecificContains()
+        {
+        }
+
+        public CheckSpecificContains(CheckFiles checkFiles)
+        {
+            this.checkFiles = checkFiles;
+        }
+
+        public CheckSpecificContains(CheckProjects checkProjects)
         {
             this.checkProjects = checkProjects;
-            this.checkFiles = checkFiles;
         }
 
         public Predicate<IList> Predicate { get; set; }

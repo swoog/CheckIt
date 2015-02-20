@@ -8,6 +8,7 @@
     {
         public CheckNameTests()
         {
+            AssemblySetup.Initialize();
             Check.SetBasePathSearch(@"..\..\..\");
         }
 

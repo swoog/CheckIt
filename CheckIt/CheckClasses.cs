@@ -33,7 +33,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains<CheckClassContains>(new CheckClassContains());
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains());
         }
 
 
