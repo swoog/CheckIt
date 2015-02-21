@@ -11,7 +11,7 @@ namespace CheckIt
 
     public abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
         where T : IType
-        where T2 : IEnumerable<T>, IPatternContains<T3, T4>
+        where T2 : IEnumerable<T>, IPatternContains<T2, T4>
     {
         protected readonly string pattern;
 
@@ -80,16 +80,9 @@ namespace CheckIt
             return new CheckMatch(values, this.typeName);
         }
 
-        public IPatternContains<T3, T4> FromProject(string pattern)
+        public IPatternContains<T2, T4> FromProject(string pattern)
         {
             return this.GetFromProject(pattern);
         }
-    }
-
-    public interface IType
-    {
-        string Name { get; }
-
-        string NameSpace { get; }
     }
 }

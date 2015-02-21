@@ -1,10 +1,11 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
 
     using CheckIt.Syntax;
 
-    public class CheckInterfaces : CheckTypes<IInterface, CheckInterfaces, IInterfaces, ICheckInterfacesContains>, IInterfaces, IPatternContains<IInterfaces, ICheckInterfacesContains>
+    public class CheckInterfaces : CheckTypes<IInterface, IInterfaces, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces
     {
         public CheckInterfaces(IEnumerable<IInterface> interfaces)
             : base(interfaces, "interface")
@@ -22,7 +23,7 @@ namespace CheckIt
         {
         }
 
-        protected override CheckInterfaces GetFromProject(string pattern)
+        protected override IInterfaces GetFromProject(string pattern)
         {
             return Check.GetProjects(pattern).Interfaces(this.pattern);
         }
@@ -41,9 +42,5 @@ namespace CheckIt
         {
             return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
         }
-    }
-
-    public interface IInterface : IType
-    {
     }
 }

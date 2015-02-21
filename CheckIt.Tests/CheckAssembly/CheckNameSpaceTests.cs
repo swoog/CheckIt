@@ -6,6 +6,7 @@
     {
         public CheckNameSpaceTests()
         {
+            AssemblySetup.Initialize();
             Check.SetBasePathSearch(@"..\..\..\CheckIt.Tests.Data\");
         }
 

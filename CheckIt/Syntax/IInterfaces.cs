@@ -1,9 +1,11 @@
 namespace CheckIt.Syntax
 {
-    public interface IInterfaces
-    {
-        CheckMatch Name();
+    using System.Collections.Generic;
 
-	    CheckMatch NameSpace();
+    public interface IInterfaces : IEnumerable<IInterface>, IPatternContains<IInterfaces, ICheckInterfacesContains>
+    {
+        CheckMatch NameSpace();
+
+        CheckMatch Name();
     }
 }

@@ -148,7 +148,9 @@
     <Compile Include="ICompilationProject.cs" />
     <Compile Include="ICompilationReference.cs" />
     <Compile Include="IContains.cs" />
+    <Compile Include="IInterface.cs" />
     <Compile Include="IObjectsFinder.cs" />
+    <Compile Include="IType.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -158,10 +160,12 @@
     <Compile Include="Syntax\ICheckContains.cs" />
     <Compile Include="Syntax\ICheckFilesContains.cs" />
     <Compile Include="Syntax\IClass.cs" />
+    <Compile Include="Syntax\IClasses.cs" />
     <Compile Include="Syntax\IFiles.cs" />
     <Compile Include="Syntax\ICheckInterfacesContains.cs" />
     <Compile Include="Syntax\ICheckProjectContains.cs" />
-    <Compile Include="Syntax\IClasses.cs" />
+    <Compile Include="Syntax\ICheckClasses.cs" />
+    <Compile Include="Syntax\ICheckInterfaces.cs" />
     <Compile Include="Syntax\IInterfaces.cs" />
     <Compile Include="Syntax\IPatternContains.cs" />
     <Compile Include="Syntax\IProjects.cs" />

@@ -39,22 +39,22 @@ namespace CheckIt
             return File(string.Empty);
         }
 
-        public static IClasses Class()
+        public static ICheckClasses Class()
         {
             return Class(string.Empty);
         }
 
-        public static IClasses Class(string pattern)
+        public static ICheckClasses Class(string pattern)
         {
             return new CheckClasses(pattern);
         }
 
-        public static CheckInterfaces Interfaces()
+        public static ICheckInterfaces Interfaces()
         {
             return Interfaces(string.Empty);
         }
 
-        public static CheckInterfaces Interfaces(string pattern)
+        public static ICheckInterfaces Interfaces(string pattern)
         {
             return new CheckInterfaces(pattern);
         }
