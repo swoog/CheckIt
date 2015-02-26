@@ -6,7 +6,7 @@ namespace CheckIt
 
     using Microsoft.CodeAnalysis;
 
-    public class CheckClasses : CheckTypes<IClass, IClasses, ICheckClasses, ICheckClassesContains>, ICheckClasses, IPatternContains<IClasses, ICheckClassesContains>
+    public class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
     {
         public CheckClasses(IEnumerable<IClass> classes)
             : base(classes, "class")
@@ -28,7 +28,7 @@ namespace CheckIt
         {
         }
 
-        protected override IClasses GetFromProject(string pattern)
+        protected override ICheckClasses GetFromProject(string pattern)
         {
             return Check.GetProjects(pattern).Class(this.pattern);
         }
@@ -38,31 +38,14 @@ namespace CheckIt
             return new CheckContains<CheckSpecificContains>(new CheckSpecificContains());
         }
 
-
-        public IClasses Have()
+        public IClassMatcher Have()
         {
             return this;
         }
 
-        public IPatternContains<IClasses, ICheckClassesContains> FromAssembly(string pattern)
+        public IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern)
         {
             return Check.GetProjects().Assembly(pattern).Class(this.pattern);
-        }
-
-        public string Name
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        public string NameSpace
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
         }
     }
 }

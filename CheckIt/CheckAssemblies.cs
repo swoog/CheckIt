@@ -5,7 +5,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>, IAssemblies
+    public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>, IAssemblies, IAssemblyMatcher
     {
         private readonly IEnumerable<CheckAssembly> checkAssemblies;
 
@@ -24,14 +24,14 @@ namespace CheckIt
             return new CheckMatch(values, "assembly");
         }
 
-	    public CheckMatch FileName()
-	    {
-			var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName)).ToList();
+        public CheckMatch FileName()
+        {
+            var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName)).ToList();
 
-			return new CheckMatch(values, "assembly");
-		}
+            return new CheckMatch(values, "assembly");
+        }
 
-		public CheckClasses Class(string pattern)
+        public CheckClasses Class(string pattern)
         {
             return new CheckClasses(this.SelectMany(a => a.Class(pattern)));
         }
@@ -58,14 +58,14 @@ namespace CheckIt
             }
         }
 
-	    public ICheckContains<ICheckAssemblyContains> Contains()
-	    {
-		    throw new System.NotImplementedException();
-	    }
+        public ICheckContains<ICheckAssemblyContains> Contains()
+        {
+            throw new System.NotImplementedException();
+        }
 
-	    public IAssemblies Have()
-	    {
-		    return this;
-	    }
+        public IAssemblyMatcher Have()
+        {
+            return this;
+        }
     }
 }

@@ -4,8 +4,8 @@ namespace CheckIt.Syntax
 
     public interface ICheckClasses : IClasses
     {
-        IPatternContains<IClasses, ICheckClassesContains> FromAssembly(string pattern);
+        IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern);
 
-        IPatternContains<IClasses, ICheckClassesContains> FromProject(string pattern);
+        IPatternContains<IClassMatcher, ICheckClassesContains> FromProject(string pattern);
     }
 }

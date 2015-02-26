@@ -2,6 +2,6 @@ namespace CheckIt.Syntax
 {
     public interface ICheckInterfaces : IInterfaces
     {
-        IPatternContains<IInterfaces, ICheckInterfacesContains> FromAssembly(string pattern);
+        IPatternContains<IInterfaceMatcher, ICheckInterfacesContains> FromAssembly(string pattern);
     }
 }

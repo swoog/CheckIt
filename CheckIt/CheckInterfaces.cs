@@ -5,7 +5,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckInterfaces : CheckTypes<IInterface, IInterfaces, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces
+    public class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher
     {
         public CheckInterfaces(IEnumerable<IInterface> interfaces)
             : base(interfaces, "interface")
@@ -23,7 +23,7 @@ namespace CheckIt
         {
         }
 
-        protected override IInterfaces GetFromProject(string pattern)
+        protected override ICheckInterfaces GetFromProject(string pattern)
         {
             return Check.GetProjects(pattern).Interfaces(this.pattern);
         }
@@ -33,12 +33,12 @@ namespace CheckIt
             throw new System.NotImplementedException();
         }
 
-        public IInterfaces Have()
+        public IInterfaceMatcher Have()
         {
             return this;
         }
 
-        public IPatternContains<IInterfaces, ICheckInterfacesContains> FromAssembly(string pattern)
+        public IPatternContains<IInterfaceMatcher, ICheckInterfacesContains> FromAssembly(string pattern)
         {
             return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
         }
