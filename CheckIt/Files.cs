@@ -28,27 +28,6 @@ namespace CheckIt
             this.checkFiles = this.Gets(compilationInfo);
         }
 
-        private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
-        {
-            foreach (var document in compilationInfo.Project.Documents)
-            {
-                if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
-                {
-                    yield return new CheckFile(document, compilationInfo);
-                }
-            }
-        }
-
-        protected override IEnumerable<CheckFile> Gets()
-        {
-            if (this.checkFiles != null)
-            {
-                return this.checkFiles;
-            }
-            
-            return this.GetFilesFromProject("*.csproj");
-        }
-
         public ICheckContains<ICheckFilesContains> Contains()
         {
             return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
@@ -72,6 +51,27 @@ namespace CheckIt
         public IPatternContains<IFiles, ICheckFilesContains> FromProject(string pattern)
         {
             return this.GetFilesFromProject(pattern);
+        }
+
+        protected override IEnumerable<CheckFile> Gets()
+        {
+            if (this.checkFiles != null)
+            {
+                return this.checkFiles;
+            }
+            
+            return this.GetFilesFromProject("*.csproj");
+        }
+
+        private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
+        {
+            foreach (var document in compilationInfo.Project.Documents)
+            {
+                if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
+                {
+                    yield return new CheckFile(document, compilationInfo);
+                }
+            }
         }
 
         private Files GetFilesFromProject(string pattern)

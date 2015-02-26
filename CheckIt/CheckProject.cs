@@ -1,22 +1,14 @@
 namespace CheckIt
 {
-    using System.Collections.Generic;
     using System.IO;
 
     public class CheckProject
     {
-        private readonly FileInfo file;
-
-        private ICompilationInfo compilationInfo;
-
-        private readonly ICompilationInfoFactory msBuildCompilationInfoFactory;
+        private readonly ICompilationInfo compilationInfo;
 
         public CheckProject(FileInfo file)
         {
-            this.file = file;
-
-            this.msBuildCompilationInfoFactory = Locator.Get<ICompilationInfoFactory>();
-            this.compilationInfo = this.msBuildCompilationInfoFactory.GetCompilationInfo(file);
+            this.compilationInfo = Locator.Get<ICompilationInfoFactory>().GetCompilationInfo(file);
         }
 
         public CheckClasses Class(string classPattern)

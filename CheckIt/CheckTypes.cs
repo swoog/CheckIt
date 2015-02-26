@@ -13,7 +13,7 @@ namespace CheckIt
         where T : IType
         where T3 : IEnumerable<T>, IPatternContains<T2, T4>
     {
-        protected readonly string pattern;
+        protected readonly string Pattern;
 
         private readonly string typeName;
 
@@ -29,11 +29,6 @@ namespace CheckIt
         {
         }
 
-        private CheckTypes(IEnumerable<T> classes, string pattern, string typeName)
-            : this(classes.Where(c => Regex.Match(c.Name, pattern).Success), typeName)
-        {
-        }
-
         protected CheckTypes(IEnumerable<T> classes, string typeName)
         {
             this.classes = classes;
@@ -42,8 +37,32 @@ namespace CheckIt
 
         protected CheckTypes(string pattern, string typeName)
         {
-            this.pattern = pattern;
+            this.Pattern = pattern;
             this.typeName = typeName;
+        }
+
+        private CheckTypes(IEnumerable<T> classes, string pattern, string typeName)
+            : this(classes.Where(c => Regex.Match(c.Name, pattern).Success), typeName)
+        {
+        }
+
+        public CheckMatch Name()
+        {
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name)).ToList();
+
+            return new CheckMatch(values, this.typeName);
+        }
+
+        public CheckMatch NameSpace()
+        {
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace)).ToList();
+
+            return new CheckMatch(values, this.typeName);
+        }
+
+        public IPatternContains<T2, T4> FromProject(string pattern)
+        {
+            return this.GetFromProject(pattern);
         }
 
         protected override IEnumerable<T> Gets()
@@ -65,24 +84,5 @@ namespace CheckIt
         }
 
         protected abstract T3 GetFromProject(string pattern);
-
-        public CheckMatch Name()
-        {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name)).ToList();
-
-            return new CheckMatch(values, this.typeName);
-        }
-
-        public CheckMatch NameSpace()
-        {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace)).ToList();
-
-            return new CheckMatch(values, this.typeName);
-        }
-
-        public IPatternContains<T2, T4> FromProject(string pattern)
-        {
-            return this.GetFromProject(pattern);
-        }
     }
 }

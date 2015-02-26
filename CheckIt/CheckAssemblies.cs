@@ -41,6 +41,16 @@ namespace CheckIt
             return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
         }
 
+        public ICheckContains<ICheckAssemblyContains> Contains()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IAssemblyMatcher Have()
+        {
+            return this;
+        }
+
         protected override IEnumerable<CheckAssembly> Gets()
         {
             var hasAssemblies = false;
@@ -56,16 +66,6 @@ namespace CheckIt
             {
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
-        }
-
-        public ICheckContains<ICheckAssemblyContains> Contains()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IAssemblyMatcher Have()
-        {
-            return this;
         }
     }
 }

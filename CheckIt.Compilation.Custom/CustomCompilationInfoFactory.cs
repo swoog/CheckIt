@@ -25,11 +25,11 @@ namespace CheckIt.Compilation.Custom
 
             var q = from f in files.Cast<XmlNode>() select new FileInfo(Path.Combine(file.Directory.FullName, f.Attributes["Include"].Value));
 
-            var documents = (from f in q select new { FileInfo = f, SyntaxTree = CreateSyntaxTree(f) }).ToList();
+            var documents = (from f in q select new { FileInfo = f, SyntaxTree = this.CreateSyntaxTree(f) }).ToList();
 
             var compile = CSharpCompilation.Create(assemblyName, documents.Select(d => d.SyntaxTree));
 
-            var compilationDocuments = documents.Select(f => CreateDocument(f.FileInfo, f.SyntaxTree, compile)).Cast<ICompilationDocument>().ToList();
+            var compilationDocuments = documents.Select(f => this.CreateDocument(f.FileInfo, f.SyntaxTree, compile)).Cast<ICompilationDocument>().ToList();
             var compilationReferences =
                 document.SelectNodes("//c:Reference", xmlNamespaceManager)
                     .Cast<XmlNode>()
@@ -50,15 +50,5 @@ namespace CheckIt.Compilation.Custom
 
             return CSharpSyntaxTree.ParseText(s);
         }
-    }
-
-    public class CustomReference : ICompilationReference
-    {
-        public CustomReference(string name)
-        {
-            this.Name = name;
-        }
-
-        public string Name { get; private set; }
     }
 }

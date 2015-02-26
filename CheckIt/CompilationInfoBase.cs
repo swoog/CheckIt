@@ -19,17 +19,6 @@ namespace CheckIt
             }
         }
 
-        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile)
-        {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
-
-            var visitor = new CheckClassVisitor(semanticModel);
-
-            visitor.Visit(syntaxTreeAsync.GetRoot());
-
-            return visitor.Get<T>();
-        }
-
         public IEnumerable<T>
             Get<T>() where T : IType
         {
@@ -40,6 +29,17 @@ namespace CheckIt
                     yield return checkClass;
                 }
             }
+        }
+
+        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile)
+        {
+            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+
+            var visitor = new CheckClassVisitor(semanticModel);
+
+            visitor.Visit(syntaxTreeAsync.GetRoot());
+
+            return visitor.Get<T>();
         }
     }
 }

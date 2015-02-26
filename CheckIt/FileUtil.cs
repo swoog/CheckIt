@@ -25,6 +25,7 @@ namespace CheckIt
         {
             // prepare the pattern to the form appropriate for Regex class
             StringBuilder sb = new StringBuilder(pattern);
+
             // remove superflous occurences of  "?*" and "*?"
             while (sb.ToString().IndexOf("?*", StringComparison.Ordinal) != -1)
             {
@@ -51,10 +52,13 @@ namespace CheckIt
             {
                 // replace '.' with "\."
                 sb.Replace(".", "\\.");
+
                 // replaces all occurrences of '*' with ".*" 
                 sb.Replace("*", ".*");
+
                 // replaces all occurrences of '?' with '.*' 
                 sb.Replace("?", ".");
+
                 // add "\b" to the beginning and end of the pattern
                 sb.Insert(0, "^");
                 sb.Append("$");
@@ -64,6 +68,5 @@ namespace CheckIt
             Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
             return regex.IsMatch(filename);
         }
-
     }
 }

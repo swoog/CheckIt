@@ -28,11 +28,6 @@ namespace CheckIt
         {
         }
 
-        protected override ICheckClasses GetFromProject(string pattern)
-        {
-            return Check.GetProjects(pattern).Class(this.pattern);
-        }
-
         public ICheckContains<ICheckClassesContains> Contains()
         {
             return new CheckContains<CheckSpecificContains>(new CheckSpecificContains());
@@ -45,7 +40,12 @@ namespace CheckIt
 
         public IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern)
         {
-            return Check.GetProjects().Assembly(pattern).Class(this.pattern);
+            return Check.GetProjects().Assembly(pattern).Class(this.Pattern);
+        }
+
+        protected override ICheckClasses GetFromProject(string pattern)
+        {
+            return Check.GetProjects(pattern).Class(this.Pattern);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CheckIt
 
     public class Check
     {
-        internal static string basePath = Environment.CurrentDirectory;
+        private static string basePath = Environment.CurrentDirectory;
 
         public static IAssemblies Assembly(string matchAssemblies)
         {

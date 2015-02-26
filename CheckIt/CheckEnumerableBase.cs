@@ -9,11 +9,12 @@ namespace CheckIt
         {
             return this.Gets().GetEnumerator();
         }
-        protected abstract IEnumerable<T> Gets();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
+
+        protected abstract IEnumerable<T> Gets();
     }
 }

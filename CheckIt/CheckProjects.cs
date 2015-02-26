@@ -18,6 +18,41 @@ namespace CheckIt
             this.projectfilePattern = projectfilePattern;
         }
 
+        public CheckClasses Class(string pattern)
+        {
+            return new CheckClasses(this.GetClassess(pattern));
+        }
+
+        public CheckAssemblies Assembly(string matchAssemblies)
+        {
+            return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
+        }
+
+        public Files File(string matchFiles)
+        {
+            return new Files(this.SelectMany(p => p.File(matchFiles)));
+        }
+
+        public CheckInterfaces Interfaces(string pattern)
+        {
+            return new CheckInterfaces(this.GetInterfaces(pattern));
+        }
+
+        public ICheckContains<ICheckProjectContains> Contains()
+        {
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
+        }
+
+        public IProjects Have()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public CheckReferences Reference(string pattern)
+        {
+            return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
+        }
+
         protected override IEnumerable<CheckProject> Gets()
         {
             foreach (var file in this.GetFiles())
@@ -41,9 +76,18 @@ namespace CheckIt
             }
         }
 
+        private IEnumerable<IInterface> GetInterfaces(string pattern)
+        {
+            return this.SelectMany(c => c.Interface(pattern));
+        }
+
+        private IEnumerable<IClass> GetClassess(string classPattern)
+        {
+            return this.SelectMany(s => s.Class(classPattern));
+        }
+
         private IEnumerable<FileInfo> GetFiles(string path)
         {
-
             foreach (var file in Directory.GetFiles(path, this.projectfilePattern))
             {
                 yield return new FileInfo(file);
@@ -56,51 +100,6 @@ namespace CheckIt
                     yield return fileInfo;
                 }
             }
-        }
-
-        public CheckClasses Class(string pattern)
-        {
-            return new CheckClasses(this.GetClassess(pattern));
-        }
-
-        private IEnumerable<IClass> GetClassess(string classPattern)
-        {
-            return this.SelectMany(s => s.Class(classPattern));
-        }
-
-        public CheckAssemblies Assembly(string matchAssemblies)
-        {
-            return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
-        }
-
-        public Files File(string matchFiles)
-        {
-            return new Files(this.SelectMany(p => p.File(matchFiles)));
-        }
-
-        public CheckInterfaces Interfaces(string pattern)
-        {
-            return new CheckInterfaces(this.GetInterfaces(pattern));
-        }
-
-        private IEnumerable<IInterface> GetInterfaces(string pattern)
-        {
-            return this.SelectMany(c => c.Interface(pattern));
-        }
-
-        public ICheckContains<ICheckProjectContains> Contains()
-        {
-            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
-        }
-
-        public IProjects Have()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public CheckReferences Reference(string pattern)
-        {
-            return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }
     }
 }

@@ -15,17 +15,11 @@ namespace CheckIt
         public CheckInterfaces(string pattern)
             : base(pattern, "interface")
         {
-
         }
 
         public CheckInterfaces(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "interface")
         {
-        }
-
-        protected override ICheckInterfaces GetFromProject(string pattern)
-        {
-            return Check.GetProjects(pattern).Interfaces(this.pattern);
         }
 
         public ICheckContains<ICheckInterfacesContains> Contains()
@@ -40,7 +34,12 @@ namespace CheckIt
 
         public IPatternContains<IInterfaceMatcher, ICheckInterfacesContains> FromAssembly(string pattern)
         {
-            return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
+            return Check.GetProjects().Assembly(pattern).Interfaces(this.Pattern);
+        }
+
+        protected override ICheckInterfaces GetFromProject(string pattern)
+        {
+            return Check.GetProjects(pattern).Interfaces(this.Pattern);
         }
     }
 }
