@@ -2,11 +2,13 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
+    using CheckIt.Syntax;
+
     using Microsoft.CodeAnalysis;
 
-    public class CheckClasses : CheckTypes<CheckClass, CheckClasses, IClasses, ICheckClassesContains>, IClasses, IPatternContains<IClasses, ICheckClassesContains>
+    public class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
     {
-        public CheckClasses(IEnumerable<CheckClass> classes)
+        public CheckClasses(IEnumerable<IClass> classes)
             : base(classes, "class")
         {
         }
@@ -26,23 +28,22 @@ namespace CheckIt
         {
         }
 
-        protected override CheckClasses GetFromProject(string pattern)
+        protected override ICheckClasses GetFromProject(string pattern)
         {
             return Check.GetProjects(pattern).Class(this.pattern);
         }
 
         public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains<CheckClassContains>(new CheckClassContains());
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains());
         }
 
-
-        public IClasses Have()
+        public IClassMatcher Have()
         {
             return this;
         }
 
-        public IPatternContains<IClasses, ICheckClassesContains> FromAssembly(string pattern)
+        public IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern)
         {
             return Check.GetProjects().Assembly(pattern).Class(this.pattern);
         }

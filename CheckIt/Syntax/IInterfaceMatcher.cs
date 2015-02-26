@@ -1,6 +1,6 @@
-namespace CheckIt
+namespace CheckIt.Syntax
 {
-    public interface IClasses
+    public interface IInterfaceMatcher
     {
         CheckMatch NameSpace();
 

@@ -1,6 +1,6 @@
-namespace CheckIt
+namespace CheckIt.Syntax
 {
-    public interface ICheckProjectContains
+    public interface ICheckFilesContains
     {
         void Class(string pattern);
 

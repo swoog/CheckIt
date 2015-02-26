@@ -1,6 +1,6 @@
 namespace CheckIt
 {
-    public class CheckType
+    public class CheckType : IType
     {
         public string Name { get; private set; }
 

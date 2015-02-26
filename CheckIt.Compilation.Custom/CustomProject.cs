@@ -4,8 +4,9 @@ namespace CheckIt.Compilation.Custom
 
     public class CustomProject : ICompilationProject
     {
-        public CustomProject(string assemblyName, List<ICompilationDocument> documents)
+        public CustomProject(string assemblyName, List<ICompilationDocument> documents, List<ICompilationReference> references)
         {
+            this.References = references;
             this.AssemblyName = assemblyName;
             this.Documents = documents;
         }
@@ -13,5 +14,7 @@ namespace CheckIt.Compilation.Custom
         public string AssemblyName { get; private set; }
 
         public List<ICompilationDocument> Documents { get; private set; }
+
+        public List<ICompilationReference> References { get; private set; }
     }
 }

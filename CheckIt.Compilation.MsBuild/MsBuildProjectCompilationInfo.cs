@@ -32,5 +32,13 @@ namespace CheckIt.Compilation.MsBuild
                 return this.project.Documents.Select(d => new MsBuildCompilationDocument(d, this.compile)).Cast<ICompilationDocument>().ToList();
             }
         }
+
+        public List<ICompilationReference> References
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
     }
 }

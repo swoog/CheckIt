@@ -10,14 +10,7 @@ namespace CheckIt
 
         IEnumerable<T> Get<T>(ICompilationDocument document);
 
-        IEnumerable<T> 
-            Get<T>() where T : CheckType;
-    }
-
-    public interface ICompilationProject
-    {
-        string AssemblyName { get; }
-
-        List<ICompilationDocument> Documents { get; }
+        IEnumerable<T>
+            Get<T>() where T : IType;
     }
 }

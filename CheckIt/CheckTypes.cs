@@ -4,12 +4,14 @@ namespace CheckIt
     using System.Linq;
     using System.Text.RegularExpressions;
 
+    using CheckIt.Syntax;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
-        where T : CheckType
-        where T2 : IEnumerable<T>, IPatternContains<T3, T4>
+        where T : IType
+        where T3 : IEnumerable<T>, IPatternContains<T2, T4>
     {
         protected readonly string pattern;
 
@@ -62,7 +64,7 @@ namespace CheckIt
             }
         }
 
-        protected abstract T2 GetFromProject(string pattern);
+        protected abstract T3 GetFromProject(string pattern);
 
         public CheckMatch Name()
         {
@@ -78,7 +80,7 @@ namespace CheckIt
             return new CheckMatch(values, this.typeName);
         }
 
-        public IPatternContains<T3, T4> FromProject(string pattern)
+        public IPatternContains<T2, T4> FromProject(string pattern)
         {
             return this.GetFromProject(pattern);
         }

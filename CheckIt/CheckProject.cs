@@ -1,11 +1,7 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
     using System.IO;
-
-    using Microsoft.CodeAnalysis;
-#if DEBUG
-    using Microsoft.CodeAnalysis.MSBuild;
-#endif
 
     public class CheckProject
     {
@@ -33,14 +29,19 @@ namespace CheckIt
             return new CheckAssembly(this.compilationInfo);
         }
 
-        public CheckFiles File(string pattern)
+        public Files File(string pattern)
         {
-            return new CheckFiles(this.compilationInfo, pattern);
+            return new Files(this.compilationInfo, pattern);
         }
 
         public CheckInterfaces Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
+        }
+
+        public CheckReferences Reference(string pattern)
+        {
+            return new CheckReferences(this.compilationInfo, pattern);
         }
     }
 }

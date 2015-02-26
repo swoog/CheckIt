@@ -1,12 +1,12 @@
 namespace CheckIt
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
-    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects
+    using CheckIt.Syntax;
+
+    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
     {
         private readonly string basePath;
 
@@ -58,12 +58,12 @@ namespace CheckIt
             }
         }
 
-        public CheckClasses Class(string classPattern)
+        public CheckClasses Class(string pattern)
         {
-            return new CheckClasses(this.GetClassess(classPattern));
+            return new CheckClasses(this.GetClassess(pattern));
         }
 
-        private IEnumerable<CheckClass> GetClassess(string classPattern)
+        private IEnumerable<IClass> GetClassess(string classPattern)
         {
             return this.SelectMany(s => s.Class(classPattern));
         }
@@ -73,9 +73,9 @@ namespace CheckIt
             return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
         }
 
-        public CheckFiles File(string matchFiles)
+        public Files File(string matchFiles)
         {
-            return new CheckFiles(this.SelectMany(p => p.File(matchFiles)));
+            return new Files(this.SelectMany(p => p.File(matchFiles)));
         }
 
         public CheckInterfaces Interfaces(string pattern)
@@ -83,44 +83,24 @@ namespace CheckIt
             return new CheckInterfaces(this.GetInterfaces(pattern));
         }
 
-        private IEnumerable<CheckInterface> GetInterfaces(string pattern)
+        private IEnumerable<IInterface> GetInterfaces(string pattern)
         {
             return this.SelectMany(c => c.Interface(pattern));
         }
 
         public ICheckContains<ICheckProjectContains> Contains()
         {
-            return new CheckContains<CheckProjectContains>(new CheckProjectContains(this));
+            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
         }
 
         public IProjects Have()
         {
             throw new System.NotImplementedException();
         }
-    }
 
-    public class CheckProjectContains : IContains, ICheckProjectContains
-    {
-        private readonly CheckProjects checkProjects;
-
-        public CheckProjectContains(CheckProjects checkProjects)
+        public CheckReferences Reference(string pattern)
         {
-            this.checkProjects = checkProjects;
-        }
-
-        public Predicate<IList> Predicate { get; set; }
-
-        public void Class(string pattern)
-        {
-            if (!this.Predicate(this.checkProjects.Class(pattern).ToList()))
-            {
-                throw new MatchException("No class found.");
-            }
-        }
-
-        public void Class()
-        {
-            this.Class(string.Empty);
+            return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }
     }
 }

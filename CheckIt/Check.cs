@@ -3,6 +3,8 @@ namespace CheckIt
     using System;
     using System.IO;
 
+    using CheckIt.Syntax;
+
     public class Check
     {
         internal static string basePath = Environment.CurrentDirectory;
@@ -22,42 +24,37 @@ namespace CheckIt
             return GetProjects(projectfilePattern);
         }
 
-        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
-        {
-            return new CheckProjects(basePath, projectfilePattern);
-        }
-
-        private static IProjects Project()
+        public static IProjects Project()
         {
             return GetProjects();
         }
 
-        public static CheckFiles File(string pattern)
+        public static IFiles File(string pattern)
         {
-            return new CheckFiles(pattern);
+            return new Files(pattern);
         }
 
-        public static CheckFiles File()
+        public static IFiles File()
         {
             return File(string.Empty);
         }
 
-        public static CheckClasses Class()
+        public static ICheckClasses Class()
         {
             return Class(string.Empty);
         }
 
-        public static CheckClasses Class(string pattern)
+        public static ICheckClasses Class(string pattern)
         {
             return new CheckClasses(pattern);
         }
 
-        public static CheckInterfaces Interfaces()
+        public static ICheckInterfaces Interfaces()
         {
             return Interfaces(string.Empty);
         }
 
-        public static CheckInterfaces Interfaces(string pattern)
+        public static ICheckInterfaces Interfaces(string pattern)
         {
             return new CheckInterfaces(pattern);
         }
@@ -65,6 +62,11 @@ namespace CheckIt
         public static void SetBasePathSearch(string newBasePath)
         {
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
+        }
+
+        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
+        {
+            return new CheckProjects(basePath, projectfilePattern);
         }
 
         public static CheckEach Each()
@@ -75,7 +77,7 @@ namespace CheckIt
 
     public class CheckEach
     {
-        public CheckFiles File(string pattern)
+        public IFiles File(string pattern)
         {
             throw new NotImplementedException();
         }

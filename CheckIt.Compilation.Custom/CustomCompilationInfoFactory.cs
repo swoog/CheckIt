@@ -1,5 +1,6 @@
 namespace CheckIt.Compilation.Custom
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml;
@@ -28,7 +29,12 @@ namespace CheckIt.Compilation.Custom
 
             var compile = CSharpCompilation.Create(assemblyName, documents.Select(d => d.SyntaxTree));
 
-            var customProject = new CustomProject(assemblyName, documents.Select(f => CreateDocument(f.FileInfo, f.SyntaxTree, compile)).Cast<ICompilationDocument>().ToList());
+            var compilationDocuments = documents.Select(f => CreateDocument(f.FileInfo, f.SyntaxTree, compile)).Cast<ICompilationDocument>().ToList();
+            var compilationReferences =
+                document.SelectNodes("//c:Reference", xmlNamespaceManager)
+                    .Cast<XmlNode>()
+                    .Select(n => new CustomReference(n.Attributes["Include"].Value)).Cast<ICompilationReference>().ToList();
+            var customProject = new CustomProject(assemblyName, compilationDocuments, compilationReferences);
 
             return new CustomCompilationInfoBase(customProject);
         }
@@ -44,5 +50,15 @@ namespace CheckIt.Compilation.Custom
 
             return CSharpSyntaxTree.ParseText(s);
         }
+    }
+
+    public class CustomReference : ICompilationReference
+    {
+        public CustomReference(string name)
+        {
+            this.Name = name;
+        }
+
+        public string Name { get; private set; }
     }
 }

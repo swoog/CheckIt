@@ -3,6 +3,7 @@ namespace CheckIt.Compilation.MsBuild
     using System.IO;
 
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.MSBuild;
 
     public class MsBuildCompilationInfoFactory : ICompilationInfoFactory
     {
@@ -24,16 +25,12 @@ namespace CheckIt.Compilation.MsBuild
 
         private Project OpenProjectAsync(string fileName)
         {
-#if DEBUG
             var msBuildWorkspace = MSBuildWorkspace.Create();
             var t = msBuildWorkspace.OpenProjectAsync(fileName);
 
             t.Wait();
 
             return t.Result;
-#else
-            return null;
-#endif
         }
     }
 }
