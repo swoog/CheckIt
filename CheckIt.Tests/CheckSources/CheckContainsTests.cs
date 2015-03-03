@@ -26,7 +26,7 @@
                     Check.File("MultipleClass.cs").FromAssembly("CheckIt.tests.Data.dll").Contains().One().Class();
                 });
 
-            Assert.Equal("No class found that match ''.", e.Message);
+            Assert.Equal("No class found that match pattern ''.", e.Message);
         }
 
         [Fact]
