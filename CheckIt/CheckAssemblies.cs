@@ -67,5 +67,10 @@ namespace CheckIt
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
         }
+
+        public IEnumerable<IMethod> Method()
+        {
+            return this.SelectMany(a => a.Method());
+        }
     }
 }

@@ -10,7 +10,6 @@ namespace CheckIt
 
         IEnumerable<T> Get<T>(ICompilationDocument document);
 
-        IEnumerable<T>
-            Get<T>() where T : IType;
+        IEnumerable<T> Get<T>();
     }
 }

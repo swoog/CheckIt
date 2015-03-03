@@ -1,5 +1,9 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
+
+    using CheckIt.Syntax;
+
     using Microsoft.CodeAnalysis;
 
     public class CheckAssembly
@@ -25,6 +29,11 @@ namespace CheckIt
         public CheckInterfaces Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
+        }
+
+        public IEnumerable<IMethod> Method()
+        {
+            return new CheckMethods(this.compilationInfo);
         }
     }
 }

@@ -1,6 +1,7 @@
 namespace CheckIt
 {
     using System;
+    using System.Collections;
     using System.IO;
 
     using CheckIt.Syntax;
@@ -67,6 +68,11 @@ namespace CheckIt
         internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
         {
             return new CheckProjects(basePath, projectfilePattern);
+        }
+
+        public static IMethods Method()
+        {
+            return new CheckMethods();
         }
     }
 }

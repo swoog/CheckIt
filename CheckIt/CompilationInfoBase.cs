@@ -20,7 +20,7 @@ namespace CheckIt
         }
 
         public IEnumerable<T>
-            Get<T>() where T : IType
+            Get<T>()
         {
             foreach (var document in this.Project.Documents)
             {

@@ -127,6 +127,7 @@
     <Compile Include="CheckContains.cs" />
     <Compile Include="CheckFile.cs" />
     <Compile Include="CheckEnumerableBase.cs" />
+    <Compile Include="CheckMethods.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckInterfaces.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Syntax\ICheckClassesContains.cs" />
     <Compile Include="Syntax\ICheckContains.cs" />
     <Compile Include="Syntax\ICheckFilesContains.cs" />
+    <Compile Include="Syntax\ICheckMethodContains.cs" />
     <Compile Include="Syntax\IClass.cs" />
     <Compile Include="Syntax\IClasses.cs" />
     <Compile Include="Syntax\IClassMatcher.cs" />
@@ -170,6 +172,9 @@
     <Compile Include="Syntax\ICheckInterfaces.cs" />
     <Compile Include="Syntax\IInterfaceMatcher.cs" />
     <Compile Include="Syntax\IInterfaces.cs" />
+    <Compile Include="Syntax\IMethod.cs" />
+    <Compile Include="Syntax\IMethodMatcher.cs" />
+    <Compile Include="Syntax\IMethods.cs" />
     <Compile Include="Syntax\IPatternContains.cs" />
     <Compile Include="Syntax\IProjects.cs" />
   </ItemGroup>
