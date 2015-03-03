@@ -22,5 +22,17 @@ namespace CheckIt.Tests.CheckMethods
         {
             Check.Method().FromAssembly("CheckIt.dll").Have().Name().Match("^[A-Z]");
         }
+
+        [Fact]
+        public void Should_throw_an_error_when_method_name_not_match()
+        {
+            var e = Assert.Throws<MatchException>(
+                () =>
+                    {
+                        Check.Method("Method").FromAssembly("CheckIt.dll").Have().Name().Match("Class");
+                    });
+
+            Assert.Equal("", e.Message);
+        }
     }
 }

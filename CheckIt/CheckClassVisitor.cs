@@ -3,6 +3,8 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Syntax;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,7 +13,7 @@ namespace CheckIt
     {
         private readonly SemanticModel semanticModel;
 
-        private List<CheckType> types = new List<CheckType>();
+        private List<object> types = new List<object>();
 
         public CheckClassVisitor(SemanticModel semanticModel)
         {
@@ -30,9 +32,24 @@ namespace CheckIt
             this.types.Add(new CheckInterface(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString()));
         }
 
+        public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+        {
+            this.types.Add(new CheckMethod(node.Identifier.ValueText));
+        }
+
         public IEnumerable<T> Get<T>()
         {
             return this.types.OfType<T>();
         }
+    }
+
+    internal class CheckMethod : IMethod
+    {
+        public CheckMethod(string name)
+        {
+            this.Name = name;
+        }
+
+        public string Name { get; private set; }
     }
 }

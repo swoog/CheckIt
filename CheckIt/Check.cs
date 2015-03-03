@@ -70,9 +70,14 @@ namespace CheckIt
             return new CheckProjects(basePath, projectfilePattern);
         }
 
+        public static IMethods Method(string pattern)
+        {
+            return new CheckMethods(pattern);
+        }
+
         public static IMethods Method()
         {
-            return new CheckMethods();
+            return Method(string.Empty);
         }
     }
 }

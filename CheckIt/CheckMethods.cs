@@ -8,10 +8,13 @@ namespace CheckIt
 
     public class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher
     {
+        private readonly string pattern;
+
         private readonly IEnumerable<IMethod> methods;
 
-        public CheckMethods()
+        public CheckMethods(string pattern)
         {
+            this.pattern = pattern;
         }
 
         public CheckMethods(ICompilationInfo compilationInfo)
@@ -28,7 +31,10 @@ namespace CheckIt
         {
             foreach (var method in this.methods)
             {
-                yield return method;
+                if (this.pattern == null || FileUtil.FilenameMatchesPattern(method.Name, this.pattern))
+                {
+                    yield return method;
+                }
             }
         }
 
@@ -44,7 +50,7 @@ namespace CheckIt
 
         public IPatternContains<IMethodMatcher, ICheckMethodContains> FromAssembly(string pattern)
         {
-            return new CheckMethods(Check.GetProjects().Assembly(pattern).Method());
+            return new CheckMethods(Check.GetProjects().Assembly(pattern).Method(this.pattern));
         }
 
         public CheckMatch Name()
