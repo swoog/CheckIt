@@ -29,7 +29,7 @@ namespace CheckIt
         {
         }
 
-        protected CheckTypes(IEnumerable<T> classes, string typeName)
+        protected CheckTypes( IEnumerable<T> classes, string typeName)
         {
             this.classes = classes;
             this.typeName = typeName;
@@ -63,6 +63,11 @@ namespace CheckIt
         public IPatternContains<T2, T4> FromProject(string pattern)
         {
             return this.GetFromProject(pattern);
+        }
+
+        public CheckMethods Method(string pattern)
+        {
+            return new CheckMethods(this.SelectMany(c => c.Method(pattern)));
         }
 
         protected override IEnumerable<T> Gets()

@@ -127,6 +127,7 @@
     <Compile Include="CheckContains.cs" />
     <Compile Include="CheckFile.cs" />
     <Compile Include="CheckEnumerableBase.cs" />
+    <Compile Include="CheckMethod.cs" />
     <Compile Include="CheckMethods.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="CheckInterface.cs" />

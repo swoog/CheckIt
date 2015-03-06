@@ -31,9 +31,9 @@ namespace CheckIt
             return new CheckInterfaces(this.compilationInfo, pattern);
         }
 
-        public IEnumerable<IMethod> Method()
+        public IEnumerable<IMethod> Method(string pattern)
         {
-            return new CheckMethods(this.compilationInfo);
+            return new CheckMethods(this.compilationInfo, pattern);
         }
     }
 }

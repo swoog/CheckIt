@@ -3,6 +3,7 @@ namespace CheckIt
     using System.Collections.Generic;
 
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public class CompilationInfoBase : ICompilationInfo
     {
@@ -11,7 +12,7 @@ namespace CheckIt
         public IEnumerable<T> Get<T>(ICompilationDocument document)
         {
             var syntaxTreeAsync = document.SyntaxTree;
-            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile);
+            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile, this);
 
             foreach (var checkClass in checkClasses)
             {
@@ -31,11 +32,11 @@ namespace CheckIt
             }
         }
 
-        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile)
+        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile, ICompilationInfo compilationInfo)
         {
             var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
 
-            var visitor = new CheckClassVisitor(semanticModel);
+            var visitor = new CheckClassVisitor(semanticModel, compilationInfo);
 
             visitor.Visit(syntaxTreeAsync.GetRoot());
 

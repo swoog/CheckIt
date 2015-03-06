@@ -17,12 +17,13 @@ namespace CheckIt
             this.pattern = pattern;
         }
 
-        public CheckMethods(ICompilationInfo compilationInfo)
+        public CheckMethods(ICompilationInfo compilationInfo, string pattern)
         {
+            this.pattern = pattern;
             this.methods = compilationInfo.Get<IMethod>();
         }
 
-        private CheckMethods(IEnumerable<IMethod> methods)
+        public CheckMethods(IEnumerable<IMethod> methods)
         {
             this.methods = methods;
         }
@@ -51,6 +52,11 @@ namespace CheckIt
         public IPatternContains<IMethodMatcher, ICheckMethodContains> FromAssembly(string pattern)
         {
             return new CheckMethods(Check.GetProjects().Assembly(pattern).Method(this.pattern));
+        }
+
+        public IPatternContains<IMethodMatcher, ICheckMethodContains> FromClass(string pattern)
+        {
+            return new CheckMethods(Check.GetProjects().Class(pattern).Method(this.pattern));
         }
 
         public CheckMatch Name()
