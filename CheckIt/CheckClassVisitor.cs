@@ -6,7 +6,6 @@ namespace CheckIt
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.CodeAnalysis.Text;
 
     internal class CheckClassVisitor : CSharpSyntaxWalker
     {

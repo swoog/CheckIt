@@ -4,37 +4,36 @@ namespace CheckIt
 
     using Humanizer;
 
-    public class CheckContains<T3> : ICheckContains<T3>
-        where T3 : class, IContains
+    public class CheckContains : ICheckContains<CheckSpecificContains>
     {
-        private readonly T3 checkFiles;
+        private readonly CheckSpecificContains checkSpecificContains;
 
-        public CheckContains(T3 checkFiles)
+        public CheckContains(CheckSpecificContains checkSpecificContains)
         {
-            this.checkFiles = checkFiles;
+            this.checkSpecificContains = checkSpecificContains;
         }
 
-        public T3 Any()
+        public CheckSpecificContains Any()
         {
-            this.checkFiles.Predicate = e => e.Count > 0;
-            this.checkFiles.MessageFunc = this.AnyMessageFunc;
-            return this.checkFiles;
+            this.checkSpecificContains.Predicate = e => e.Count > 0;
+            this.checkSpecificContains.MessageFunc = this.AnyMessageFunc;
+            return this.checkSpecificContains;
         }
 
-        public T3 One()
+        public CheckSpecificContains One()
         {
-            this.checkFiles.Predicate = e => e.Count == 1;
-            this.checkFiles.MessageFunc =
+            this.checkSpecificContains.Predicate = e => e.Count == 1;
+            this.checkSpecificContains.MessageFunc =
                 (name, pattern) => "No {0} found that match pattern '{1}'.".FormatWith(name, pattern);
-            return this.checkFiles;
+            return this.checkSpecificContains;
         }
 
-        public T3 No()
+        public CheckSpecificContains No()
         {
-            this.checkFiles.Predicate = e => e.Count == 0;
-            this.checkFiles.MessageFunc =
+            this.checkSpecificContains.Predicate = e => e.Count == 0;
+            this.checkSpecificContains.MessageFunc =
                 (name, pattern) => "{0} found that match pattern '{1}'.".FormatWith(name.Humanize(), pattern);
-            return this.checkFiles;
+            return this.checkSpecificContains;
         }
 
         private string AnyMessageFunc(string name, string pattern)

@@ -1,9 +1,13 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
+
+    using CheckIt.Syntax;
+
     public interface IObjectsFinder
     {
-        CheckClasses Class(string pattern);
+        IEnumerable<IClass> Class(string pattern);
 
-        CheckReferences Reference(string pattern);
+        IEnumerable<IReference> Reference(string pattern);
     }
 }

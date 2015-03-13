@@ -68,7 +68,7 @@ namespace CheckIt
             }
         }
 
-        public IEnumerable<IMethod> Method(string pattern)
+        internal IEnumerable<IMethod> Method(string pattern)
         {
             return this.SelectMany(a => a.Method(pattern));
         }

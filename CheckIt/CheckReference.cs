@@ -1,6 +1,11 @@
 namespace CheckIt
 {
-    public class CheckReference
+    public interface IReference
+    {
+        string Name { get; }
+    }
+
+    public class CheckReference : IReference
     {
         public CheckReference(string name)
         {

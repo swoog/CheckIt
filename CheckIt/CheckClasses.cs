@@ -28,7 +28,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains());
+            return new CheckContains(new CheckSpecificContains());
         }
 
         public IClassMatcher Have()
@@ -43,7 +43,7 @@ namespace CheckIt
 
         protected override ICheckClasses GetFromProject(string pattern)
         {
-            return Check.GetProjects(pattern).Class(this.Pattern);
+            return new CheckClasses(Check.GetProjects(pattern).Class(this.Pattern));
         }
     }
 }

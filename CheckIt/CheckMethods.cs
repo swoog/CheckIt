@@ -56,7 +56,7 @@ namespace CheckIt
 
         public IPatternContains<IMethodMatcher, ICheckMethodContains> FromClass(string pattern)
         {
-            return new CheckMethods(Check.GetProjects().Class(pattern).Method(this.pattern));
+            return new CheckMethods(Check.GetProjects().Class(pattern).SelectMany(c => c.Method(this.pattern)));
         }
 
         public CheckMatch Name()

@@ -18,7 +18,7 @@ namespace CheckIt
             this.projectfilePattern = projectfilePattern;
         }
 
-        public CheckClasses Class(string pattern)
+        public IEnumerable<IClass> Class(string pattern)
         {
             return new CheckClasses(this.SelectMany(s => s.Class(pattern)));
         }
@@ -40,7 +40,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckProjectContains> Contains()
         {
-            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
+            return new CheckContains(new CheckSpecificContains(this));
         }
 
         public IProjects Have()
@@ -48,7 +48,7 @@ namespace CheckIt
             throw new System.NotImplementedException();
         }
 
-        public CheckReferences Reference(string pattern)
+        public IEnumerable<IReference> Reference(string pattern)
         {
             return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }

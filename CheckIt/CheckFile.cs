@@ -1,8 +1,10 @@
 namespace CheckIt
 {
-    using Microsoft.CodeAnalysis;
+    using System.Collections.Generic;
 
-    public class CheckFile
+    using CheckIt.Syntax;
+
+    public class CheckFile : IFile
     {
         private readonly ICompilationDocument document;
 
@@ -14,7 +16,7 @@ namespace CheckIt
             this.compile = compile;
         }
 
-        public CheckClasses Class(string match)
+        public IEnumerable<IClass> Class(string match)
         {
             return new CheckClasses(this.document, this.compile, match);
         }

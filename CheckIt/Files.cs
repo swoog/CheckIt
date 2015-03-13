@@ -6,18 +6,18 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class Files : CheckEnumerableBase<CheckFile>, IObjectsFinder, IFiles
+    public class Files : CheckEnumerableBase<IFile>, IObjectsFinder, IFiles
     {
-        private readonly IEnumerable<CheckFile> checkFiles;
+        private readonly IEnumerable<IFile> checkFiles;
 
-        private string pattern;
+        private readonly string pattern;
 
         public Files(string pattern)
         {
             this.pattern = pattern;
         }
 
-        public Files(IEnumerable<CheckFile> checkFiles)
+        public Files(IEnumerable<IFile> checkFiles)
         {
             this.checkFiles = checkFiles;
         }
@@ -30,20 +30,20 @@ namespace CheckIt
 
         public ICheckContains<ICheckFilesContains> Contains()
         {
-            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
+            return new CheckContains(new CheckSpecificContains(this));
         }
 
         public IFiles Have()
         {
-            throw new System.NotImplementedException();
+            return this;
         }
 
-        public CheckClasses Class(string match)
+        public IEnumerable<IClass> Class(string match)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(match)));
         }
 
-        public CheckReferences Reference(string pattern)
+        public IEnumerable<IReference> Reference(string pattern)
         {
             throw new NotSupportedException("No references on files");
         }
@@ -53,7 +53,7 @@ namespace CheckIt
             return this.GetFilesFromProject(pattern);
         }
 
-        protected override IEnumerable<CheckFile> Gets()
+        protected override IEnumerable<IFile> Gets()
         {
             if (this.checkFiles != null)
             {
@@ -65,13 +65,9 @@ namespace CheckIt
 
         private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
         {
-            foreach (var document in compilationInfo.Project.Documents)
-            {
-                if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
-                {
-                    yield return new CheckFile(document, compilationInfo);
-                }
-            }
+            return from document in compilationInfo.Project.Documents 
+                   where FileUtil.FilenameMatchesPattern(document.Name, this.pattern) 
+                   select new CheckFile(document, compilationInfo);
         }
 
         private Files GetFilesFromProject(string pattern)
