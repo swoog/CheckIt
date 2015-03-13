@@ -50,7 +50,7 @@
                     Check.Assembly("CheckIt.dll").Have().Name().Match("^Toto");
                 });
 
-            Assert.Equal("The folowing assembly doesn't respect pattern '^Toto' :\nCheckIt", e.Message);
+            Assert.Equal("The folowing assembly doesn't respect pattern '^Toto' :\nCheckIt on line 0 from file CheckIt.dll", e.Message);
         }
 
         [Fact]
@@ -62,7 +62,7 @@
                     Check.Assembly("CheckIt.Tests*.dll").Have().Name().NotMatch("^CheckIt");
                 });
 
-            Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt.Tests\nCheckIt.Tests.Data\nCheckIt.Tests.Data.EmptyProject", e.Message);
+            Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt.Tests on line 0 from file CheckIt.Tests.dll\nCheckIt.Tests.Data on line 0 from file CheckIt.Tests.Data.dll\nCheckIt.Tests.Data.EmptyProject on line 0 from file CheckIt.Tests.Data.EmptyProject.dll", e.Message);
         }
     }
 }

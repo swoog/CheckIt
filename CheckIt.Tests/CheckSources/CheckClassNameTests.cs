@@ -29,7 +29,7 @@
                         Check.Class("Class1").FromProject("CheckIt.Tests.Data.csproj").Have().Name().Match("^[a-z]");
                     });
 
-            Assert.Equal("The folowing class doesn't respect pattern '^[a-z]' :\nClass1", ex.Message);
+            Assert.Equal("The folowing class doesn't respect pattern '^[a-z]' :\nClass1 on line 8 from file Class1.cs", ex.Message);
         }
     }
 }

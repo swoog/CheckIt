@@ -8,6 +8,8 @@ namespace CheckIt
 
         string Name { get; }
 
+        string FullName { get; }
+
         Compilation Compile { get; }
     }
 }

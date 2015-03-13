@@ -38,7 +38,7 @@ namespace CheckIt
             var noMatchedValues = this.values.Where(predicate).ToList();
             if (noMatchedValues.Count > 0)
             {
-                var classNames = string.Join("\n", noMatchedValues.Select(t => t.Name).OrderBy(n => n));
+                var classNames = string.Join("\n", noMatchedValues.Select(t => t.DisplayName).OrderBy(n => n));
                 throw new MatchException(string.Format(message, this.type, regex, classNames));
             }
         }

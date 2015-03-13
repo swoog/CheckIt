@@ -29,10 +29,10 @@ namespace CheckIt.Tests.CheckMethods
             var e = Assert.Throws<MatchException>(
                 () =>
                     {
-                        Check.Method("Method").FromClass("Check").Have().Name().Match("Class");
+                        Check.Method("Method").FromClass("Check").Have().Name().Match("type");
                     });
 
-            Assert.Equal("The folowing method doesn't respect pattern 'Class' :\nCheckIt.Check.Method", e.Message);
+            Assert.Equal("The folowing method doesn't respect pattern 'type' :\nMethod on line 72 from file Check.cs\nMethod on line 77 from file Check.cs", e.Message);
         }
     }
 }

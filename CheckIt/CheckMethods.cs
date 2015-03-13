@@ -61,7 +61,7 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var checkValues = from m in this select new CheckMatchValue(m.Name, m.Name);
+            var checkValues = from m in this select new CheckMatchValue(m.Name, m.Name, m.Position);
 
             return new CheckMatch(checkValues.ToList(), "method");
         }

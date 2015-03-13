@@ -6,10 +6,10 @@ namespace CheckIt
 
     public class CheckClass : CheckType, IClass
     {
-        private ICompilationInfo compilationInfo;
+        private readonly ICompilationInfo compilationInfo;
 
-        public CheckClass(string name, string nameSpace, ICompilationInfo compilationInfo)
-            : base(name, nameSpace)
+        public CheckClass(string name, string nameSpace, ICompilationInfo compilationInfo, Position position)
+            : base(name, nameSpace, position)
         {
             this.compilationInfo = compilationInfo;
         }
@@ -20,7 +20,10 @@ namespace CheckIt
             {
                 if (FileUtil.FilenameMatchesPattern(method.Name, name))
                 {
-                    yield return method;
+                    if (method.Type == this)
+                    {
+                        yield return method;
+                    }
                 }
             }
         }

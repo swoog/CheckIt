@@ -1,12 +1,8 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
 
     using CheckIt.Syntax;
-
-    using Microsoft.CodeAnalysis;
 
     public class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
     {

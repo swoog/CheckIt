@@ -41,7 +41,7 @@ namespace CheckIt
 
         public void Class()
         {
-            this.Class(string.Empty);
+            this.Class("*");
         }
 
         public void Reference(string pattern)

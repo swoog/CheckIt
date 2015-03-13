@@ -4,8 +4,6 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    using Microsoft.CodeAnalysis;
-
     public class CheckAssembly
     {
         private readonly ICompilationInfo compilationInfo;
@@ -14,12 +12,15 @@ namespace CheckIt
         {
             this.compilationInfo = compilationInfo;
             this.FileName = string.Format("{0}.dll", compilationInfo.Project.AssemblyName);
+            this.Position = new Position(0, this.FileName);
             this.Name = compilationInfo.Project.AssemblyName;
         }
 
         public string FileName { get; private set; }
 
         public string Name { get; private set; }
+
+        public Position Position { get; set; }
 
         public CheckClasses Class(string pattern)
         {

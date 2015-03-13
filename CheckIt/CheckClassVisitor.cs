@@ -6,43 +6,77 @@ namespace CheckIt
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.CodeAnalysis.Text;
 
     internal class CheckClassVisitor : CSharpSyntaxWalker
     {
+        private readonly ICompilationDocument document;
+
         private readonly SemanticModel semanticModel;
 
         private List<object> types = new List<object>();
 
         private ICompilationInfo compilationInfo;
 
-        public CheckClassVisitor(SemanticModel semanticModel, ICompilationInfo compilationInfo)
+        private IType currentType;
+
+        public CheckClassVisitor(ICompilationDocument document, SemanticModel semanticModel, ICompilationInfo compilationInfo)
         {
+            this.document = document;
             this.semanticModel = semanticModel;
             this.compilationInfo = compilationInfo;
         }
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
+            var position = GetPosition(node);
+            
             var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node).ContainingNamespace;
-            this.types.Add(new CheckClass(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString(), compilationInfo));
+            this.currentType = new CheckClass(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString(), this.compilationInfo, position);
+            this.types.Add(this.currentType);
             base.VisitClassDeclaration(node);
+        }
+
+        private Position GetPosition(SyntaxNode node)
+        {
+            var p = node.SyntaxTree.GetLineSpan(node.Span).StartLinePosition;
+
+            return new Position(p.Line, this.document.Name);
         }
 
         public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
+            var position = GetPosition(node);
+
             var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node).ContainingNamespace;
-            this.types.Add(new CheckInterface(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString()));
+            this.currentType = new CheckInterface(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString(), position);
+            this.types.Add(this.currentType);
             base.VisitInterfaceDeclaration(node);
         }
 
         public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            this.types.Add(new CheckMethod(node.Identifier.ValueText));
+            var position = GetPosition(node);
+
+            this.types.Add(new CheckMethod(node.Identifier.ValueText, position, this.currentType));
         }
 
         public IEnumerable<T> Get<T>()
         {
             return this.types.OfType<T>();
         }
+    }
+
+    public class Position
+    {
+        public Position(int line, string name)
+        {
+            this.Line = line;
+            this.Name = name;
+        }
+
+        public int Line { get; private set; }
+
+        public string Name { get; private set; }
     }
 }

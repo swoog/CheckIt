@@ -1,6 +1,7 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -42,20 +43,20 @@ namespace CheckIt
         }
 
         private CheckTypes(IEnumerable<T> classes, string pattern, string typeName)
-            : this(classes.Where(c => Regex.Match(c.Name, pattern).Success), typeName)
+            : this(classes.Where(c => FileUtil.FilenameMatchesPattern(c.Name, pattern)), typeName)
         {
         }
 
         public CheckMatch Name()
         {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name)).ToList();
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name, c.Position)).ToList();
 
             return new CheckMatch(values, this.typeName);
         }
 
         public CheckMatch NameSpace()
         {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace)).ToList();
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace, c.Position)).ToList();
 
             return new CheckMatch(values, this.typeName);
         }
@@ -65,9 +66,9 @@ namespace CheckIt
             return this.GetFromProject(pattern);
         }
 
-        public CheckMethods Method(string pattern)
+        public IEnumerable<IMethod> Method(string pattern)
         {
-            return new CheckMethods(this.SelectMany(c => c.Method(pattern)));
+            return this.SelectMany(c => c.Method(pattern));
         }
 
         protected override IEnumerable<T> Gets()

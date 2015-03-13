@@ -20,7 +20,7 @@ namespace CheckIt
 
         public CheckClasses Class(string pattern)
         {
-            return new CheckClasses(this.GetClassess(pattern));
+            return new CheckClasses(this.SelectMany(s => s.Class(pattern)));
         }
 
         public CheckAssemblies Assembly(string matchAssemblies)
@@ -79,11 +79,6 @@ namespace CheckIt
         private IEnumerable<IInterface> GetInterfaces(string pattern)
         {
             return this.SelectMany(c => c.Interface(pattern));
-        }
-
-        private IEnumerable<IClass> GetClassess(string classPattern)
-        {
-            return this.SelectMany(s => s.Class(classPattern));
         }
 
         private IEnumerable<FileInfo> GetFiles(string path)

@@ -25,7 +25,7 @@
                     Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().NameSpace().Match("Toto");
                 });
 
-            Assert.Equal("The folowing class doesn't respect pattern 'Toto' :\nClass1", e.Message);
+            Assert.Equal("The folowing class doesn't respect pattern 'Toto' :\nClass1 on line 8 from file Class1.cs", e.Message);
         }
 
         [Fact]

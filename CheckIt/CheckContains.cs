@@ -39,7 +39,7 @@ namespace CheckIt
 
         private string AnyMessageFunc(string name, string pattern)
         {
-            if (string.IsNullOrEmpty(pattern))
+            if (string.IsNullOrEmpty(pattern) || pattern == "*")
             {
                 return "No {0} found.".FormatWith(name);
             }

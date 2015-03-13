@@ -10,6 +10,8 @@ namespace CheckIt
 
         string NameSpace { get; }
 
+        Position Position { get; }
+
         IEnumerable<IMethod> Method(string name);
     }
 }

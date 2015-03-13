@@ -19,14 +19,14 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var values = this.Select(a => new CheckMatchValue(a.Name, a.Name)).ToList();
+            var values = this.Select(a => new CheckMatchValue(a.Name, a.Name, a.Position)).ToList();
 
             return new CheckMatch(values, "assembly");
         }
 
         public CheckMatch FileName()
         {
-            var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName)).ToList();
+            var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName, a.Position)).ToList();
 
             return new CheckMatch(values, "assembly");
         }

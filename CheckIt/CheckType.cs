@@ -6,8 +6,9 @@ namespace CheckIt
 
     public abstract class CheckType : IType
     {
-        protected CheckType(string name, string nameSpace)
+        protected CheckType(string name, string nameSpace, Position position)
         {
+            this.Position = position;
             this.Name = name;
             this.NameSpace = nameSpace;
         }
@@ -15,6 +16,8 @@ namespace CheckIt
         public string Name { get; private set; }
 
         public string NameSpace { get; private set; }
+
+        public Position Position { get; private set; }
 
         public abstract IEnumerable<IMethod> Method(string name);
     }

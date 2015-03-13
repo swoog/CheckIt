@@ -3,16 +3,17 @@ namespace CheckIt
     using System.Collections.Generic;
 
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public class CompilationInfoBase : ICompilationInfo
     {
+        private static readonly Dictionary<string, CheckClassVisitor> CompilationDocumentResult = new Dictionary<string, CheckClassVisitor>();
+
         public ICompilationProject Project { get; protected set; }
 
         public IEnumerable<T> Get<T>(ICompilationDocument document)
         {
             var syntaxTreeAsync = document.SyntaxTree;
-            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile, this);
+            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile, this, document);
 
             foreach (var checkClass in checkClasses)
             {
@@ -32,13 +33,20 @@ namespace CheckIt
             }
         }
 
-        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile, ICompilationInfo compilationInfo)
+        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile, ICompilationInfo compilationInfo, ICompilationDocument document)
         {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+            CheckClassVisitor visitor;
 
-            var visitor = new CheckClassVisitor(semanticModel, compilationInfo);
+            if (!CompilationDocumentResult.TryGetValue(document.FullName, out visitor))
+            {
+                var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
 
-            visitor.Visit(syntaxTreeAsync.GetRoot());
+                visitor = new CheckClassVisitor(document, semanticModel, compilationInfo);
+
+                visitor.Visit(syntaxTreeAsync.GetRoot());
+
+                CompilationDocumentResult.Add(document.FullName, visitor);
+            }
 
             return visitor.Get<T>();
         }
