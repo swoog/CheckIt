@@ -4,7 +4,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public abstract class CheckType : IType
+    internal abstract class CheckType : IType
     {
         protected CheckType(string name, string nameSpace, Position position)
         {

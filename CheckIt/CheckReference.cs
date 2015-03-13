@@ -1,11 +1,8 @@
 namespace CheckIt
 {
-    public interface IReference
-    {
-        string Name { get; }
-    }
+    using CheckIt.Syntax;
 
-    public class CheckReference : IReference
+    internal class CheckReference : IReference
     {
         public CheckReference(string name)
         {

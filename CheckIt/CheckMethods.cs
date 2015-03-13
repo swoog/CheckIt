@@ -6,7 +6,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher
+    internal class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher
     {
         private readonly string pattern;
 

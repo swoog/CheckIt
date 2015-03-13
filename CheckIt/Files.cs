@@ -6,7 +6,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class Files : CheckEnumerableBase<IFile>, IObjectsFinder, IFiles
+    internal class Files : CheckEnumerableBase<IFile>, IObjectsFinder, IFiles
     {
         private readonly IEnumerable<IFile> checkFiles;
 

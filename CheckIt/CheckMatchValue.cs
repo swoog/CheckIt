@@ -1,6 +1,6 @@
 namespace CheckIt
 {
-    public class CheckMatchValue
+    internal class CheckMatchValue
     {
         public CheckMatchValue(string name, string value, Position position)
         {

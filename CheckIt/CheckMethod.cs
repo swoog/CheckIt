@@ -2,7 +2,7 @@ namespace CheckIt
 {
     using CheckIt.Syntax;
 
-    public class CheckMethod : IMethod
+    internal class CheckMethod : IMethod
     {
         public CheckMethod(string name, Position position, IType type)
         {

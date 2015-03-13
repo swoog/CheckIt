@@ -3,7 +3,7 @@ namespace CheckIt
     using System.Collections;
     using System.Collections.Generic;
 
-    public abstract class CheckEnumerableBase<T> : IEnumerable<T>
+    internal abstract class CheckEnumerableBase<T> : IEnumerable<T>
     {
         public IEnumerator<T> GetEnumerator()
         {

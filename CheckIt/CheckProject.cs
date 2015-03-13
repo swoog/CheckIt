@@ -2,7 +2,7 @@ namespace CheckIt
 {
     using System.IO;
 
-    public class CheckProject
+    internal class CheckProject
     {
         private readonly ICompilationInfo compilationInfo;
 

@@ -5,13 +5,15 @@ namespace CheckIt
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    public class CheckMatch
+    using CheckIt.Syntax;
+
+    public class CheckMatch : IMatch
     {
         private readonly List<CheckMatchValue> values;
 
         private readonly string type;
 
-        public CheckMatch(List<CheckMatchValue> values, string type)
+        internal CheckMatch(List<CheckMatchValue> values, string type)
         {
             this.values = values;
             this.type = type;

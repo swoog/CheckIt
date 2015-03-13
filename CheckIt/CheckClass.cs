@@ -4,7 +4,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckClass : CheckType, IClass
+    internal class CheckClass : CheckType, IClass
     {
         private readonly ICompilationInfo compilationInfo;
 

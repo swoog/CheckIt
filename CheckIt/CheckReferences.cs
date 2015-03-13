@@ -3,7 +3,9 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckReferences : CheckEnumerableBase<IReference>
+    using CheckIt.Syntax;
+
+    internal class CheckReferences : CheckEnumerableBase<IReference>
     {
         private readonly IEnumerable<IReference> checkReferences;
 

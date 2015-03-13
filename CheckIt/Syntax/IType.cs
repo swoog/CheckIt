@@ -1,8 +1,6 @@
-namespace CheckIt
+namespace CheckIt.Syntax
 {
     using System.Collections.Generic;
-
-    using CheckIt.Syntax;
 
     public interface IType
     {

@@ -5,7 +5,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher
+    internal class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher
     {
         public CheckInterfaces(IEnumerable<IInterface> interfaces)
             : base(interfaces, "interface")

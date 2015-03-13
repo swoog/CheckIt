@@ -7,7 +7,7 @@ namespace CheckIt
     /// <summary>
     /// A set of file utilities.
     /// </summary>
-    public struct FileUtil
+    internal struct FileUtil
     {
         /// <summary>
         ///   Checks if name matches pattern with '?' and '*' wildcards.

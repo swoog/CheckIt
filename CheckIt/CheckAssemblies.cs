@@ -5,13 +5,13 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>, IAssemblies, IAssemblyMatcher
+    internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies, IAssemblyMatcher
     {
-        private readonly IEnumerable<CheckAssembly> checkAssemblies;
+        private readonly IEnumerable<IAssembly> checkAssemblies;
 
         private readonly string matchAssemblies;
 
-        public CheckAssemblies(IEnumerable<CheckAssembly> checkAssemblies, string matchAssemblies)
+        public CheckAssemblies(IEnumerable<IAssembly> checkAssemblies, string matchAssemblies)
         {
             this.checkAssemblies = checkAssemblies.Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies));
             this.matchAssemblies = matchAssemblies;
@@ -51,7 +51,7 @@ namespace CheckIt
             return this;
         }
 
-        protected override IEnumerable<CheckAssembly> Gets()
+        protected override IEnumerable<IAssembly> Gets()
         {
             var hasAssemblies = false;
 

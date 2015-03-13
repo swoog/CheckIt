@@ -2,7 +2,7 @@ namespace CheckIt.Syntax
 {
     using System.Collections.Generic;
 
-    public interface IAssemblies : IEnumerable<CheckAssembly>, IPatternContains<IAssemblyMatcher, ICheckAssemblyContains>
+    public interface IAssemblies : IEnumerable<IAssembly>, IPatternContains<IAssemblyMatcher, ICheckAssemblyContains>
     {
     }
 }

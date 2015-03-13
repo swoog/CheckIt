@@ -6,7 +6,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
+    internal class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
     {
         private readonly string basePath;
 

@@ -4,7 +4,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
+    internal class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
     {
         public CheckClasses(IEnumerable<IClass> classes)
             : base(classes, "class")

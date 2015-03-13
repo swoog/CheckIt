@@ -4,7 +4,7 @@ namespace CheckIt
 
     using Humanizer;
 
-    public class CheckContains : ICheckContains<CheckSpecificContains>
+    internal class CheckContains : ICheckContains<CheckSpecificContains>
     {
         private readonly CheckSpecificContains checkSpecificContains;
 

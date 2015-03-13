@@ -4,7 +4,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckInterface : CheckType, IInterface
+    internal class CheckInterface : CheckType, IInterface
     {
         public CheckInterface(string name, string nameSpace, Position position)
             : base(name, nameSpace, position)

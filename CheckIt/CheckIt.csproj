@@ -150,13 +150,13 @@
     <Compile Include="ICompilationProject.cs" />
     <Compile Include="ICompilationReference.cs" />
     <Compile Include="IContains.cs" />
-    <Compile Include="IInterface.cs" />
     <Compile Include="IObjectsFinder.cs" />
-    <Compile Include="IType.cs" />
+    <Compile Include="Syntax\IType.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Syntax\IAssemblies.cs" />
+    <Compile Include="Syntax\IAssembly.cs" />
     <Compile Include="Syntax\IAssemblyMatcher.cs" />
     <Compile Include="Syntax\ICheckAssemblyContains.cs" />
     <Compile Include="Syntax\ICheckClassesContains.cs" />
@@ -172,13 +172,16 @@
     <Compile Include="Syntax\ICheckProjectContains.cs" />
     <Compile Include="Syntax\ICheckClasses.cs" />
     <Compile Include="Syntax\ICheckInterfaces.cs" />
+    <Compile Include="Syntax\IInterface.cs" />
     <Compile Include="Syntax\IInterfaceMatcher.cs" />
     <Compile Include="Syntax\IInterfaces.cs" />
+    <Compile Include="Syntax\IMatch.cs" />
     <Compile Include="Syntax\IMethod.cs" />
     <Compile Include="Syntax\IMethodMatcher.cs" />
     <Compile Include="Syntax\IMethods.cs" />
     <Compile Include="Syntax\IPatternContains.cs" />
     <Compile Include="Syntax\IProjects.cs" />
+    <Compile Include="Syntax\IReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

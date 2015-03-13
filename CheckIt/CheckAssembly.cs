@@ -4,7 +4,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckAssembly
+    internal class CheckAssembly : IAssembly
     {
         private readonly ICompilationInfo compilationInfo;
 
@@ -22,12 +22,12 @@ namespace CheckIt
 
         public Position Position { get; set; }
 
-        public CheckClasses Class(string pattern)
+        public IEnumerable<IClass> Class(string pattern)
         {
             return new CheckClasses(this.compilationInfo, pattern);
         }
 
-        public CheckInterfaces Interface(string pattern)
+        public IEnumerable<IInterface> Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
         }

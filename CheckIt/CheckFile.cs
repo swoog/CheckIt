@@ -4,7 +4,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    public class CheckFile : IFile
+    internal class CheckFile : IFile
     {
         private readonly ICompilationDocument document;
 
