@@ -14,7 +14,7 @@
         [Fact]
         public void Should_check_assembly_name_does_not_end_with_dll()
         {
-            Check.Assembly().Have().Name().NotMatch(@"\.dll$");
+            Check.Assembly().Have().Name().Not().Match(@"\.dll$");
         }
 
         [Fact]
@@ -38,7 +38,7 @@
         [Fact]
         public void Should_check_not_match_assembly_name()
         {
-            Check.Assembly("CheckIt.*.dll").Have().Name().NotMatch("^Toto$");
+            Check.Assembly("CheckIt.*.dll").Have().Name().Not().Match("^Toto$");
         }
 
         [Fact]
@@ -59,7 +59,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Assembly("CheckIt.Tests*.dll").Have().Name().NotMatch("^CheckIt");
+                    Check.Assembly("CheckIt.Tests*.dll").Have().Name().Not().Match("^CheckIt");
                 });
 
             Assert.Equal("The folowing assembly match pattern '^CheckIt' :\nCheckIt.Tests on line 0 from file CheckIt.Tests.dll\nCheckIt.Tests.Data on line 0 from file CheckIt.Tests.Data.dll\nCheckIt.Tests.Data.EmptyProject on line 0 from file CheckIt.Tests.Data.EmptyProject.dll", e.Message);
