@@ -44,5 +44,15 @@ namespace CheckIt
                 throw new MatchException(string.Format(message, this.type, regex, classNames));
             }
         }
+
+        public CheckMatch Not()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EqualTo(Type type1)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

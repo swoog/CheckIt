@@ -65,5 +65,10 @@ namespace CheckIt
 
             return new CheckMatch(checkValues.ToList(), "method");
         }
+
+        public CheckMatch GenericType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

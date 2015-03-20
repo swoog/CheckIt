@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace CheckIt.Tests.CheckMethods
 {
+    using System.Collections;
+
     using CheckIt.Tests.CheckAssembly;
 
     using Xunit;
@@ -28,11 +30,29 @@ namespace CheckIt.Tests.CheckMethods
         {
             var e = Assert.Throws<MatchException>(
                 () =>
-                    {
-                        Check.Method("Method").FromClass("Check").Have().Name().Match("type");
-                    });
+                {
+                    Check.Method("Method").FromClass("Check").Have().Name().Match("type");
+                });
 
             Assert.Equal("The folowing method doesn't respect pattern 'type' :\nMethod on line 72 from file Check.cs\nMethod on line 77 from file Check.cs", e.Message);
+        }
+
+        [Fact]
+        public void Should_test_generic_ype_from_calling_method()
+        {
+            Check.Method("CalledMethod").Have().GenericType().Not().EqualTo(typeof(string));
+        }
+
+        [Fact]
+        public void Should_throw_error_when_test_wrong_generic_ype_from_calling_method()
+        {
+            var e = Assert.Throws<MatchException>(
+                () =>
+                {
+                    Check.Method("CalledMethod").Have().GenericType().Not().EqualTo(typeof(int));
+                });
+
+            Assert.Equal("The folowing method doesn't equal to 'int' :\nMethod on line 72 from file Check.cs\nMethod on line 77 from file Check.cs", e.Message);
         }
     }
 }
