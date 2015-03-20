@@ -45,11 +45,6 @@ namespace CheckIt
             }
         }
 
-        public CheckMatch Not()
-        {
-            throw new NotImplementedException();
-        }
-
         public void EqualTo(Type type1)
         {
             throw new NotImplementedException();

@@ -68,7 +68,11 @@ namespace CheckIt
 
         public CheckMatch GenericType()
         {
-            throw new NotImplementedException();
+            var checkValues = from m in this.SelectMany(g => g.GenericType())
+                              select new CheckMatchValue(m.Name, m.Name, m.Position);
+
+
+            return new CheckMatch(checkValues, "method");
         }
     }
 }

@@ -1,5 +1,8 @@
 namespace CheckIt
 {
+    using System;
+    using System.Collections.Generic;
+
     using CheckIt.Syntax;
 
     internal class CheckMethod : IMethod
@@ -16,5 +19,10 @@ namespace CheckIt
         public Position Position { get; private set; }
 
         public IType Type { get; private set; }
+
+        public IEnumerable<Type> GenericType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
