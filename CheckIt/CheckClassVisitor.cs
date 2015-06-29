@@ -1,6 +1,7 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Linq;
 
     using CheckIt.Syntax;
@@ -31,7 +32,7 @@ namespace CheckIt
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             var position = GetPosition(node);
-            
+
             var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node).ContainingNamespace;
             this.currentType = new CheckClass(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString(), this.compilationInfo, position);
             this.types.Add(this.currentType);
@@ -59,12 +60,73 @@ namespace CheckIt
         {
             var position = GetPosition(node);
 
-            this.types.Add(new CheckMethod(node.Identifier.ValueText, position, this.currentType));
+            var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node);
+
+            var immutableArray = namedTypeSymbol.TypeArguments;
+            this.types.Add(new CheckMethod(node.Identifier.ValueText, position, this.currentType, GetTypes(immutableArray, position).ToList()));
+
+            base.VisitMethodDeclaration(node);
+        }
+
+        public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
+        {
+            base.VisitAccessorDeclaration(node);
+        }
+
+        public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            var position = GetPosition(node);
+
+            var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node.Expression);
+            SimpleNameSyntax identifier;
+            var memberAccessExpressionSyntax = node.Expression as MemberAccessExpressionSyntax;
+            if (memberAccessExpressionSyntax != null)
+            {
+                identifier = memberAccessExpressionSyntax.Name;
+            }
+            //else if (node.Expression is GenericNameSyntax)
+            //{
+            //    identifier = node.Expression as GenericNameSyntax;
+            //}
+            else
+            {
+                identifier = node.Expression as SimpleNameSyntax;
+            }
+
+            var e = memberAccessExpressionSyntax;
+            this.types.Add(new CheckMethod(identifier.Identifier.ValueText, position, this.currentType, null));
+            base.VisitInvocationExpression(node);
+        }
+
+        private static IEnumerable<IType> GetTypes(IEnumerable<ITypeSymbol> immutableArray, Position position)
+        {
+            return immutableArray.Select(t => new IntenalType(t.Name, t.ContainingNamespace.ToDisplayString(), position));
         }
 
         public IEnumerable<T> Get<T>()
         {
             return this.types.OfType<T>();
+        }
+    }
+
+    internal class IntenalType : IType
+    {
+        public IntenalType(string name, string nameSpace, Position position)
+        {
+            this.Name = name;
+            this.NameSpace = nameSpace;
+            this.Position = position;
+        }
+
+        public string Name { get; private set; }
+
+        public string NameSpace { get; private set; }
+
+        public Position Position { get; private set; }
+
+        public IEnumerable<IMethod> Method(string name)
+        {
+            throw new System.NotImplementedException();
         }
     }
 

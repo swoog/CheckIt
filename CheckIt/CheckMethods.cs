@@ -23,9 +23,10 @@ namespace CheckIt
             this.methods = compilationInfo.Get<IMethod>();
         }
 
-        public CheckMethods(IEnumerable<IMethod> methods)
+        public CheckMethods(IEnumerable<IMethod> methods, string pattern)
         {
             this.methods = methods;
+            this.pattern = pattern;
         }
 
         protected override IEnumerable<IMethod> Gets()
@@ -51,12 +52,12 @@ namespace CheckIt
 
         public IPatternContains<IMethodMatcher, ICheckMethodContains> FromAssembly(string pattern)
         {
-            return new CheckMethods(Check.GetProjects().Assembly(pattern).Method(this.pattern));
+            return new CheckMethods(Check.GetProjects().Assembly(pattern).Method(this.pattern), this.pattern);
         }
 
         public IPatternContains<IMethodMatcher, ICheckMethodContains> FromClass(string pattern)
         {
-            return new CheckMethods(Check.GetProjects().Class(pattern).SelectMany(c => c.Method(this.pattern)));
+            return new CheckMethods(Check.GetProjects().Class(pattern).SelectMany(c => c.Method(this.pattern)), this.pattern);
         }
 
         public CheckMatch Name()
@@ -68,11 +69,11 @@ namespace CheckIt
 
         public CheckMatch GenericType()
         {
-            var checkValues = from m in this.SelectMany(g => g.GenericType())
+            var checkValues = from m in this.SelectMany(g => g.GenericType)
                               select new CheckMatchValue(m.Name, m.Name, m.Position);
 
 
-            return new CheckMatch(checkValues, "method");
+            return new CheckMatch(checkValues.ToList(), "generic type");
         }
     }
 }

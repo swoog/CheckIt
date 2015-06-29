@@ -11,6 +11,6 @@ namespace CheckIt.Syntax
 
         IType Type { get; }
 
-        IEnumerable<Type> GenericType();
+        IList<IType> GenericType { get; }
     }
 }

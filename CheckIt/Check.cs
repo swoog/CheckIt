@@ -3,6 +3,7 @@ namespace CheckIt
     using System;
     using System.Collections;
     using System.IO;
+    using System.Linq;
 
     using CheckIt.Syntax;
 
@@ -72,7 +73,7 @@ namespace CheckIt
 
         public static IMethods Method(string pattern)
         {
-            return new CheckMethods(pattern);
+            return new CheckMethods(Check.GetProjects().Class("*").SelectMany(c => c.Method(pattern)), pattern);
         }
 
         public static IMethods Method()

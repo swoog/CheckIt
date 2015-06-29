@@ -45,9 +45,12 @@ namespace CheckIt
             }
         }
 
-        public void EqualTo(Type type1)
+        public void EqualTo(string type1)
         {
-            throw new NotImplementedException();
+            this.Test(
+                type1,
+                v => !v.Name.Equals(type1),
+                "The folowing {0} {3} '{1}' :\n{2}");
         }
     }
 }
