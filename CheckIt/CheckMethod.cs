@@ -7,8 +7,9 @@ namespace CheckIt
 
     internal class CheckMethod : IMethod
     {
-        public CheckMethod(string name, Position position, IType type)
+        public CheckMethod(string name, Position position, IType type, IList<IType> genericTypes)
         {
+            this.GenericType = genericTypes;
             this.Type = type;
             this.Position = position;
             this.Name = name;
@@ -20,9 +21,11 @@ namespace CheckIt
 
         public IType Type { get; private set; }
 
-        public IEnumerable<Type> GenericType()
+        public IList<IType> GenericType { get; private set; }
+
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            return string.Format("Method {0}", this.Name);
         }
     }
 }

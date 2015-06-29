@@ -34,13 +34,13 @@ namespace CheckIt.Tests.CheckMethods
                     Check.Method("Method").FromClass("Check").Have().Name().Match("type");
                 });
 
-            Assert.Equal("The folowing method doesn't respect pattern 'type' :\nMethod on line 72 from file Check.cs\nMethod on line 77 from file Check.cs", e.Message);
+            Assert.Equal("The folowing method doesn't respect pattern 'type' :\nMethod on line 73 from file Check.cs\nMethod on line 75 from file Check.cs\nMethod on line 78 from file Check.cs\nMethod on line 80 from file Check.cs", e.Message);
         }
 
         [Fact]
         public void Should_test_generic_ype_from_calling_method()
         {
-            Check.Method("CalledMethod").Have().GenericType().Not().EqualTo(typeof(string));
+            Check.Method("CalledMethod").Have().GenericType().Not().EqualTo("T");
         }
 
         [Fact]
@@ -49,10 +49,10 @@ namespace CheckIt.Tests.CheckMethods
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Method("CalledMethod").Have().GenericType().Not().EqualTo(typeof(int));
+                    Check.Method("CalledMethod").Have().GenericType().Not().Match("int");
                 });
 
-            Assert.Equal("The folowing method doesn't equal to 'int' :\nMethod on line 72 from file Check.cs\nMethod on line 77 from file Check.cs", e.Message);
+            Assert.Equal("The folowing generic type match 'int' :\nT on line 9 from file ClassCalled.cs", e.Message);
         }
     }
 }

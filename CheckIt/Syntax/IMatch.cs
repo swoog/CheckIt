@@ -6,6 +6,6 @@ namespace CheckIt.Syntax
     {
         void Match(string regex);
 
-        void EqualTo(Type type);
+        void EqualTo(string type);
     }
 }
