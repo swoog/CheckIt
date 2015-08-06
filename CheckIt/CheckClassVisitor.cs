@@ -1,5 +1,6 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
@@ -79,23 +80,46 @@ namespace CheckIt
 
             var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node.Expression);
             SimpleNameSyntax identifier;
+            IList<IType> types = null;
             var memberAccessExpressionSyntax = node.Expression as MemberAccessExpressionSyntax;
             if (memberAccessExpressionSyntax != null)
             {
-                identifier = memberAccessExpressionSyntax.Name;
+                if (memberAccessExpressionSyntax.Name is GenericNameSyntax)
+                {
+                    var genericNameSyntax = memberAccessExpressionSyntax.Name as GenericNameSyntax;
+                    types = GetTypes(genericNameSyntax.TypeArgumentList).ToList();
+                    identifier = genericNameSyntax;
+                }
+                else
+                {
+                    identifier = memberAccessExpressionSyntax.Name;
+                }
             }
-            //else if (node.Expression is GenericNameSyntax)
-            //{
-            //    identifier = node.Expression as GenericNameSyntax;
-            //}
             else
             {
                 identifier = node.Expression as SimpleNameSyntax;
             }
 
             var e = memberAccessExpressionSyntax;
-            this.types.Add(new CheckMethod(identifier.Identifier.ValueText, position, this.currentType, null));
+            this.types.Add(new CheckMethod(identifier.Identifier.ValueText, position, this.currentType, types));
             base.VisitInvocationExpression(node);
+        }
+
+        private IEnumerable<IType> GetTypes(TypeArgumentListSyntax typeArgumentList)
+        {
+            foreach (TypeSyntax typeSyntax in typeArgumentList.Arguments)
+            {
+                if (typeSyntax is IdentifierNameSyntax)
+                {
+                    var t = typeSyntax as IdentifierNameSyntax;
+                    yield return new IntenalType(t.Identifier.Text, t.Identifier.Text,  GetPosition(typeArgumentList));
+                }
+                else if (typeSyntax is PredefinedTypeSyntax)
+                {
+                    var t = typeSyntax as PredefinedTypeSyntax;
+                    yield return new IntenalType(t.Keyword.Text, t.Keyword.Text,  GetPosition(typeArgumentList));
+                }
+            }
         }
 
         private static IEnumerable<IType> GetTypes(IEnumerable<ITypeSymbol> immutableArray, Position position)

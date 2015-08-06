@@ -49,7 +49,7 @@ namespace CheckIt
         {
             this.Test(
                 type1,
-                v => !v.Name.Equals(type1),
+                v => this.invert ^ !v.Name.Equals(type1),
                 "The folowing {0} {3} '{1}' :\n{2}");
         }
     }
