@@ -69,11 +69,12 @@ namespace CheckIt
 
         public CheckMatch GenericType()
         {
-            var checkValues = from m in this.SelectMany(g => g.GenericType)
+            var checkMethods = from m in this where m.GenericType != null select m;
+            var checkValues = from m in checkMethods.SelectMany(g => g.GenericType)
                               select new CheckMatchValue(m.Name, m.Name, m.Position);
 
-
-            return new CheckMatch(checkValues.ToList(), "generic type");
+            var checkMatchValues = checkValues.ToList();
+            return new CheckMatch(checkMatchValues, "generic type");
         }
     }
 }
