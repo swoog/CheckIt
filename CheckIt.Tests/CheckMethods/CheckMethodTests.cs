@@ -40,19 +40,31 @@ namespace CheckIt.Tests.CheckMethods
         [Fact]
         public void Should_test_generic_ype_from_calling_method()
         {
-            Check.Method("CalledMethod").Have().GenericType().Not().EqualTo("T");
+            Check.Method("CalledMethod").FromClass("ClassCaller").Have().GenericType().Not().EqualTo("T");
         }
 
         [Fact]
-        public void Should_throw_error_when_test_wrong_generic_ype_from_calling_method()
+        public void Should_throw_error_when_test_wrong_generic_type_from_calling_method()
         {
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Method("CalledMethod").Have().GenericType().Not().Match("int");
+                    Check.Method("CalledMethod").FromClass("ClassCaller").Have().GenericType().Not().Match("int");
                 });
 
-            Assert.Equal("The folowing generic type match 'int' :\nT on line 9 from file ClassCalled.cs", e.Message);
+            Assert.Equal("The folowing generic type match pattern 'int' :\nint on line 12 from file ClassCaller.cs", e.Message);
+        }
+
+        [Fact]
+        public void Should_throw_error_when_test_wrong_generic_type_from_called_method()
+        {
+            var e = Assert.Throws<MatchException>(
+                () =>
+                {
+                    Check.Method("CalledMethod").FromClass("ClassCalled").Have().GenericType().Not().Match("T");
+                });
+
+            Assert.Equal("The folowing generic type match pattern 'T' :\nT on line 9 from file ClassCalled.cs", e.Message);
         }
     }
 }
