@@ -5,7 +5,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies, IAssemblyMatcher
+    internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies
     {
         private readonly IEnumerable<IAssembly> checkAssemblies;
 
@@ -17,30 +17,6 @@ namespace CheckIt
             this.matchAssemblies = matchAssemblies;
         }
 
-        public CheckMatch Name()
-        {
-            var values = this.Select(a => new CheckMatchValue(a.Name, a.Name, a.Position)).ToList();
-
-            return new CheckMatch(values, "assembly");
-        }
-
-        public CheckMatch FileName()
-        {
-            var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName, a.Position)).ToList();
-
-            return new CheckMatch(values, "assembly");
-        }
-
-        public CheckClasses Class(string pattern)
-        {
-            return new CheckClasses(this.SelectMany(a => a.Class(pattern)));
-        }
-
-        public CheckInterfaces Interfaces(string pattern)
-        {
-            return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
-        }
-
         public ICheckContains<ICheckAssemblyContains> Contains()
         {
             throw new System.NotImplementedException();
@@ -48,7 +24,17 @@ namespace CheckIt
 
         public IAssemblyMatcher Have()
         {
-            return this;
+            return new AssemblyMatcher(this);
+        }
+
+        internal CheckInterfaces Interfaces(string pattern)
+        {
+            return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
+        }
+
+        internal IEnumerable<IMethod> Method(string pattern)
+        {
+            return this.SelectMany(a => a.Method(pattern));
         }
 
         protected override IEnumerable<IAssembly> Gets()
@@ -66,11 +52,6 @@ namespace CheckIt
             {
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
-        }
-
-        internal IEnumerable<IMethod> Method(string pattern)
-        {
-            return this.SelectMany(a => a.Method(pattern));
         }
     }
 }

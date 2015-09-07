@@ -1,8 +1,10 @@
-namespace CheckIt.Syntax
+namespace CheckIt
 {
     using System.Collections.Generic;
 
-    public interface IObjectsFinder
+    using CheckIt.Syntax;
+
+    internal interface IObjectsFinder
     {
         IEnumerable<IClass> Class(string pattern);
 

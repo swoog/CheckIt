@@ -1,6 +1,7 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using CheckIt.Compilation;
     using CheckIt.Syntax;
@@ -39,7 +40,12 @@ namespace CheckIt
 
         public IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern)
         {
-            return Check.GetProjects().Assembly(pattern).Class(this.Pattern);
+            return Class(Check.GetProjects().Assembly(pattern), this.Pattern);
+        }
+
+        internal CheckClasses Class(CheckAssemblies assemblies, string pattern)
+        {
+            return new CheckClasses(assemblies.SelectMany(a => a.Class(pattern)));
         }
 
         protected override ICheckClasses GetFromProject(string pattern)
