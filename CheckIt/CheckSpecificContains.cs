@@ -7,7 +7,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    internal class CheckSpecificContains : IContains, ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
+    internal class CheckSpecificContains : ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
     {
         private readonly IObjectsFinder objectsFinder;
 

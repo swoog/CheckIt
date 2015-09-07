@@ -35,6 +35,14 @@ namespace CheckIt
             return new CheckMatch(this.values, this.type, true);
         }
 
+        public void EqualTo(string type1)
+        {
+            this.Test(
+                type1,
+                v => this.invert ^ !v.Name.Equals(type1),
+                "The folowing {0} {3} '{1}' :\n{2}");
+        }
+
         private void Test(string regex, Func<CheckMatchValue, bool> predicate, string message)
         {
             var noMatchedValues = this.values.Where(predicate).ToList();
@@ -43,14 +51,6 @@ namespace CheckIt
                 var classNames = string.Join("\n", noMatchedValues.Select(t => t.DisplayName).OrderBy(n => n));
                 throw new MatchException(string.Format(message, this.type, regex, classNames, this.invert ? "match" : "doesn't respect"));
             }
-        }
-
-        public void EqualTo(string type1)
-        {
-            this.Test(
-                type1,
-                v => this.invert ^ !v.Name.Equals(type1),
-                "The folowing {0} {3} '{1}' :\n{2}");
         }
     }
 }

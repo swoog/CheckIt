@@ -5,6 +5,7 @@ namespace CheckIt
     using System.Collections.Immutable;
     using System.Linq;
 
+    using CheckIt.Compilation;
     using CheckIt.Syntax;
 
     using Microsoft.CodeAnalysis;
@@ -17,9 +18,9 @@ namespace CheckIt
 
         private readonly SemanticModel semanticModel;
 
-        private List<object> types = new List<object>();
+        private readonly List<object> types = new List<object>();
 
-        private ICompilationInfo compilationInfo;
+        private readonly ICompilationInfo compilationInfo;
 
         private IType currentType;
 

@@ -2,6 +2,7 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
+    using CheckIt.Compilation;
     using CheckIt.Syntax;
 
     internal class CheckFile : IFile

@@ -1,4 +1,4 @@
-namespace CheckIt
+namespace CheckIt.Compilation
 {
     using System.IO;
 

@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CheckIt.Tests.CheckMethods
+﻿namespace CheckIt.Tests.CheckMethods
 {
-    using System.Collections;
-
     using CheckIt.Tests.CheckAssembly;
 
     using Xunit;
@@ -34,7 +26,7 @@ namespace CheckIt.Tests.CheckMethods
                     Check.Method("Method").FromClass("Check").Have().Name().Match("type");
                 });
 
-            Assert.Equal("The folowing method doesn't respect pattern 'type' :\nMethod on line 73 from file Check.cs\nMethod on line 75 from file Check.cs\nMethod on line 78 from file Check.cs\nMethod on line 80 from file Check.cs", e.Message);
+            Assert.Equal("The folowing method doesn't respect pattern 'type' :\nMethod on line 67 from file Check.cs\nMethod on line 69 from file Check.cs\nMethod on line 72 from file Check.cs\nMethod on line 74 from file Check.cs", e.Message);
         }
 
         [Fact]

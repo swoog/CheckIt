@@ -2,6 +2,8 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
+    using CheckIt.Compilation;
+
     using Microsoft.CodeAnalysis;
 
     public class CompilationInfoBase : ICompilationInfo
@@ -33,7 +35,7 @@ namespace CheckIt
             }
         }
 
-        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile, ICompilationInfo compilationInfo, ICompilationDocument document)
+        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Microsoft.CodeAnalysis.Compilation compile, ICompilationInfo compilationInfo, ICompilationDocument document)
         {
             CheckClassVisitor visitor;
 

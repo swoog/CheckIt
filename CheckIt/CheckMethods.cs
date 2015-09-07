@@ -4,6 +4,7 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Compilation;
     using CheckIt.Syntax;
 
     internal class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher
@@ -11,11 +12,6 @@ namespace CheckIt
         private readonly string pattern;
 
         private readonly IEnumerable<IMethod> methods;
-
-        public CheckMethods(string pattern)
-        {
-            this.pattern = pattern;
-        }
 
         public CheckMethods(ICompilationInfo compilationInfo, string pattern)
         {
@@ -27,17 +23,6 @@ namespace CheckIt
         {
             this.methods = methods;
             this.pattern = pattern;
-        }
-
-        protected override IEnumerable<IMethod> Gets()
-        {
-            foreach (var method in this.methods)
-            {
-                if (this.pattern == null || FileUtil.FilenameMatchesPattern(method.Name, this.pattern))
-                {
-                    yield return method;
-                }
-            }
         }
 
         public ICheckContains<ICheckMethodContains> Contains()
@@ -75,6 +60,17 @@ namespace CheckIt
 
             var checkMatchValues = checkValues.ToList();
             return new CheckMatch(checkMatchValues, "generic type");
+        }
+
+        protected override IEnumerable<IMethod> Gets()
+        {
+            foreach (var method in this.methods)
+            {
+                if (this.pattern == null || FileUtil.FilenameMatchesPattern(method.Name, this.pattern))
+                {
+                    yield return method;
+                }
+            }
         }
     }
 }

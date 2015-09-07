@@ -2,6 +2,7 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
+    using CheckIt.Compilation;
     using CheckIt.Syntax;
 
     internal class CheckAssembly : IAssembly
@@ -20,7 +21,7 @@ namespace CheckIt
 
         public string Name { get; private set; }
 
-        public Position Position { get; set; }
+        public Position Position { get; private set; }
 
         public IEnumerable<IClass> Class(string pattern)
         {

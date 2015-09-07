@@ -2,6 +2,8 @@ namespace CheckIt
 {
     using System.IO;
 
+    using CheckIt.Compilation;
+
     internal class CheckProject
     {
         private readonly ICompilationInfo compilationInfo;

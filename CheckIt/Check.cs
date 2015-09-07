@@ -1,13 +1,12 @@
 namespace CheckIt
 {
     using System;
-    using System.Collections;
     using System.IO;
     using System.Linq;
 
     using CheckIt.Syntax;
 
-    public class Check
+    public static class Check
     {
         private static string basePath = Environment.CurrentDirectory;
 
@@ -66,11 +65,6 @@ namespace CheckIt
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
         }
 
-        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
-        {
-            return new CheckProjects(basePath, projectfilePattern);
-        }
-
         public static IMethods Method(string pattern)
         {
             return new CheckMethods(Check.GetProjects().Class("*").SelectMany(c => c.Method(pattern)), pattern);
@@ -79,6 +73,11 @@ namespace CheckIt
         public static IMethods Method()
         {
             return Method(string.Empty);
+        }
+
+        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
+        {
+            return new CheckProjects(basePath, projectfilePattern);
         }
     }
 }

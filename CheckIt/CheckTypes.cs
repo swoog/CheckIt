@@ -1,14 +1,10 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
 
+    using CheckIt.Compilation;
     using CheckIt.Syntax;
-
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     internal abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
         where T : IType

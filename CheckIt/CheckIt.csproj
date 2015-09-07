@@ -129,6 +129,11 @@
     <Compile Include="CheckEnumerableBase.cs" />
     <Compile Include="CheckMethod.cs" />
     <Compile Include="CheckMethods.cs" />
+    <Compile Include="Compilation\ICompilationDocument.cs" />
+    <Compile Include="Compilation\ICompilationInfo.cs" />
+    <Compile Include="Compilation\ICompilationInfoFactory.cs" />
+    <Compile Include="Compilation\ICompilationProject.cs" />
+    <Compile Include="Compilation\ICompilationReference.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="CheckInterface.cs" />
     <Compile Include="CheckInterfaces.cs" />
@@ -144,13 +149,7 @@
     <Compile Include="CompilationInfoBase.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />
-    <Compile Include="ICompilationDocument.cs" />
-    <Compile Include="ICompilationInfo.cs" />
-    <Compile Include="ICompilationInfoFactory.cs" />
-    <Compile Include="ICompilationProject.cs" />
-    <Compile Include="ICompilationReference.cs" />
-    <Compile Include="IContains.cs" />
-    <Compile Include="IObjectsFinder.cs" />
+    <Compile Include="Syntax\IObjectsFinder.cs" />
     <Compile Include="Syntax\IType.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />
