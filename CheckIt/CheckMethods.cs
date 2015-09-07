@@ -61,7 +61,6 @@ namespace CheckIt
             var checkMatchValues = checkValues.ToList();
             return new CheckMatch(checkMatchValues, "generic type");
         }
-
         protected override IEnumerable<IMethod> Gets()
         {
             foreach (var method in this.methods)
