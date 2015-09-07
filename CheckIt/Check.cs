@@ -42,7 +42,7 @@ namespace CheckIt
 
         public static ICheckClasses Class()
         {
-            return Class(string.Empty);
+            return Class("*");
         }
 
         public static ICheckClasses Class(string pattern)

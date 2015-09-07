@@ -1,7 +1,5 @@
 ﻿namespace CheckIt.Tests.CheckSources
 {
-    using System.Linq;
-
     using CheckIt.Tests.CheckAssembly;
 
     using Xunit;
@@ -30,6 +28,16 @@
                     });
 
             Assert.Equal("The folowing class doesn't respect pattern '^[a-z]' :\nClass1 on line 8 from file Class1.cs", ex.Message);
+        }
+
+        [Fact]
+        public void Should_throw_error_when_class_name_not_match2()
+        {
+            Assert.Throws<MatchException>(
+                () =>
+                    {
+                        Check.Class().FromProject("CheckIt.Tests.Data.csproj").Have().Name().Match("^[a-z]");
+                    });
         }
     }
 }

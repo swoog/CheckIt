@@ -6,9 +6,9 @@
 
     using Xunit;
 
-    public class CheckSourcesTests
+    public class CheckProjectsTests
     {
-        public CheckSourcesTests()
+        public CheckProjectsTests()
         {
             AssemblySetup.Initialize();
             Check.SetBasePathSearch(@"..\..\..\");
