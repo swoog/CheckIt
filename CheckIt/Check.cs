@@ -12,7 +12,7 @@ namespace CheckIt
 
         public static IAssemblies Assembly(string matchAssemblies)
         {
-            return new CheckAssemblies(GetProjects().Assembly(matchAssemblies), matchAssemblies);
+            return new CheckAssemblies(GetProjects().Assembly(matchAssemblies).ToList<IAssembly>(), matchAssemblies);
         }
 
         public static IAssemblies Assembly()
@@ -22,7 +22,7 @@ namespace CheckIt
 
         public static IProjects Project(string projectfilePattern)
         {
-            return GetProjects(projectfilePattern) as IProjects;
+            return new CheckProjects(GetProjects(projectfilePattern).ToList<CheckProject>());
         }
 
         public static IProjects Project()
@@ -77,7 +77,7 @@ namespace CheckIt
 
         internal static IObjectsFinder GetProjects(string projectfilePattern = "*.csproj")
         {
-            return new CheckProjects(basePath, projectfilePattern);
+            return new ProjectsObjectsFinder(new CheckProjects(basePath, projectfilePattern));
         }
     }
 }

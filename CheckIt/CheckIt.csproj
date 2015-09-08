@@ -118,6 +118,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssembliesObjectsFinder.cs" />
     <Compile Include="AssemblyMatcher.cs" />
     <Compile Include="Check.cs" />
     <Compile Include="CheckAssemblies.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />
     <Compile Include="IObjectsFinder.cs" />
+    <Compile Include="ProjectsObjectsFinder.cs" />
     <Compile Include="Syntax\IType.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />
