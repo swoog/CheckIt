@@ -7,5 +7,7 @@ namespace CheckIt.Syntax
         IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern);
 
         IPatternContains<IClassMatcher, ICheckClassesContains> FromProject(string pattern);
+
+        IPatternContains<IClassMatcher, ICheckClassesContains> FromFile(string pattern);
     }
 }

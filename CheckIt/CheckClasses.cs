@@ -43,9 +43,14 @@ namespace CheckIt
             return Class(Check.GetProjects().Assembly(pattern), this.Pattern);
         }
 
-        internal CheckClasses Class(CheckAssemblies assemblies, string pattern)
+        public IPatternContains<IClassMatcher, ICheckClassesContains> FromFile(string pattern)
         {
-            return new CheckClasses(assemblies.SelectMany(a => a.Class(pattern)));
+            return Class(Check.GetProjects().File(pattern), this.Pattern);
+        }
+
+        private CheckClasses Class(IObjectsFinder assemblies, string pattern)
+        {
+            return new CheckClasses(assemblies.Class(pattern));
         }
 
         protected override ICheckClasses GetFromProject(string pattern)

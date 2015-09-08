@@ -5,7 +5,7 @@ namespace CheckIt
 
     using CheckIt.Syntax;
 
-    internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies
+    internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies, IObjectsFinder
     {
         private readonly IEnumerable<IAssembly> checkAssemblies;
 
@@ -52,6 +52,16 @@ namespace CheckIt
             {
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
+        }
+
+        public IEnumerable<IClass> Class(string pattern)
+        {
+            return new CheckClasses(this.SelectMany(f => f.Class(pattern)));
+        }
+
+        public IEnumerable<IReference> Reference(string pattern)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
