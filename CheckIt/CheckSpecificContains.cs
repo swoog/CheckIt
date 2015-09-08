@@ -30,7 +30,7 @@ namespace CheckIt
 
             if (this.objectsFinder != null)
             {
-                classes = this.objectsFinder.Class(pattern).ToList();
+                classes = this.objectsFinder.Class(pattern).ToList<IClass>();
             }
 
             if (!this.Predicate(classes))
@@ -46,7 +46,7 @@ namespace CheckIt
 
         public void Reference(string pattern)
         {
-            if (!this.Predicate(this.objectsFinder.Reference(pattern).ToList()))
+            if (!this.Predicate(this.objectsFinder.Reference(pattern).ToList<IReference>()))
             {
                 throw new MatchException(this.MessageFunc("reference", pattern));
             }

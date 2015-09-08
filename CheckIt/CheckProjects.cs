@@ -18,24 +18,34 @@ namespace CheckIt
             this.projectfilePattern = projectfilePattern;
         }
 
-        public IEnumerable<IClass> Class(string pattern)
+        public IObjectsFinder Class(string pattern)
         {
             return new CheckClasses(this.SelectMany(s => s.Class(pattern)));
         }
 
-        public CheckAssemblies Assembly(string matchAssemblies)
+        public IObjectsFinder Assembly(string matchAssemblies)
         {
             return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
         }
 
-        public Files File(string matchFiles)
+        public IObjectsFinder File(string matchFiles)
         {
             return new Files(this.SelectMany(p => p.File(matchFiles)));
         }
 
-        public CheckInterfaces Interfaces(string pattern)
+        public IObjectsFinder Interfaces(string pattern)
         {
             return new CheckInterfaces(this.GetInterfaces(pattern));
+        }
+
+        public IObjectsFinder Method(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<T> ToList<T>()
+        {
+            throw new System.NotImplementedException();
         }
 
         public ICheckContains<ICheckProjectContains> Contains()
@@ -48,7 +58,7 @@ namespace CheckIt
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<IReference> Reference(string pattern)
+        public IObjectsFinder Reference(string pattern)
         {
             return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }

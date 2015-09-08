@@ -17,6 +17,12 @@ namespace CheckIt
             this.matchAssemblies = matchAssemblies;
         }
 
+        public CheckAssemblies(IObjectsFinder assembly, string matchAssemblies)
+        {
+            this.matchAssemblies = matchAssemblies;
+            this.checkAssemblies = assembly.ToList<IAssembly>();
+        }
+
         public ICheckContains<ICheckAssemblyContains> Contains()
         {
             throw new System.NotImplementedException();
@@ -27,14 +33,19 @@ namespace CheckIt
             return new AssemblyMatcher(this);
         }
 
-        internal CheckInterfaces Interfaces(string pattern)
+        public IObjectsFinder Interfaces(string pattern)
         {
             return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
         }
 
-        internal IEnumerable<IMethod> Method(string pattern)
+        public IObjectsFinder Method(string pattern)
         {
-            return this.SelectMany(a => a.Method(pattern));
+            return new CheckMethods(this.SelectMany(a => a.Method(pattern)), pattern);
+        }
+
+        public List<T> ToList<T>()
+        {
+            return this.checkAssemblies.Cast<T>().ToList();
         }
 
         protected override IEnumerable<IAssembly> Gets()
@@ -54,12 +65,22 @@ namespace CheckIt
             }
         }
 
-        public IEnumerable<IClass> Class(string pattern)
+        public IObjectsFinder Class(string pattern)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(pattern)));
         }
 
-        public IEnumerable<IReference> Reference(string pattern)
+        public IObjectsFinder Reference(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder Assembly(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder File(string pattern)
         {
             throw new System.NotImplementedException();
         }

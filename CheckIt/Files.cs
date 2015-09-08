@@ -29,6 +29,11 @@ namespace CheckIt
             this.checkFiles = this.Gets(compilationInfo);
         }
 
+        private Files(IObjectsFinder getFilesFromProject)
+        {
+            this.checkFiles = getFilesFromProject as IEnumerable<IFile>;
+        }
+
         public ICheckContains<ICheckFilesContains> Contains()
         {
             return new CheckContains(new CheckSpecificContains(this));
@@ -39,19 +44,44 @@ namespace CheckIt
             return this;
         }
 
-        public IEnumerable<IClass> Class(string match)
+        public IObjectsFinder Class(string match)
         {
             return new CheckClasses(this.SelectMany(f => f.Class(match)));
         }
 
-        public IEnumerable<IReference> Reference(string pattern)
+        public IObjectsFinder Reference(string pattern)
         {
             throw new NotSupportedException("No references on files");
         }
 
+        public IObjectsFinder Assembly(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder File(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder Interfaces(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder Method(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<T> ToList<T>()
+        {
+            throw new NotImplementedException();
+        }
+
         public IPatternContains<IFiles, ICheckFilesContains> FromProject(string pattern)
         {
-            return this.GetFilesFromProject(pattern);
+            return new Files(this.GetFilesFromProject(pattern));
         }
 
         protected override IEnumerable<IFile> Gets()
@@ -61,7 +91,7 @@ namespace CheckIt
                 return this.checkFiles;
             }
             
-            return this.GetFilesFromProject("*.csproj");
+            return new Files(this.GetFilesFromProject("*.csproj"));
         }
 
         private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
@@ -71,7 +101,7 @@ namespace CheckIt
                    select new CheckFile(document, compilationInfo);
         }
 
-        private Files GetFilesFromProject(string pattern)
+        private IObjectsFinder GetFilesFromProject(string pattern)
         {
             return Check.GetProjects(pattern).File(this.pattern);
         }

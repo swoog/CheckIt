@@ -62,11 +62,6 @@ namespace CheckIt
             return this.GetFromProject(pattern);
         }
 
-        public IEnumerable<IMethod> Method(string pattern)
-        {
-            return this.SelectMany(c => c.Method(pattern));
-        }
-
         protected override IEnumerable<T> Gets()
         {
             if (this.classes != null)

@@ -7,7 +7,7 @@ namespace CheckIt
     using CheckIt.Compilation;
     using CheckIt.Syntax;
 
-    internal class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher
+    internal class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher, IObjectsFinder
     {
         private readonly string pattern;
 
@@ -23,6 +23,11 @@ namespace CheckIt
         {
             this.methods = methods;
             this.pattern = pattern;
+        }
+
+        public CheckMethods(IObjectsFinder objectsFinder, string pattern)
+            : this(objectsFinder as IEnumerable<IMethod>, pattern)
+        {
         }
 
         public ICheckContains<ICheckMethodContains> Contains()
@@ -42,7 +47,7 @@ namespace CheckIt
 
         public IPatternContains<IMethodMatcher, ICheckMethodContains> FromClass(string pattern)
         {
-            return new CheckMethods(Check.GetProjects().Class(pattern).SelectMany(c => c.Method(this.pattern)), this.pattern);
+            return new CheckMethods(Check.GetProjects().Class(pattern).Method(this.pattern), this.pattern);
         }
 
         public CheckMatch Name()
@@ -61,6 +66,7 @@ namespace CheckIt
             var checkMatchValues = checkValues.ToList();
             return new CheckMatch(checkMatchValues, "generic type");
         }
+
         protected override IEnumerable<IMethod> Gets()
         {
             foreach (var method in this.methods)
@@ -70,6 +76,41 @@ namespace CheckIt
                     yield return method;
                 }
             }
+        }
+
+        public IObjectsFinder Class(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder Reference(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder Assembly(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder File(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder Interfaces(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObjectsFinder Method(string pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<T> ToList<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

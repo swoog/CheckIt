@@ -6,7 +6,7 @@ namespace CheckIt
     using CheckIt.Compilation;
     using CheckIt.Syntax;
 
-    internal class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
+    internal class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher, IObjectsFinder
     {
         public CheckClasses(IEnumerable<IClass> classes)
             : base(classes, "class")
@@ -25,6 +25,11 @@ namespace CheckIt
 
         public CheckClasses(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "class")
+        {
+        }
+
+        private CheckClasses(IObjectsFinder objectsFinder)
+            : this(objectsFinder.ToList<IClass>())
         {
         }
 
@@ -56,6 +61,41 @@ namespace CheckIt
         protected override ICheckClasses GetFromProject(string pattern)
         {
             return new CheckClasses(Check.GetProjects(pattern).Class(this.Pattern));
+        }
+
+        public IObjectsFinder Class(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder Reference(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder Assembly(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder File(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder Interfaces(string pattern)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IObjectsFinder Method(string pattern)
+        {
+            return new CheckMethods(this.SelectMany(c => c.Method(pattern)), pattern);
+        }
+
+        public List<T> ToList<T>()
+        {
+            return this.Cast<T>().ToList();
         }
     }
 }
