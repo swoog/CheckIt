@@ -131,6 +131,7 @@
     <Compile Include="CheckEnumerableBase.cs" />
     <Compile Include="CheckMethod.cs" />
     <Compile Include="CheckMethods.cs" />
+    <Compile Include="ClassesObjectsFinder.cs" />
     <Compile Include="Compilation\ICompilationDocument.cs" />
     <Compile Include="Compilation\ICompilationInfo.cs" />
     <Compile Include="Compilation\ICompilationInfoFactory.cs" />
