@@ -5,6 +5,7 @@ namespace CheckIt
     using System.Linq;
 
     using CheckIt.Compilation;
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class CheckMethods : CheckEnumerableBase<IMethod>, IMethods, IMethodMatcher, IObjectsFinder

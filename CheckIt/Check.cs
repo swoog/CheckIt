@@ -2,8 +2,8 @@ namespace CheckIt
 {
     using System;
     using System.IO;
-    using System.Linq;
 
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     public static class Check

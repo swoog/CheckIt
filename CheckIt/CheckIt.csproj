@@ -118,7 +118,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssembliesObjectsFinder.cs" />
     <Compile Include="AssemblyMatcher.cs" />
     <Compile Include="Check.cs" />
     <Compile Include="CheckAssemblies.cs" />
@@ -131,7 +130,6 @@
     <Compile Include="CheckEnumerableBase.cs" />
     <Compile Include="CheckMethod.cs" />
     <Compile Include="CheckMethods.cs" />
-    <Compile Include="ClassesObjectsFinder.cs" />
     <Compile Include="Compilation\ICompilationDocument.cs" />
     <Compile Include="Compilation\ICompilationInfo.cs" />
     <Compile Include="Compilation\ICompilationInfoFactory.cs" />
@@ -152,7 +150,9 @@
     <Compile Include="CompilationInfoBase.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="HaveMethods.cs" />
-    <Compile Include="IObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\AssembliesObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\ClassesObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\IObjectsFinder.cs" />
     <Compile Include="ProjectsObjectsFinder.cs" />
     <Compile Include="Syntax\IType.cs" />
     <Compile Include="Locator.cs" />

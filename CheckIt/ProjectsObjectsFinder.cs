@@ -3,6 +3,7 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class ProjectsObjectsFinder : IObjectsFinder

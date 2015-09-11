@@ -1,4 +1,4 @@
-namespace CheckIt
+namespace CheckIt.ObjectsFinder
 {
     using System.Collections.Generic;
     using System.Linq;

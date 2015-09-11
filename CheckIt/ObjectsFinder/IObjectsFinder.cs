@@ -1,9 +1,6 @@
-namespace CheckIt
+namespace CheckIt.ObjectsFinder
 {
-    using System.Collections;
     using System.Collections.Generic;
-
-    using CheckIt.Syntax;
 
     internal interface IObjectsFinder
     {

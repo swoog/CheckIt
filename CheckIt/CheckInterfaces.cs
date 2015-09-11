@@ -4,6 +4,7 @@ namespace CheckIt
     using System.Collections.Generic;
 
     using CheckIt.Compilation;
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher, IObjectsFinder

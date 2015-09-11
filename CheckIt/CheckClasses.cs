@@ -4,6 +4,7 @@ namespace CheckIt
     using System.Linq;
 
     using CheckIt.Compilation;
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher, IObjectsFinder
