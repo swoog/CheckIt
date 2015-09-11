@@ -17,7 +17,7 @@ namespace CheckIt
 
         public IObjectsFinder Class(string pattern)
         {
-            return new CheckClasses(this.checkProjects.SelectMany(s => s.Class(pattern)));
+            return new ClassesObjectsFinder(new CheckClasses(this.checkProjects.SelectMany(s => s.Class(pattern))));
         }
 
         public IObjectsFinder Assembly(string matchAssemblies)

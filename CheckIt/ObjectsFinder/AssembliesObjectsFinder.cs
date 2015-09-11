@@ -29,7 +29,7 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Class(string pattern)
         {
-            return new CheckClasses(this.checkAssemblies.SelectMany(f => f.Class(pattern)));
+            return new ClassesObjectsFinder(new CheckClasses(this.checkAssemblies.SelectMany(f => f.Class(pattern))));
         }
 
         public IObjectsFinder Reference(string pattern)

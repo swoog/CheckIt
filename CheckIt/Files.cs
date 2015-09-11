@@ -47,7 +47,7 @@ namespace CheckIt
 
         public IObjectsFinder Class(string match)
         {
-            return new CheckClasses(this.SelectMany(f => f.Class(match)));
+            return new ClassesObjectsFinder(new CheckClasses(this.SelectMany(f => f.Class(match))));
         }
 
         public IObjectsFinder Reference(string pattern)

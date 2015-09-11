@@ -3,7 +3,7 @@ namespace CheckIt.ObjectsFinder
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class ClassesObjectsFinder
+    internal class ClassesObjectsFinder : IObjectsFinder
     {
         private readonly CheckClasses checkClasses;
 
