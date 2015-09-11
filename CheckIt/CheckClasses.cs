@@ -29,11 +29,6 @@ namespace CheckIt
         {
         }
 
-        private CheckClasses(IObjectsFinder objectsFinder)
-            : this(objectsFinder.ToList<IClass>())
-        {
-        }
-
         public ICheckContains<ICheckClassesContains> Contains()
         {
             return new CheckContains(new CheckSpecificContains());
@@ -56,12 +51,12 @@ namespace CheckIt
 
         private CheckClasses Class(IObjectsFinder assemblies, string pattern)
         {
-            return new CheckClasses(assemblies.Class(pattern));
+            return new CheckClasses(assemblies.Class(pattern).ToList<IClass>());
         }
 
         protected override ICheckClasses GetFromProject(string pattern)
         {
-            return new CheckClasses(Check.GetProjects(pattern).Class(this.Pattern));
+            return new CheckClasses(Check.GetProjects(pattern).Class(this.Pattern).ToList<IClass>());
         }
     }
 }
