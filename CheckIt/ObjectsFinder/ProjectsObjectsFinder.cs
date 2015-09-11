@@ -26,12 +26,12 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder File(string matchFiles)
         {
-            return new Files(this.checkProjects.SelectMany(p => p.File(matchFiles)));
+            return new FilesObjectsFinder(this.checkProjects.SelectMany(p => p.File(matchFiles)));
         }
 
         public IObjectsFinder Interfaces(string pattern)
         {
-            return new CheckInterfaces(this.GetInterfaces(pattern));
+            return new InterfacesObjectsFinder(this.checkProjects.SelectMany(c => c.Interface(pattern)));
         }
 
         public IObjectsFinder Method(string pattern)
@@ -47,11 +47,6 @@ namespace CheckIt.ObjectsFinder
         public IObjectsFinder Reference(string pattern)
         {
             return new CheckReferences(this.checkProjects.SelectMany(p => p.Reference(pattern)));
-        }
-
-        private IEnumerable<IInterface> GetInterfaces(string pattern)
-        {
-            return this.checkProjects.SelectMany(c => c.Interface(pattern));
         }
     }
 }

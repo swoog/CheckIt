@@ -3,11 +3,13 @@ namespace CheckIt.ObjectsFinder
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Syntax;
+
     internal class ClassesObjectsFinder : IObjectsFinder
     {
-        private readonly CheckClasses checkClasses;
+        private readonly IEnumerable<IClass> checkClasses;
 
-        public ClassesObjectsFinder(CheckClasses checkClasses)
+        public ClassesObjectsFinder(IEnumerable<IClass> checkClasses)
         {
             this.checkClasses = checkClasses;
         }

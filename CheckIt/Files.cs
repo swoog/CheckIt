@@ -1,6 +1,5 @@
 namespace CheckIt
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -8,7 +7,7 @@ namespace CheckIt
     using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    internal class Files : CheckEnumerableBase<IFile>, IObjectsFinder, IFiles
+    internal class Files : CheckEnumerableBase<IFile>, IFiles
     {
         private readonly IEnumerable<IFile> checkFiles;
 
@@ -19,25 +18,20 @@ namespace CheckIt
             this.pattern = pattern;
         }
 
-        public Files(IEnumerable<IFile> checkFiles)
-        {
-            this.checkFiles = checkFiles;
-        }
-
         public Files(ICompilationInfo compilationInfo, string pattern)
         {
             this.pattern = pattern;
             this.checkFiles = this.Gets(compilationInfo);
         }
 
-        private Files(IObjectsFinder getFilesFromProject)
+        private Files(IEnumerable<IFile> checkFiles)
         {
-            this.checkFiles = getFilesFromProject as IEnumerable<IFile>;
+            this.checkFiles = checkFiles;
         }
 
         public ICheckContains<ICheckFilesContains> Contains()
         {
-            return new CheckContains(new CheckSpecificContains(this));
+            return new CheckContains(new CheckSpecificContains(new FilesObjectsFinder(this)));
         }
 
         public IFiles Have()
@@ -45,44 +39,9 @@ namespace CheckIt
             return this;
         }
 
-        public IObjectsFinder Class(string match)
-        {
-            return new ClassesObjectsFinder(new CheckClasses(this.SelectMany(f => f.Class(match))));
-        }
-
-        public IObjectsFinder Reference(string pattern)
-        {
-            throw new NotSupportedException("No references on files");
-        }
-
-        public IObjectsFinder Assembly(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IObjectsFinder File(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IObjectsFinder Interfaces(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IObjectsFinder Method(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<T> ToList<T>()
-        {
-            throw new NotImplementedException();
-        }
-
         public IPatternContains<IFiles, ICheckFilesContains> FromProject(string pattern)
         {
-            return new Files(this.GetFilesFromProject(pattern));
+            return new Files(this.GetFilesFromProject(pattern).ToList<IFile>());
         }
 
         protected override IEnumerable<IFile> Gets()
@@ -92,7 +51,7 @@ namespace CheckIt
                 return this.checkFiles;
             }
             
-            return new Files(this.GetFilesFromProject("*.csproj"));
+            return new Files(this.GetFilesFromProject("*.csproj").ToList<IFile>());
         }
 
         private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)

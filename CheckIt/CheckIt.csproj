@@ -152,6 +152,8 @@
     <Compile Include="HaveMethods.cs" />
     <Compile Include="ObjectsFinder\AssembliesObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\ClassesObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\FilesObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\InterfacesObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\IObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\ProjectsObjectsFinder.cs" />
     <Compile Include="Syntax\IType.cs" />

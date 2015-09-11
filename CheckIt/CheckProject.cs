@@ -1,8 +1,10 @@
 namespace CheckIt
 {
+    using System.Collections.Generic;
     using System.IO;
 
     using CheckIt.Compilation;
+    using CheckIt.Syntax;
 
     internal class CheckProject
     {
@@ -13,7 +15,7 @@ namespace CheckIt
             this.compilationInfo = Locator.Get<ICompilationInfoFactory>().GetCompilationInfo(file);
         }
 
-        public CheckClasses Class(string classPattern)
+        public IEnumerable<IClass> Class(string classPattern)
         {
             return new CheckClasses(this.compilationInfo, classPattern);
         }
@@ -23,17 +25,17 @@ namespace CheckIt
             return new CheckAssembly(this.compilationInfo);
         }
 
-        public Files File(string pattern)
+        public IEnumerable<IFile> File(string pattern)
         {
             return new Files(this.compilationInfo, pattern);
         }
 
-        public CheckInterfaces Interface(string pattern)
+        public IEnumerable<IInterface> Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
         }
 
-        public CheckReferences Reference(string pattern)
+        public IEnumerable<IReference> Reference(string pattern)
         {
             return new CheckReferences(this.compilationInfo, pattern);
         }

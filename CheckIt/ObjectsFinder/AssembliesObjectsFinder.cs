@@ -14,7 +14,7 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Interfaces(string pattern)
         {
-            return new CheckInterfaces(this.checkAssemblies.SelectMany(a => a.Interface(pattern)));
+            return new InterfacesObjectsFinder(this.checkAssemblies.SelectMany(a => a.Interface(pattern)));
         }
 
         public IObjectsFinder Method(string pattern)
