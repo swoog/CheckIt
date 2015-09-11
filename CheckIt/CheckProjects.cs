@@ -3,6 +3,7 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.IO;
 
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects

@@ -1,9 +1,8 @@
-namespace CheckIt
+namespace CheckIt.ObjectsFinder
 {
     using System.Collections.Generic;
     using System.Linq;
 
-    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class ProjectsObjectsFinder : IObjectsFinder
