@@ -9,5 +9,7 @@ namespace CheckIt.Compilation
         List<ICompilationDocument> Documents { get; }
 
         List<ICompilationReference> References { get; }
+
+        string Name { get; }
     }
 }

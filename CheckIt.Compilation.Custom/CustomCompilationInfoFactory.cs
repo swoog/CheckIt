@@ -14,7 +14,14 @@ namespace CheckIt.Compilation.Custom
         {
             var document = new XmlDocument();
 
-            document.Load(file.FullName);
+            try
+            {
+                document.Load(file.FullName);
+            }
+            catch (XmlException)
+            {
+                throw new MatchException("The folowing project are not in correct xml format \"{0}\"", file.Name);
+            }
 
             var nameTable = new NameTable();
             var xmlNamespaceManager = new XmlNamespaceManager(nameTable);
@@ -34,7 +41,7 @@ namespace CheckIt.Compilation.Custom
                 document.SelectNodes("//c:Reference", xmlNamespaceManager)
                     .Cast<XmlNode>()
                     .Select(n => new CustomReference(n.Attributes["Include"].Value)).Cast<ICompilationReference>().ToList();
-            var customProject = new CustomProject(assemblyName, compilationDocuments, compilationReferences);
+            var customProject = new CustomProject(assemblyName, compilationDocuments, compilationReferences, file.Name);
 
             return new CustomCompilationInfoBase(customProject);
         }

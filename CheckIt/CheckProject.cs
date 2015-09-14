@@ -13,7 +13,10 @@ namespace CheckIt
         public CheckProject(FileInfo file)
         {
             this.compilationInfo = Locator.Get<ICompilationInfoFactory>().GetCompilationInfo(file);
+            this.Name = this.compilationInfo.Project.Name;
         }
+
+        public string Name { get; private set; }
 
         public IEnumerable<IClass> Class(string classPattern)
         {

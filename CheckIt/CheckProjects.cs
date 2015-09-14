@@ -48,6 +48,14 @@ namespace CheckIt
             return new CheckMatch(assemblies.ToList(), "assemblies");
         }
 
+        public CheckMatch Name()
+        {
+            var assemblies = from p in this.projects
+                             select new CheckMatchValue(p.Name, p.Name, null);
+
+            return new CheckMatch(assemblies.ToList(), "projects");
+        }
+
         protected override IEnumerable<CheckProject> Gets()
         {
             if (this.projects != null)
