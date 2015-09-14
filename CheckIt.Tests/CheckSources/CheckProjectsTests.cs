@@ -55,5 +55,17 @@
 
             Assert.Equal("No class found that match pattern 'NotFoundClass'.", ex.Message);
         }
+
+        [Fact]
+        public void Should_throw_error_when_assembly_project()
+        {
+             var ex = Assert.Throws<MatchException>(
+                () =>
+                    {
+                       Check.Project("CheckIt.csproj").Have().AssemblyName().Match("CheckIt.dll");
+                    });
+
+             Assert.Equal("The folowing assemblies doesn't respect pattern 'CheckIt.dll' :\nCheckIt", ex.Message);
+        }
     }
 }

@@ -67,7 +67,7 @@ namespace CheckIt
 
         public static IMethods Method(string pattern)
         {
-            return new CheckMethods(Check.GetProjects().Class("*").Method(pattern), pattern);
+            return new CheckMethods(Check.GetProjects().Class("*").Method(pattern).ToList<IMethod>(), pattern);
         }
 
         public static IMethods Method()

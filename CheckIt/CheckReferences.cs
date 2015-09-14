@@ -4,10 +4,9 @@ namespace CheckIt
     using System.Linq;
 
     using CheckIt.Compilation;
-    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    internal class CheckReferences : CheckEnumerableBase<IReference>, IObjectsFinder
+    internal class CheckReferences : CheckEnumerableBase<IReference>
     {
         private readonly IEnumerable<IReference> checkReferences;
 
@@ -26,41 +25,6 @@ namespace CheckIt
         protected override IEnumerable<IReference> Gets()
         {
             return this.checkReferences;
-        }
-
-        public IObjectsFinder Class(string pattern)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IObjectsFinder Reference(string pattern)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IObjectsFinder Assembly(string pattern)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IObjectsFinder File(string pattern)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IObjectsFinder Interfaces(string pattern)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IObjectsFinder Method(string pattern)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public List<T> ToList<T>()
-        {
-            return this.checkReferences.Cast<T>().ToList();
         }
     }
 }

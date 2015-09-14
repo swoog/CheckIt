@@ -2,11 +2,12 @@ namespace CheckIt
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    internal class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects
+    internal class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IProjectMatcher
     {
         private readonly string basePath;
 
@@ -34,9 +35,17 @@ namespace CheckIt
             return new CheckContains(new CheckSpecificContains(this.projectsObjectsFinder));
         }
 
-        public IProjects Have()
+        public IProjectMatcher Have()
         {
-            throw new System.NotImplementedException();
+            return this;
+        }
+
+        public CheckMatch AssemblyName()
+        {
+            var assemblies = from p in this.projects
+                             select new CheckMatchValue(p.Assembly().Name, p.Assembly().Name, null);
+
+            return new CheckMatch(assemblies.ToList(), "assemblies");
         }
 
         protected override IEnumerable<CheckProject> Gets()
@@ -49,8 +58,8 @@ namespace CheckIt
                 }
 
                 yield break;
-            } 
-            
+            }
+
             foreach (var file in this.GetFiles())
             {
                 yield return new CheckProject(file);

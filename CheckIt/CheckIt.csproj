@@ -155,7 +155,9 @@
     <Compile Include="ObjectsFinder\FilesObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\InterfacesObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\IObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\MethodsObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\ProjectsObjectsFinder.cs" />
+    <Compile Include="ObjectsFinder\ReferencesObjectsFinder.cs" />
     <Compile Include="Syntax\IType.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />

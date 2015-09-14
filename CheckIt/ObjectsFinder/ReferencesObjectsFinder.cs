@@ -5,13 +5,13 @@ namespace CheckIt.ObjectsFinder
 
     using CheckIt.Syntax;
 
-    internal class ClassesObjectsFinder : IObjectsFinder
+    internal class ReferencesObjectsFinder : IObjectsFinder
     {
-        private readonly IEnumerable<IClass> checkClasses;
+        private readonly IEnumerable<IReference> checkReferences;
 
-        public ClassesObjectsFinder(IEnumerable<IClass> checkClasses)
+        public ReferencesObjectsFinder(IEnumerable<IReference> checkReferences)
         {
-            this.checkClasses = checkClasses;
+            this.checkReferences = checkReferences;
         }
 
         public IObjectsFinder Class(string pattern)
@@ -41,12 +41,12 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Method(string pattern)
         {
-            return new MethodsObjectsFinder(this.checkClasses.SelectMany(c => c.Method(pattern)));
+            throw new System.NotImplementedException();
         }
 
         public List<T> ToList<T>()
         {
-            return this.checkClasses.Cast<T>().ToList();
+            return this.checkReferences.Cast<T>().ToList();
         }
     }
 }

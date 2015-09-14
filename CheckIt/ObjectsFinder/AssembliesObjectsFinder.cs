@@ -3,11 +3,13 @@ namespace CheckIt.ObjectsFinder
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Syntax;
+
     internal class AssembliesObjectsFinder : IObjectsFinder
     {
-        private CheckAssemblies checkAssemblies;
+        private readonly IEnumerable<IAssembly> checkAssemblies;
 
-        public AssembliesObjectsFinder(CheckAssemblies checkAssemblies)
+        public AssembliesObjectsFinder(IEnumerable<IAssembly> checkAssemblies)
         {
             this.checkAssemblies = checkAssemblies;
         }
@@ -19,7 +21,7 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Method(string pattern)
         {
-            return new CheckMethods(this.checkAssemblies.SelectMany(a => a.Method(pattern)), pattern);
+            return new MethodsObjectsFinder(this.checkAssemblies.SelectMany(a => a.Method(pattern)));
         }
 
         public List<T> ToList<T>()

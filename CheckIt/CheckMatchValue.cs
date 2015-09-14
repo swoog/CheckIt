@@ -19,6 +19,11 @@ namespace CheckIt
         {
             get
             {
+                if (this.position == null)
+                {
+                    return this.Name;
+                }
+
                 return string.Format("{0} on line {1} from file {2}", this.Name, this.position.Line, this.position.Name);
             }
         }

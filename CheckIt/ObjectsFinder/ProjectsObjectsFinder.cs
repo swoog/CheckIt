@@ -21,7 +21,7 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Assembly(string matchAssemblies)
         {
-            return new AssembliesObjectsFinder(new CheckAssemblies(this.checkProjects.Select(s => s.Assembly()), matchAssemblies));
+            return new AssembliesObjectsFinder(this.checkProjects.Select(s => s.Assembly()));
         }
 
         public IObjectsFinder File(string matchFiles)
@@ -46,7 +46,7 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Reference(string pattern)
         {
-            return new CheckReferences(this.checkProjects.SelectMany(p => p.Reference(pattern)));
+            return new ReferencesObjectsFinder(new CheckReferences(this.checkProjects.SelectMany(p => p.Reference(pattern))));
         }
     }
 }
