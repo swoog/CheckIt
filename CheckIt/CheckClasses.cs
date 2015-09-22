@@ -9,9 +9,12 @@ namespace CheckIt
 
     internal class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
     {
-        public CheckClasses(IEnumerable<IClass> classes)
+        private bool invert;
+
+        public CheckClasses(IEnumerable<IClass> classes, bool invert = false)
             : base(classes, "class")
         {
+            this.invert = invert;
         }
 
         public CheckClasses(ICompilationDocument document, ICompilationInfo compile, string pattern)
@@ -46,7 +49,12 @@ namespace CheckIt
 
         public IPatternContains<IClassMatcher, ICheckClassesContains> FromFile(string pattern)
         {
-            return Class(Check.GetProjects().File(pattern), this.Pattern);
+            return Class(Check.GetProjects().File(pattern, this.invert), this.Pattern);
+        }
+
+        public ICheckClasses Not()
+        {
+            return new CheckClasses(this, !this.invert);
         }
 
         private CheckClasses Class(IObjectsFinder assemblies, string pattern)

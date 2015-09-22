@@ -29,7 +29,7 @@ namespace CheckIt.ObjectsFinder
             throw new System.NotImplementedException();
         }
 
-        public IObjectsFinder File(string pattern)
+        public IObjectsFinder File(string pattern, bool invert)
         {
             throw new System.NotImplementedException();
         }

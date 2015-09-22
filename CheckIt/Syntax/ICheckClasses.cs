@@ -9,5 +9,7 @@ namespace CheckIt.Syntax
         IPatternContains<IClassMatcher, ICheckClassesContains> FromProject(string pattern);
 
         IPatternContains<IClassMatcher, ICheckClassesContains> FromFile(string pattern);
+
+        ICheckClasses Not();
     }
 }

@@ -23,6 +23,11 @@ namespace CheckIt
         /// </returns>
         public static bool FilenameMatchesPattern(string filename, string pattern)
         {
+            if (pattern == null)
+            {
+                pattern = "*";
+            }
+
             // prepare the pattern to the form appropriate for Regex class
             StringBuilder sb = new StringBuilder(pattern);
 

@@ -5,5 +5,7 @@ namespace CheckIt.Syntax
     public interface IFile
     {
         IEnumerable<IClass> Class(string match);
+
+        string Name { get; }
     }
 }

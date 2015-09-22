@@ -15,11 +15,14 @@ namespace CheckIt
         {
             this.document = document;
             this.compile = compile;
+            this.Name = document.Name;
         }
 
         public IEnumerable<IClass> Class(string match)
         {
             return new CheckClasses(this.document, this.compile, match);
         }
+
+        public string Name { get; private set; }
     }
 }

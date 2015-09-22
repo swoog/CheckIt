@@ -26,7 +26,7 @@ namespace CheckIt
         {
         }
 
-        protected CheckTypes( IEnumerable<T> classes, string typeName)
+        protected CheckTypes(IEnumerable<T> classes, string typeName)
         {
             this.classes = classes;
             this.typeName = typeName;

@@ -13,14 +13,16 @@ namespace CheckIt
 
         private readonly string pattern;
 
+        private bool invert;
+
         public Files(string pattern)
         {
             this.pattern = pattern;
         }
 
-        public Files(ICompilationInfo compilationInfo, string pattern)
+        public Files(ICompilationInfo compilationInfo)
         {
-            this.pattern = pattern;
+            this.pattern = "*";
             this.checkFiles = this.Gets(compilationInfo);
         }
 
@@ -63,7 +65,7 @@ namespace CheckIt
 
         private IObjectsFinder GetFilesFromProject(string pattern)
         {
-            return Check.GetProjects(pattern).File(this.pattern);
+            return Check.GetProjects(pattern).File(this.pattern, this.invert);
         }
     }
 }

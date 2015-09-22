@@ -24,9 +24,12 @@ namespace CheckIt.ObjectsFinder
             return new AssembliesObjectsFinder(this.checkProjects.Select(s => s.Assembly()));
         }
 
-        public IObjectsFinder File(string matchFiles)
+        public IObjectsFinder File(string matchFiles, bool invert)
         {
-            return new FilesObjectsFinder(this.checkProjects.SelectMany(p => p.File(matchFiles)));
+            return
+                new FilesObjectsFinder(
+                    this.checkProjects.SelectMany(p => p.File())
+                        .Where(f => invert ^ FileUtil.FilenameMatchesPattern(f.Name, matchFiles)));
         }
 
         public IObjectsFinder Interfaces(string pattern)

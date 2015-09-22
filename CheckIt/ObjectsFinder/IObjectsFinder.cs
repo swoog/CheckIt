@@ -10,7 +10,7 @@ namespace CheckIt.ObjectsFinder
 
         IObjectsFinder Assembly(string pattern);
 
-        IObjectsFinder File(string pattern);
+        IObjectsFinder File(string pattern, bool invert);
 
         IObjectsFinder Interfaces(string pattern);
 

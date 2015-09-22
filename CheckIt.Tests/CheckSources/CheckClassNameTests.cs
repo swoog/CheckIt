@@ -51,5 +51,23 @@
 
             Assert.Equal("The folowing class doesn't respect pattern 'Class2' :\nClass1 on line 8 from file Class1.cs", e.Message);
         }
+
+        [Fact]
+        public void Should_check_class_and_use_not_from_file()
+        {
+            Check.Class().Not().FromFile("Class1.cs").Have().Name().Not().Match("Class1");
+        }
+
+        [Fact]
+        public void Should_throw_error_check_class_and_use_not_from_file()
+        {
+            var e = Assert.Throws<MatchException>(
+                () =>
+                {
+                    Check.Class().Not().FromFile("Class1.cs").Have().Name().Not().Match("Class2");
+                });
+
+            Assert.Equal("The folowing class match pattern 'Class2' :\nClass2 on line 4 from file Class2.cs", e.Message);
+        }
     }
 }

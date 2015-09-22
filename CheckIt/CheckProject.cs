@@ -28,9 +28,9 @@ namespace CheckIt
             return new CheckAssembly(this.compilationInfo);
         }
 
-        public IEnumerable<IFile> File(string pattern)
+        public IEnumerable<IFile> File()
         {
-            return new Files(this.compilationInfo, pattern);
+            return new Files(this.compilationInfo);
         }
 
         public IEnumerable<IInterface> Interface(string pattern)
