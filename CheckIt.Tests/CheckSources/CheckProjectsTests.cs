@@ -15,6 +15,12 @@
         }
 
         [Fact]
+        public void Should_all_project_end_with_csproj()
+        {
+            Check.Project().Have().Name().Match(".csproj$");
+        }
+
+        [Fact]
         public void Should_check_project_end_with_csproj()
         {
             Check.Project(@"*.csproj").Have().Name().Match(".csproj$");

@@ -158,6 +158,8 @@
     <Compile Include="ObjectsFinder\MethodsObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\ProjectsObjectsFinder.cs" />
     <Compile Include="ObjectsFinder\ReferencesObjectsFinder.cs" />
+    <Compile Include="Syntax\IProject.cs" />
+    <Compile Include="Syntax\IProjectMatcher.cs" />
     <Compile Include="Syntax\IType.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="MatchException.cs" />

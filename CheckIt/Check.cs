@@ -27,7 +27,7 @@ namespace CheckIt
 
         public static IProjects Project()
         {
-            return GetProjects() as IProjects;
+            return new CheckProjects(GetProjects().ToList<CheckProject>());
         }
 
         public static IFiles File(string pattern)

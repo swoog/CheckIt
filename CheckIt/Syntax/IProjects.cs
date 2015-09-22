@@ -1,13 +1,8 @@
 namespace CheckIt.Syntax
 {
-    public interface IProjects : IPatternContains<IProjectMatcher, ICheckProjectContains>
-    {
-    }
+    using System.Collections.Generic;
 
-    public interface IProjectMatcher
+    public interface IProjects : IEnumerable<IProject>, IPatternContains<IProjectMatcher, ICheckProjectContains>
     {
-        CheckMatch AssemblyName();
-
-        CheckMatch Name();
     }
 }

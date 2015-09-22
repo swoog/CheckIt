@@ -6,7 +6,7 @@ namespace CheckIt
     using CheckIt.Compilation;
     using CheckIt.Syntax;
 
-    internal class CheckProject
+    internal class CheckProject : IProject
     {
         private readonly ICompilationInfo compilationInfo;
 
@@ -23,7 +23,7 @@ namespace CheckIt
             return new CheckClasses(this.compilationInfo, classPattern);
         }
 
-        public CheckAssembly Assembly()
+        public IAssembly Assembly()
         {
             return new CheckAssembly(this.compilationInfo);
         }

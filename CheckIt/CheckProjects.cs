@@ -7,7 +7,7 @@ namespace CheckIt
     using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    internal class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IProjectMatcher
+    internal class CheckProjects : CheckEnumerableBase<IProject>, IProjects, IProjectMatcher
     {
         private readonly string basePath;
 
@@ -56,7 +56,7 @@ namespace CheckIt
             return new CheckMatch(assemblies.ToList(), "projects");
         }
 
-        protected override IEnumerable<CheckProject> Gets()
+        protected override IEnumerable<IProject> Gets()
         {
             if (this.projects != null)
             {
