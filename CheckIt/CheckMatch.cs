@@ -35,11 +35,11 @@ namespace CheckIt
             return new CheckMatch(this.values, this.type, true);
         }
 
-        public void EqualTo(string type1)
+        public void EqualTo(string value)
         {
             this.Test(
-                type1,
-                v => this.invert ^ !v.Name.Equals(type1),
+                value,
+                v => this.invert ^ !v.Name.Equals(value),
                 "The folowing {0} {3} '{1}' :\n{2}");
         }
 

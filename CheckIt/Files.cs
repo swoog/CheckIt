@@ -7,7 +7,7 @@ namespace CheckIt
     using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    internal class Files : CheckEnumerableBase<IFile>, IFiles
+    internal class Files : CheckEnumerableBase<IFile>, IFiles, IFileMatcher
     {
         private readonly IEnumerable<IFile> checkFiles;
 
@@ -34,12 +34,12 @@ namespace CheckIt
             return new CheckContains(new CheckSpecificContains(new FilesObjectsFinder(this)));
         }
 
-        public IFiles Have()
+        public IFileMatcher Have()
         {
             return this;
         }
 
-        public IPatternContains<IFiles, ICheckFilesContains> FromProject(string pattern)
+        public IPatternContains<IFileMatcher, ICheckFilesContains> FromProject(string pattern)
         {
             return new Files(this.GetFilesFromProject(pattern).ToList<IFile>());
         }
@@ -64,6 +64,13 @@ namespace CheckIt
         private IObjectsFinder GetFilesFromProject(string pattern)
         {
             return Check.GetProjects(pattern).File(this.pattern, false);
+        }
+
+        public CheckMatch Name()
+        {
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name, null)).ToList();
+
+            return new CheckMatch(values, "file");
         }
     }
 }
