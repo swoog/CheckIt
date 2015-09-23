@@ -1,6 +1,5 @@
 namespace CheckIt
 {
-    using System;
     using System.Collections.Generic;
 
     using CheckIt.Syntax;
@@ -22,10 +21,5 @@ namespace CheckIt
         public IType Type { get; private set; }
 
         public IList<IType> GenericType { get; private set; }
-
-        public override string ToString()
-        {
-            return string.Format("Method {0}", this.Name);
-        }
     }
 }

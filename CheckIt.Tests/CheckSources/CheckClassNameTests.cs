@@ -19,6 +19,12 @@
         }
 
         [Fact]
+        public void Should_star_mark_match_all_character()
+        {
+            Check.Class("?*").Have().Name().Match("^.+$");
+        }
+
+        [Fact]
         public void Should_throw_error_when_class_name_not_match()
         {
             var ex = Assert.Throws<MatchException>(

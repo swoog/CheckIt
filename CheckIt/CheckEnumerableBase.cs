@@ -2,6 +2,7 @@ namespace CheckIt
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     internal abstract class CheckEnumerableBase<T> : IEnumerable<T>
     {
@@ -10,6 +11,7 @@ namespace CheckIt
             return this.Gets().GetEnumerator();
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
