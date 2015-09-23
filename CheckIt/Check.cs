@@ -107,12 +107,4 @@ namespace CheckIt
             return new CheckEach();
         }
     }
-
-    public class CheckEach
-    {
-        public IFiles File(string pattern)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

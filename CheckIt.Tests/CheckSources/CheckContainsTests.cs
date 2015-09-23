@@ -26,7 +26,7 @@
                     Check.File("MultipleClass.cs").FromProject("CheckIt.tests.Data.csproj").Contains().One().Class();
                 });
 
-            Assert.Equal("No class found that match pattern ''.", e.Message);
+            Assert.Equal("No class found that match pattern '*'.", e.Message);
         }
 
         [Fact]
@@ -35,10 +35,10 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Each().File("MultipleClass.cs").Contains().One().Class();
+                    Check.Each().File("TwoClassInFile.cs").Contains().One().Class();
                 });
 
-            Assert.Equal("No class found that match ''.", e.Message);
+            Assert.Equal("TwoClassInFile.cs contains two class.", e.Message);
         }
     }
 }

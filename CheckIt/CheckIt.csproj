@@ -126,6 +126,7 @@
     <Compile Include="CheckClasses.cs" />
     <Compile Include="CheckClassVisitor.cs" />
     <Compile Include="CheckContains.cs" />
+    <Compile Include="CheckEach.cs" />
     <Compile Include="CheckFile.cs" />
     <Compile Include="CheckEnumerableBase.cs" />
     <Compile Include="CheckMethod.cs" />

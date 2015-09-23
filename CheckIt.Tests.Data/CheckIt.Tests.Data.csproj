@@ -45,6 +45,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Class2.cs" />
     <Compile Include="Check.cs" />
+    <Compile Include="OneClassInFile.cs" />
     <Compile Include="ErrorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TwoClassInFile.cs" />
