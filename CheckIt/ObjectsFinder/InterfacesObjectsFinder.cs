@@ -42,7 +42,7 @@ namespace CheckIt.ObjectsFinder
 
         public IObjectsFinder Method(string pattern)
         {
-            throw new NotImplementedException();
+            return new MethodsObjectsFinder(this.interfaces.SelectMany(c => c.Method(pattern)));
         }
 
         public List<T> ToList<T>()

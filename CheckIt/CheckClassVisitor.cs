@@ -1,8 +1,6 @@
 namespace CheckIt
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.Immutable;
     using System.Linq;
 
     using CheckIt.Compilation;
@@ -53,7 +51,7 @@ namespace CheckIt
             var position = GetPosition(node);
 
             var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node).ContainingNamespace;
-            this.currentType = new CheckInterface(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString(), position);
+            this.currentType = new CheckInterface(node.Identifier.ValueText, namedTypeSymbol.ToDisplayString(), this.compilationInfo, position);
             this.types.Add(this.currentType);
             base.VisitInterfaceDeclaration(node);
         }
@@ -68,11 +66,6 @@ namespace CheckIt
             this.types.Add(new CheckMethod(node.Identifier.ValueText, position, this.currentType, GetTypes(immutableArray, position).ToList()));
 
             base.VisitMethodDeclaration(node);
-        }
-
-        public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
-        {
-            base.VisitAccessorDeclaration(node);
         }
 
         public override void VisitInvocationExpression(InvocationExpressionSyntax node)

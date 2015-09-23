@@ -3,6 +3,7 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
     internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies
@@ -19,7 +20,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckAssemblyContains> Contains()
         {
-            throw new System.NotImplementedException();
+            return new CheckContains(new CheckSpecificContains(new AssembliesObjectsFinder(this)));
         }
 
         public IAssemblyMatcher Have()

@@ -60,6 +60,18 @@
         }
 
         [Fact]
+        public void Should_throw_error_when_no_class_found()
+        {
+            var ex = Assert.Throws<MatchException>(
+                () =>
+                {
+                    Check.File().FromProject("CheckIt.csproj").Contains().One().Class("NoClass");
+                });
+
+            Assert.Equal("No class found that match pattern 'NoClass'.", ex.Message);
+        }
+
+        [Fact]
         public void Should_contains_class_when_check_specific_file()
         {
             Check.File("Check.cs").FromProject("CheckIt.Tests.Data.csproj").Contains().Any().Class("ClassHaveDifferentNameFromFile");

@@ -3,12 +3,11 @@ namespace CheckIt
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    internal class CheckSpecificContains : ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
+    internal class CheckSpecificContains : ICheckProjectContains, ICheckFilesContains, ICheckClassesContains, ICheckAssemblyContains, ICheckInterfacesContains
     {
         private readonly IObjectsFinder objectsFinder;
 

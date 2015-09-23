@@ -116,6 +116,7 @@
     <Compile Include="CheckSources\CheckFileTests.cs" />
     <Compile Include="CheckSources\CheckProjectsTests.cs" />
     <Compile Include="CheckSources\CheckClassTests.cs" />
+    <Compile Include="CheckSources\CheckInterfaceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
