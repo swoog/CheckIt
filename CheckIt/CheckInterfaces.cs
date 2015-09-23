@@ -37,9 +37,9 @@ namespace CheckIt
             return new CheckInterfaces(Check.GetProjects().Assembly(pattern).Interfaces(this.Pattern).ToList<IInterface>());
         }
 
-        protected override ICheckInterfaces GetFromProject(string pattern)
+        protected override IEnumerable<IInterface> GetTypes()
         {
-            return new CheckInterfaces(Check.GetProjects(pattern).Interfaces(this.Pattern).ToList<IInterface>());
+            return new CheckInterfaces(Check.GetProjects().Interfaces(this.Pattern).ToList<IInterface>());
         }
     }
 }

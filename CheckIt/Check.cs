@@ -1,6 +1,7 @@
 namespace CheckIt
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
 
     using CheckIt.ObjectsFinder;
@@ -22,12 +23,12 @@ namespace CheckIt
 
         public static IProjects Project(string projectfilePattern)
         {
-            return new CheckProjects(GetProjects(projectfilePattern).ToList<CheckProject>());
+            return new CheckProjects(GetFiles(basePath, projectfilePattern), projectfilePattern);
         }
 
         public static IProjects Project()
         {
-            return new CheckProjects(GetProjects().ToList<CheckProject>());
+            return Project("*.csproj");
         }
 
         public static IFiles File(string pattern)
@@ -47,7 +48,7 @@ namespace CheckIt
 
         public static ICheckClasses Class(string pattern)
         {
-            return new CheckClasses(pattern);
+            return new CheckClasses(GetProjects(), pattern);
         }
 
         public static ICheckInterfaces Interfaces()
@@ -75,9 +76,30 @@ namespace CheckIt
             return Method("*");
         }
 
-        internal static IObjectsFinder GetProjects(string projectfilePattern = "*.csproj")
+        internal static IObjectsFinder GetProjects()
         {
-            return new ProjectsObjectsFinder(new CheckProjects(basePath, projectfilePattern));
+            return new ProjectsObjectsFinder(Project());
+        }
+
+        internal static IObjectsFinder GetProjects(string projectfilePattern)
+        {
+            return new ProjectsObjectsFinder(Project(projectfilePattern));
+        }
+
+        private static IEnumerable<FileInfo> GetFiles(string path, string pattern)
+        {
+            foreach (var file in Directory.GetFiles(path, pattern))
+            {
+                yield return new FileInfo(file);
+            }
+
+            foreach (var directory in Directory.GetDirectories(path))
+            {
+                foreach (var fileInfo in GetFiles(directory, pattern))
+                {
+                    yield return fileInfo;
+                }
+            }
         }
     }
 }

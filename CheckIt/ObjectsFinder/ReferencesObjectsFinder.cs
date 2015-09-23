@@ -48,5 +48,10 @@ namespace CheckIt.ObjectsFinder
         {
             return this.checkReferences.Cast<T>().ToList();
         }
+
+        public IObjectsFinder Project(string pattern, bool invert)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -69,5 +69,36 @@
 
             Assert.Equal("The folowing class match pattern 'Class2' :\nClass2 on line 4 from file Class2.cs", e.Message);
         }
+
+        [Fact]
+        public void Should_throw_error_when_not_found_class()
+        {
+            var ex = Assert.Throws<MatchException>(
+                () =>
+                {
+                    Check.Class("UnknowClass").Have().Name().Match("^UnknowClass$");
+                });
+
+            Assert.Equal("No class found that match 'UnknowClass'.", ex.Message);
+        }
+
+
+        [Fact]
+        public void Should_throw_error_when_not_found_class_when_use_from_project()
+        {
+            var ex = Assert.Throws<MatchException>(
+             () =>
+             {
+                 Check.Class("Class1").FromProject(@"CheckIt.csproj").Have().Name().Match("^Class1$");
+             });
+
+            Assert.Equal("No class found that match 'Class1'.", ex.Message);
+        }
+
+        [Fact]
+        public void Should_check_class_when_match_two_class()
+        {
+            Check.Class("Class?").Have().Name().Match("^Class.$");
+        }
     }
 }

@@ -13,8 +13,6 @@ namespace CheckIt
 
         private readonly string pattern;
 
-        private bool invert;
-
         public Files(string pattern)
         {
             this.pattern = pattern;
@@ -65,7 +63,7 @@ namespace CheckIt
 
         private IObjectsFinder GetFilesFromProject(string pattern)
         {
-            return Check.GetProjects(pattern).File(this.pattern, this.invert);
+            return Check.GetProjects(pattern).File(this.pattern, false);
         }
     }
 }

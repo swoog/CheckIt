@@ -17,5 +17,7 @@ namespace CheckIt.ObjectsFinder
         IObjectsFinder Method(string pattern);
 
         List<T> ToList<T>();
+
+        IObjectsFinder Project(string pattern, bool invert);
     }
 }

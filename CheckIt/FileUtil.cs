@@ -29,7 +29,7 @@ namespace CheckIt
             }
 
             // prepare the pattern to the form appropriate for Regex class
-            StringBuilder sb = new StringBuilder(pattern);
+            var sb = new StringBuilder(pattern);
 
             // remove superflous occurences of  "?*" and "*?"
             while (sb.ToString().IndexOf("?*", StringComparison.Ordinal) != -1)
@@ -61,7 +61,7 @@ namespace CheckIt
                 // replaces all occurrences of '*' with ".*" 
                 sb.Replace("*", ".*");
 
-                // replaces all occurrences of '?' with '.*' 
+                // replaces all occurrences of '?' with '.' 
                 sb.Replace("?", ".");
 
                 // add "\b" to the beginning and end of the pattern
@@ -70,7 +70,7 @@ namespace CheckIt
                 pattern = sb.ToString();
             }
 
-            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
             return regex.IsMatch(filename);
         }
     }

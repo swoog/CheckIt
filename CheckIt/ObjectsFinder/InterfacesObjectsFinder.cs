@@ -49,5 +49,10 @@ namespace CheckIt.ObjectsFinder
         {
             return this.interfaces.Cast<T>().ToList();
         }
+
+        public IObjectsFinder Project(string pattern, bool invert)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

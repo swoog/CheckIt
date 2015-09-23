@@ -1,7 +1,6 @@
 namespace CheckIt
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using CheckIt.Compilation;
     using CheckIt.ObjectsFinder;
@@ -9,7 +8,9 @@ namespace CheckIt
 
     internal class CheckClasses : CheckTypes<IClass, IClassMatcher, ICheckClasses, ICheckClassesContains>, ICheckClasses, IClassMatcher
     {
-        private bool invert;
+        private readonly IObjectsFinder objectsFinder;
+
+        private readonly bool invert;
 
         public CheckClasses(IEnumerable<IClass> classes, bool invert = false)
             : base(classes, "class")
@@ -22,14 +23,16 @@ namespace CheckIt
         {
         }
 
-        public CheckClasses(string pattern)
-            : base(pattern, "class")
-        {
-        }
-
         public CheckClasses(ICompilationInfo compilationInfo, string pattern)
             : base(compilationInfo, pattern, "class")
         {
+        }
+
+        public CheckClasses(IObjectsFinder objectsFinder, string pattern, bool invert = false)
+            : base(pattern, "class")
+        {
+            this.objectsFinder = objectsFinder;
+            this.invert = invert;
         }
 
         public ICheckContains<ICheckClassesContains> Contains()
@@ -44,27 +47,32 @@ namespace CheckIt
 
         public IPatternContains<IClassMatcher, ICheckClassesContains> FromAssembly(string pattern)
         {
-            return Class(Check.GetProjects().Assembly(pattern), this.Pattern);
+            return Class(this.objectsFinder.Assembly(pattern));
+        }
+
+        public IPatternContains<IClassMatcher, ICheckClassesContains> FromProject(string pattern)
+        {
+            return Class(this.objectsFinder.Project(pattern, this.invert));
         }
 
         public IPatternContains<IClassMatcher, ICheckClassesContains> FromFile(string pattern)
         {
-            return Class(Check.GetProjects().File(pattern, this.invert), this.Pattern);
+            return Class(this.objectsFinder.File(pattern, this.invert));
         }
 
         public ICheckClasses Not()
         {
-            return new CheckClasses(this, !this.invert);
+            return new CheckClasses(this.objectsFinder, this.Pattern, !this.invert);
         }
 
-        private CheckClasses Class(IObjectsFinder assemblies, string pattern)
+        private CheckClasses Class(IObjectsFinder assemblies)
         {
-            return new CheckClasses(assemblies.Class(pattern).ToList<IClass>());
+            return new CheckClasses(assemblies, this.Pattern);
         }
 
-        protected override ICheckClasses GetFromProject(string pattern)
+        protected override IEnumerable<IClass> GetTypes()
         {
-            return new CheckClasses(Check.GetProjects(pattern).Class(this.Pattern).ToList<IClass>());
+            return this.objectsFinder.Class(this.Pattern).ToList<IClass>();
         }
     }
 }

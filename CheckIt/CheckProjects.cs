@@ -9,30 +9,19 @@ namespace CheckIt
 
     internal class CheckProjects : CheckEnumerableBase<IProject>, IProjects, IProjectMatcher
     {
-        private readonly string basePath;
+        private readonly IEnumerable<FileInfo> files;
 
         private readonly string projectfilePattern;
 
-        private readonly ProjectsObjectsFinder projectsObjectsFinder;
-
-        private List<CheckProject> projects;
-
-        public CheckProjects(string basePath, string projectfilePattern)
+        public CheckProjects(IEnumerable<FileInfo> files, string pattern)
         {
-            this.basePath = basePath;
-            this.projectfilePattern = projectfilePattern;
-            this.projectsObjectsFinder = new ProjectsObjectsFinder(this);
-        }
-
-        public CheckProjects(List<CheckProject> toList)
-        {
-            this.projects = toList;
-            this.projectsObjectsFinder = new ProjectsObjectsFinder(this);
+            this.files = files;
+            this.projectfilePattern = pattern;
         }
 
         public ICheckContains<ICheckProjectContains> Contains()
         {
-            return new CheckContains(new CheckSpecificContains(this.projectsObjectsFinder));
+            return new CheckContains(new CheckSpecificContains(new ProjectsObjectsFinder(this)));
         }
 
         public IProjectMatcher Have()
@@ -42,7 +31,7 @@ namespace CheckIt
 
         public CheckMatch AssemblyName()
         {
-            var assemblies = from p in this.projects
+            var assemblies = from p in this
                              select new CheckMatchValue(p.Assembly().Name, p.Assembly().Name, null);
 
             return new CheckMatch(assemblies.ToList(), "assemblies");
@@ -50,7 +39,7 @@ namespace CheckIt
 
         public CheckMatch Name()
         {
-            var assemblies = from p in this.projects
+            var assemblies = from p in this
                              select new CheckMatchValue(p.Name, p.Name, null);
 
             return new CheckMatch(assemblies.ToList(), "projects");
@@ -58,50 +47,16 @@ namespace CheckIt
 
         protected override IEnumerable<IProject> Gets()
         {
-            if (this.projects != null)
-            {
-                foreach (var file in this.projects)
-                {
-                    yield return file;
-                }
-
-                yield break;
-            }
-
-            foreach (var file in this.GetFiles())
-            {
-                yield return new CheckProject(file);
-            }
-        }
-
-        private IEnumerable<FileInfo> GetFiles()
-        {
             var hasFiles = false;
-            foreach (var file in this.GetFiles(this.basePath))
+            foreach (var file in this.files)
             {
                 hasFiles = true;
-                yield return file;
+                yield return new CheckProject(file);
             }
 
             if (!hasFiles)
             {
                 throw new MatchException(string.Format("No project found that match '{0}'.", this.projectfilePattern));
-            }
-        }
-
-        private IEnumerable<FileInfo> GetFiles(string path)
-        {
-            foreach (var file in Directory.GetFiles(path, this.projectfilePattern))
-            {
-                yield return new FileInfo(file);
-            }
-
-            foreach (var directory in Directory.GetDirectories(path))
-            {
-                foreach (var fileInfo in this.GetFiles(directory))
-                {
-                    yield return fileInfo;
-                }
             }
         }
     }

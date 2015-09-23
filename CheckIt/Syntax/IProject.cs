@@ -4,6 +4,8 @@ namespace CheckIt.Syntax
 
     public interface IProject
     {
+        string Name { get; }
+
         IEnumerable<IClass> Class(string pattern);
 
         IAssembly Assembly();

@@ -1,6 +1,8 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     using CheckIt.Compilation;
@@ -57,11 +59,6 @@ namespace CheckIt
             return new CheckMatch(values, this.typeName);
         }
 
-        public IPatternContains<T2, T4> FromProject(string pattern)
-        {
-            return this.GetFromProject(pattern);
-        }
-
         protected override IEnumerable<T> Gets()
         {
             if (this.classes != null)
@@ -73,13 +70,23 @@ namespace CheckIt
             }
             else
             {
-                foreach (var checkType in this.GetFromProject("*.csproj"))
+                var foundClass = false;
+                foreach (var checkType in this.GetTypes())
                 {
-                    yield return checkType;
+                    if (FileUtil.FilenameMatchesPattern(checkType.Name, this.Pattern))
+                    {
+                        foundClass = true;
+                        yield return checkType;
+                    }
+                }
+
+                if (!foundClass)
+                {
+                    throw new MatchException("No class found that match '{0}'.", this.Pattern);
                 }
             }
         }
 
-        protected abstract T3 GetFromProject(string pattern);
+        protected abstract IEnumerable<T> GetTypes();
     }
 }

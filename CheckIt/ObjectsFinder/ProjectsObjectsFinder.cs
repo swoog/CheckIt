@@ -7,9 +7,9 @@ namespace CheckIt.ObjectsFinder
 
     internal class ProjectsObjectsFinder : IObjectsFinder
     {
-        private readonly CheckProjects checkProjects;
+        private readonly IEnumerable<IProject> checkProjects;
 
-        public ProjectsObjectsFinder(CheckProjects checkProjects)
+        public ProjectsObjectsFinder(IEnumerable<IProject> checkProjects)
         {
             this.checkProjects = checkProjects;
         }
@@ -45,6 +45,13 @@ namespace CheckIt.ObjectsFinder
         public List<T> ToList<T>()
         {
             return this.checkProjects.Cast<T>().ToList();
+        }
+
+        public IObjectsFinder Project(string pattern, bool invert)
+        {
+            return
+                new ProjectsObjectsFinder(
+                    this.checkProjects.Where(f => invert ^ FileUtil.FilenameMatchesPattern(f.Name, pattern)));
         }
 
         public IObjectsFinder Reference(string pattern)

@@ -29,6 +29,11 @@ namespace CheckIt.ObjectsFinder
             return this.checkAssemblies.Cast<T>().ToList();
         }
 
+        public IObjectsFinder Project(string pattern, bool invert)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IObjectsFinder Class(string pattern)
         {
             return new ClassesObjectsFinder(new CheckClasses(this.checkAssemblies.SelectMany(f => f.Class(pattern))));
