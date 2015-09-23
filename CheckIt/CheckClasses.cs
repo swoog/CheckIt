@@ -37,7 +37,7 @@ namespace CheckIt
 
         public ICheckContains<ICheckClassesContains> Contains()
         {
-            return new CheckContains(new CheckSpecificContains());
+            return new CheckContains(new CheckSpecificContains(new ClassesObjectsFinder(this)));
         }
 
         public IClassMatcher Have()

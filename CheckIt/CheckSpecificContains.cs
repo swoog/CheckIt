@@ -12,10 +12,6 @@ namespace CheckIt
     {
         private readonly IObjectsFinder objectsFinder;
 
-        public CheckSpecificContains()
-        {
-        }
-
         public CheckSpecificContains(IObjectsFinder objectsFinder)
         {
             this.objectsFinder = objectsFinder;
@@ -50,6 +46,21 @@ namespace CheckIt
             if (!this.Predicate(this.objectsFinder.Reference(pattern).ToList<IReference>()))
             {
                 throw new MatchException(this.MessageFunc("reference", pattern));
+            }
+        }
+
+        public void Method(string pattern)
+        {
+            List<IMethod> methods = null;
+
+            if (this.objectsFinder != null)
+            {
+                methods = this.objectsFinder.Method(pattern).ToList<IMethod>();
+            }
+
+            if (!this.Predicate(methods))
+            {
+                throw new MatchException(this.MessageFunc("method", pattern));
             }
         }
     }
