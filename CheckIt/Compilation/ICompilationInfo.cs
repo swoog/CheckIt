@@ -1,8 +1,6 @@
-namespace CheckIt
+namespace CheckIt.Compilation
 {
     using System.Collections.Generic;
-
-    using Microsoft.CodeAnalysis;
 
     public interface ICompilationInfo
     {
@@ -10,7 +8,6 @@ namespace CheckIt
 
         IEnumerable<T> Get<T>(ICompilationDocument document);
 
-        IEnumerable<T>
-            Get<T>() where T : IType;
+        IEnumerable<T> Get<T>();
     }
 }

@@ -1,17 +1,19 @@
 namespace CheckIt
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
 
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    public class Check
+    public static class Check
     {
-        internal static string basePath = Environment.CurrentDirectory;
+        private static string basePath = Environment.CurrentDirectory;
 
         public static IAssemblies Assembly(string matchAssemblies)
         {
-            return GetProjects().Assembly(matchAssemblies);
+            return new CheckAssemblies(GetProjects().Assembly(matchAssemblies).ToList<IAssembly>(), matchAssemblies);
         }
 
         public static IAssemblies Assembly()
@@ -21,12 +23,12 @@ namespace CheckIt
 
         public static IProjects Project(string projectfilePattern)
         {
-            return GetProjects(projectfilePattern);
+            return new CheckProjects(GetFiles(basePath, projectfilePattern), projectfilePattern);
         }
 
         public static IProjects Project()
         {
-            return GetProjects();
+            return Project("*.csproj");
         }
 
         public static IFiles File(string pattern)
@@ -36,17 +38,17 @@ namespace CheckIt
 
         public static IFiles File()
         {
-            return File(string.Empty);
+            return File("*");
         }
 
         public static ICheckClasses Class()
         {
-            return Class(string.Empty);
+            return Class("*");
         }
 
         public static ICheckClasses Class(string pattern)
         {
-            return new CheckClasses(pattern);
+            return new CheckClasses(GetProjects(), pattern);
         }
 
         public static ICheckInterfaces Interfaces()
@@ -64,9 +66,40 @@ namespace CheckIt
             basePath = Path.Combine(Environment.CurrentDirectory, newBasePath);
         }
 
-        internal static CheckProjects GetProjects(string projectfilePattern = "*.csproj")
+        public static IMethods Method(string pattern)
         {
-            return new CheckProjects(basePath, projectfilePattern);
+            return new CheckMethods(Check.GetProjects().Class("*").Method(pattern).ToList<IMethod>(), pattern);
+        }
+
+        public static IMethods Method()
+        {
+            return Method("*");
+        }
+
+        internal static IObjectsFinder GetProjects()
+        {
+            return new ProjectsObjectsFinder(Project());
+        }
+
+        internal static IObjectsFinder GetProjects(string projectfilePattern)
+        {
+            return new ProjectsObjectsFinder(Project(projectfilePattern));
+        }
+
+        private static IEnumerable<FileInfo> GetFiles(string path, string pattern)
+        {
+            foreach (var file in Directory.GetFiles(path, pattern))
+            {
+                yield return new FileInfo(file);
+            }
+
+            foreach (var directory in Directory.GetDirectories(path))
+            {
+                foreach (var fileInfo in GetFiles(directory, pattern))
+                {
+                    yield return fileInfo;
+                }
+            }
         }
 
         public static CheckEach Each()

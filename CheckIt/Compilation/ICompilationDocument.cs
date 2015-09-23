@@ -1,4 +1,4 @@
-namespace CheckIt
+namespace CheckIt.Compilation
 {
     using Microsoft.CodeAnalysis;
 
@@ -7,6 +7,8 @@ namespace CheckIt
         SyntaxTree SyntaxTree { get; }
 
         string Name { get; }
+
+        string FullName { get; }
 
         Compilation Compile { get; }
     }

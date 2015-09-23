@@ -1,6 +1,8 @@
 namespace CheckIt.Syntax
 {
-    public interface IProjects : IPatternContains<IProjects, ICheckProjectContains>
+    using System.Collections.Generic;
+
+    public interface IProjects : IEnumerable<IProject>, IPatternContains<IProjectMatcher, ICheckProjectContains>
     {
     }
 }

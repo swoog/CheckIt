@@ -1,11 +1,12 @@
 namespace CheckIt
 {
-    using System;
     using System.Collections.Generic;
 
+    using CheckIt.Compilation;
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    public class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher
+    internal class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher
     {
         public CheckInterfaces(IEnumerable<IInterface> interfaces)
             : base(interfaces, "interface")
@@ -15,7 +16,6 @@ namespace CheckIt
         public CheckInterfaces(string pattern)
             : base(pattern, "interface")
         {
-
         }
 
         public CheckInterfaces(ICompilationInfo compilationInfo, string pattern)
@@ -23,14 +23,9 @@ namespace CheckIt
         {
         }
 
-        protected override ICheckInterfaces GetFromProject(string pattern)
-        {
-            return Check.GetProjects(pattern).Interfaces(this.pattern);
-        }
-
         public ICheckContains<ICheckInterfacesContains> Contains()
         {
-            throw new System.NotImplementedException();
+            return new CheckContains(new CheckSpecificContains(new InterfacesObjectsFinder(this)));
         }
 
         public IInterfaceMatcher Have()
@@ -40,7 +35,12 @@ namespace CheckIt
 
         public IPatternContains<IInterfaceMatcher, ICheckInterfacesContains> FromAssembly(string pattern)
         {
-            return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
+            return new CheckInterfaces(Check.GetProjects().Assembly(pattern).Interfaces(this.Pattern).ToList<IInterface>());
+        }
+
+        protected override IEnumerable<IInterface> GetTypes()
+        {
+            return new CheckInterfaces(Check.GetProjects().Interfaces(this.Pattern).ToList<IInterface>());
         }
     }
 }

@@ -1,87 +1,76 @@
 namespace CheckIt
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using CheckIt.Compilation;
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    public class Files : CheckEnumerableBase<CheckFile>, IObjectsFinder, IFiles
+    internal class Files : CheckEnumerableBase<IFile>, IFiles, IFileMatcher
     {
-        private readonly IEnumerable<CheckFile> checkFiles;
+        private readonly IEnumerable<IFile> checkFiles;
 
-        private string pattern;
+        private readonly string pattern;
 
         public Files(string pattern)
         {
             this.pattern = pattern;
         }
 
-        public Files(IEnumerable<CheckFile> checkFiles)
+        public Files(ICompilationInfo compilationInfo)
+        {
+            this.pattern = "*";
+            this.checkFiles = this.Gets(compilationInfo);
+        }
+
+        private Files(IEnumerable<IFile> checkFiles)
         {
             this.checkFiles = checkFiles;
         }
 
-        public Files(ICompilationInfo compilationInfo, string pattern)
+        public ICheckContains<ICheckFilesContains> Contains()
         {
-            this.pattern = pattern;
-            this.checkFiles = this.Gets(compilationInfo);
+            return new CheckContains(new CheckSpecificContains(new FilesObjectsFinder(this)));
         }
 
-        private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
+        public IFileMatcher Have()
         {
-            foreach (var document in compilationInfo.Project.Documents)
-            {
-                if (FileUtil.FilenameMatchesPattern(document.Name, this.pattern))
-                {
-                    yield return new CheckFile(document, compilationInfo);
-                }
-            }
+            return this;
         }
 
-        protected override IEnumerable<CheckFile> Gets()
+        public IPatternContains<IFileMatcher, ICheckFilesContains> FromProject(string pattern)
+        {
+            return new Files(this.GetFilesFromProject(pattern).ToList<IFile>());
+        }
+
+        protected override IEnumerable<IFile> Gets()
         {
             if (this.checkFiles != null)
             {
                 return this.checkFiles;
             }
             
-            return this.GetFilesFromProject("*.csproj");
+            return new Files(this.GetFilesFromProject("*.csproj").ToList<IFile>());
         }
 
-        public ICheckContains<ICheckFilesContains> Contains()
+        private IEnumerable<CheckFile> Gets(ICompilationInfo compilationInfo)
         {
-            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
+            return from document in compilationInfo.Project.Documents 
+                   where FileUtil.FilenameMatchesPattern(document.Name, this.pattern) 
+                   select new CheckFile(document, compilationInfo);
         }
 
-        public IFiles Have()
+        private IObjectsFinder GetFilesFromProject(string pattern)
         {
-            throw new System.NotImplementedException();
+            return Check.GetProjects(pattern).File(this.pattern, false);
         }
 
-        public CheckClasses Class(string match)
+        public CheckMatch Name()
         {
-            return new CheckClasses(this.SelectMany(f => f.Class(match)));
-        }
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name, null)).ToList();
 
-        public CheckReferences Reference(string pattern)
-        {
-            throw new NotSupportedException("No references on files");
-        }
-
-        public IPatternContains<IFiles, ICheckFilesContains> FromProject(string pattern)
-        {
-            return this.GetFilesFromProject(pattern);
-        }
-
-        private Files GetFilesFromProject(string pattern)
-        {
-            return Check.GetProjects(pattern).File(this.pattern);
-        }
-
-        public IPatternContains<IFiles, ICheckFilesContains> FromAssembly(string pattern)
-        {
-            return Check.GetProjects().Assembly(pattern).File(this.pattern);
+            return new CheckMatch(values, "file");
         }
     }
 }

@@ -1,9 +1,14 @@
 namespace CheckIt.Syntax
 {
-    public interface IFiles : IPatternContains<IFiles, ICheckFilesContains>
-    {
-        IPatternContains<IFiles, ICheckFilesContains> FromProject(string pattern);
+    using System.Collections.Generic;
 
-        IPatternContains<IFiles, ICheckFilesContains> FromAssembly(string pattern);
+    public interface IFiles : IEnumerable<IFile>, IPatternContains<IFileMatcher, ICheckFilesContains>
+    {
+        IPatternContains<IFileMatcher, ICheckFilesContains> FromProject(string pattern);
+    }
+
+    public interface IFileMatcher
+    {
+        CheckMatch Name();
     }
 }

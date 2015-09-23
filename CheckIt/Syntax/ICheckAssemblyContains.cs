@@ -1,6 +1,7 @@
 namespace CheckIt.Syntax
 {
-	public interface ICheckAssemblyContains
-	{
-	}
+    public interface ICheckAssemblyContains
+    {
+        void Class(string pattern);
+    }
 }

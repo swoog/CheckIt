@@ -29,5 +29,11 @@ namespace CheckIt.Compilation.MsBuild
         }
 
         public Compilation Compile { get; private set; }
+
+
+        public string FullName
+        {
+            get { return this.document.FilePath; }
+        }
     }
 }

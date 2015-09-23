@@ -1,4 +1,4 @@
-namespace CheckIt
+namespace CheckIt.Compilation
 {
     using System.Collections.Generic;
 
@@ -9,5 +9,7 @@ namespace CheckIt
         List<ICompilationDocument> Documents { get; }
 
         List<ICompilationReference> References { get; }
+
+        string Name { get; }
     }
 }

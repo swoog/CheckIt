@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallingMethod\ClassCalled.cs" />
+    <Compile Include="CallingMethod\ClassCaller.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Class2.cs" />
     <Compile Include="Check.cs" />
     <Compile Include="ErrorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TwoClassInFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

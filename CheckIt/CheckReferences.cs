@@ -3,11 +3,14 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckReferences : CheckEnumerableBase<CheckReference>
-    {
-        private readonly IEnumerable<CheckReference> checkReferences;
+    using CheckIt.Compilation;
+    using CheckIt.Syntax;
 
-        public CheckReferences(IEnumerable<CheckReference> checkReferences)
+    internal class CheckReferences : CheckEnumerableBase<IReference>
+    {
+        private readonly IEnumerable<IReference> checkReferences;
+
+        public CheckReferences(IEnumerable<IReference> checkReferences)
         {
             this.checkReferences = checkReferences;
         }
@@ -19,7 +22,7 @@ namespace CheckIt
                     .Select(r => new CheckReference(r.Name));
         }
 
-        protected override IEnumerable<CheckReference> Gets()
+        protected override IEnumerable<IReference> Gets()
         {
             return this.checkReferences;
         }

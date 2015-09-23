@@ -7,7 +7,7 @@ namespace CheckIt
     /// <summary>
     /// A set of file utilities.
     /// </summary>
-    public struct FileUtil
+    internal struct FileUtil
     {
         /// <summary>
         ///   Checks if name matches pattern with '?' and '*' wildcards.
@@ -21,26 +21,10 @@ namespace CheckIt
         /// <returns>
         ///   <c>true</c> if name matches pattern, otherwise <c>false</c>.
         /// </returns>
-        public static bool FilenameMatchesPattern(string filename, string pattern)
+        internal static bool FilenameMatchesPattern(string filename, string pattern)
         {
             // prepare the pattern to the form appropriate for Regex class
-            StringBuilder sb = new StringBuilder(pattern);
-            // remove superflous occurences of  "?*" and "*?"
-            while (sb.ToString().IndexOf("?*", StringComparison.Ordinal) != -1)
-            {
-                sb.Replace("?*", "*");
-            }
-
-            while (sb.ToString().IndexOf("*?", StringComparison.Ordinal) != -1)
-            {
-                sb.Replace("*?", "*");
-            }
-
-            // remove superflous occurences of asterisk '*'
-            while (sb.ToString().IndexOf("**", StringComparison.Ordinal) != -1)
-            {
-                sb.Replace("**", "*");
-            }
+            var sb = new StringBuilder(pattern);
 
             // if only asterisk '*' is left, the mask is ".*"
             if (sb.ToString().Equals("*"))
@@ -51,19 +35,21 @@ namespace CheckIt
             {
                 // replace '.' with "\."
                 sb.Replace(".", "\\.");
+
                 // replaces all occurrences of '*' with ".*" 
                 sb.Replace("*", ".*");
-                // replaces all occurrences of '?' with '.*' 
+
+                // replaces all occurrences of '?' with '.' 
                 sb.Replace("?", ".");
+
                 // add "\b" to the beginning and end of the pattern
                 sb.Insert(0, "^");
                 sb.Append("$");
                 pattern = sb.ToString();
             }
 
-            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
             return regex.IsMatch(filename);
         }
-
     }
 }

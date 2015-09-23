@@ -3,17 +3,13 @@ namespace CheckIt
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
+    using CheckIt.ObjectsFinder;
     using CheckIt.Syntax;
 
-    public class CheckSpecificContains : IContains, ICheckProjectContains, ICheckFilesContains, ICheckClassesContains
+    internal class CheckSpecificContains : ICheckProjectContains, ICheckFilesContains, ICheckClassesContains, ICheckAssemblyContains, ICheckInterfacesContains
     {
         private readonly IObjectsFinder objectsFinder;
-
-        public CheckSpecificContains()
-        {
-        }
 
         public CheckSpecificContains(IObjectsFinder objectsFinder)
         {
@@ -30,7 +26,7 @@ namespace CheckIt
 
             if (this.objectsFinder != null)
             {
-                classes = this.objectsFinder.Class(pattern).ToList();
+                classes = this.objectsFinder.Class(pattern).ToList<IClass>();
             }
 
             if (!this.Predicate(classes))
@@ -41,14 +37,29 @@ namespace CheckIt
 
         public void Class()
         {
-            this.Class(string.Empty);
+            this.Class("*");
         }
 
         public void Reference(string pattern)
         {
-            if (!this.Predicate(this.objectsFinder.Reference(pattern).ToList()))
+            if (!this.Predicate(this.objectsFinder.Reference(pattern).ToList<IReference>()))
             {
                 throw new MatchException(this.MessageFunc("reference", pattern));
+            }
+        }
+
+        public void Method(string pattern)
+        {
+            List<IMethod> methods = null;
+
+            if (this.objectsFinder != null)
+            {
+                methods = this.objectsFinder.Method(pattern).ToList<IMethod>();
+            }
+
+            if (!this.Predicate(methods))
+            {
+                throw new MatchException(this.MessageFunc("method", pattern));
             }
         }
     }

@@ -14,7 +14,7 @@
         [Fact]
         public void Should_check_contains_one_class()
         {
-            Check.File("Class1.cs").FromAssembly("CheckIt.tests.Data.dll").Contains().One().Class("Class1");
+            Check.File("Class1.cs").FromProject("CheckIt.tests.Data.csproj").Contains().One().Class("Class1");
         }
 
         [Fact]
@@ -23,7 +23,7 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.File("MultipleClass.cs").FromAssembly("CheckIt.tests.Data.dll").Contains().One().Class();
+                    Check.File("MultipleClass.cs").FromProject("CheckIt.tests.Data.csproj").Contains().One().Class();
                 });
 
             Assert.Equal("No class found that match pattern ''.", e.Message);

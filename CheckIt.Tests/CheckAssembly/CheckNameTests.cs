@@ -33,7 +33,7 @@
         [Fact]
         public void Should_check_not_match_name()
         {
-            Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().Name().NotMatch("^Toto$");
+            Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().Name().Not().Match("^Toto$");
         }
 
         [Fact]
@@ -45,7 +45,7 @@
                     Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().Name().Match("^[a-z].+$");
                 });
 
-            Assert.Equal("The folowing class doesn't respect pattern '^[a-z].+$' :\nClass1", e.Message);
+            Assert.Equal("The folowing class doesn't respect pattern '^[a-z].+$' :\nClass1 on line 8 from file Class1.cs", e.Message);
         }
 
         [Fact]
@@ -54,10 +54,10 @@
             var e = Assert.Throws<MatchException>(
                 () =>
                 {
-                    Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().Name().NotMatch("[0-9]$");
+                    Check.Class("Class1").FromAssembly("CheckIt.Tests.Data.dll").Have().Name().Not().Match("[0-9]$");
                 });
 
-            Assert.Equal("The folowing class match pattern '[0-9]$' :\nClass1", e.Message);
+            Assert.Equal("The folowing class match pattern '[0-9]$' :\nClass1 on line 8 from file Class1.cs", e.Message);
         }
 
         [Fact]
