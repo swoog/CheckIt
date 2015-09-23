@@ -38,7 +38,7 @@ namespace CheckIt
 
         public static IFiles File()
         {
-            return File(string.Empty);
+            return File("*");
         }
 
         public static ICheckClasses Class()
