@@ -73,7 +73,7 @@
                     Check.Class().Not().FromFile("Class1.cs").Have().Name().Not().Match("Class2");
                 });
 
-            Assert.Equal("The folowing class match pattern 'Class2' :\nClass2 on line 4 from file Class2.cs", e.Message);
+            Assert.Equal("The folowing class match pattern 'Class2' :\nClass2 on line 5 from file Class2.cs", e.Message);
         }
 
         [Fact]
