@@ -71,30 +71,34 @@ namespace CheckIt
         public override void VisitInvocationExpression(InvocationExpressionSyntax node)
         {
             var position = GetPosition(node);
-
-            var namedTypeSymbol = this.semanticModel.GetDeclaredSymbol(node.Expression);
+            var name = string.Empty;
             SimpleNameSyntax identifier;
-            IList<IType> types = null;
-            var memberAccessExpressionSyntax = node.Expression as MemberAccessExpressionSyntax;
-            if (memberAccessExpressionSyntax != null)
+            IList<IType> typesList = null;
+            if (node.Expression is MemberAccessExpressionSyntax)
             {
+                var memberAccessExpressionSyntax = node.Expression as MemberAccessExpressionSyntax;
                 if (memberAccessExpressionSyntax.Name is GenericNameSyntax)
                 {
                     var genericNameSyntax = memberAccessExpressionSyntax.Name as GenericNameSyntax;
-                    types = GetTypes(genericNameSyntax.TypeArgumentList).ToList();
+                    typesList = GetTypes(genericNameSyntax.TypeArgumentList).ToList();
                     identifier = genericNameSyntax;
                 }
                 else
                 {
                     identifier = memberAccessExpressionSyntax.Name;
                 }
+                name = identifier.Identifier.ValueText;
             }
-            else
+            else if (node.Expression is SimpleNameSyntax)
             {
                 identifier = node.Expression as SimpleNameSyntax;
+                name = identifier.Identifier.ValueText;
             }
 
-            this.types.Add(new CheckMethod(identifier.Identifier.ValueText, position, this.currentType, types));
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                this.types.Add(new CheckMethod(name, position, this.currentType, typesList));
+            }
             base.VisitInvocationExpression(node);
         }
 
