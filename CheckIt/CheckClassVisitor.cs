@@ -94,7 +94,6 @@ namespace CheckIt
                 identifier = node.Expression as SimpleNameSyntax;
             }
 
-            var e = memberAccessExpressionSyntax;
             this.types.Add(new CheckMethod(identifier.Identifier.ValueText, position, this.currentType, types));
             base.VisitInvocationExpression(node);
         }
