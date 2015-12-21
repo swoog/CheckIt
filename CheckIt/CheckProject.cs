@@ -3,43 +3,42 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.IO;
 
-    public class CheckProject
+    using CheckIt.Compilation;
+    using CheckIt.Syntax;
+
+    internal class CheckProject : IProject
     {
-        private readonly FileInfo file;
-
-        private ICompilationInfo compilationInfo;
-
-        private readonly ICompilationInfoFactory msBuildCompilationInfoFactory;
+        private readonly ICompilationInfo compilationInfo;
 
         public CheckProject(FileInfo file)
         {
-            this.file = file;
-
-            this.msBuildCompilationInfoFactory = Locator.Get<ICompilationInfoFactory>();
-            this.compilationInfo = this.msBuildCompilationInfoFactory.GetCompilationInfo(file);
+            this.compilationInfo = Locator.Get<ICompilationInfoFactory>().GetCompilationInfo(file);
+            this.Name = this.compilationInfo.Project.Name;
         }
 
-        public CheckClasses Class(string classPattern)
+        public string Name { get; private set; }
+
+        public IEnumerable<IClass> Class(string classPattern)
         {
             return new CheckClasses(this.compilationInfo, classPattern);
         }
 
-        public CheckAssembly Assembly()
+        public IAssembly Assembly()
         {
             return new CheckAssembly(this.compilationInfo);
         }
 
-        public CheckFiles File(string pattern)
+        public IEnumerable<IFile> File()
         {
-            return new CheckFiles(this.compilationInfo, pattern);
+            return new Files(this.compilationInfo);
         }
 
-        public CheckInterfaces Interface(string pattern)
+        public IEnumerable<IInterface> Interface(string pattern)
         {
             return new CheckInterfaces(this.compilationInfo, pattern);
         }
 
-        public CheckReferences Reference(string pattern)
+        public IEnumerable<IReference> Reference(string pattern)
         {
             return new CheckReferences(this.compilationInfo, pattern);
         }

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckIt", "CheckIt\CheckIt.csproj", "{AD406F8A-52AC-44E9-97D9-4C378474DC67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckIt.Tests", "CheckIt.Tests\CheckIt.Tests.csproj", "{55BABC1D-E821-4076-9712-3DBEF6F18C75}"

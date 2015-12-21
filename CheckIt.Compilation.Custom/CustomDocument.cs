@@ -12,11 +12,14 @@ namespace CheckIt.Compilation.Custom
             this.SyntaxTree = syntaxTree;
             this.Compile = compile;
             this.Name = fileInfo.Name;
+            this.FullName = fileInfo.FullName;
         }
 
         public SyntaxTree SyntaxTree { get; private set; }
 
         public string Name { get; private set; }
+
+        public string FullName { get; private set; }
 
         public Compilation Compile { get; private set; }
     }

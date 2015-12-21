@@ -2,16 +2,20 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
+    using CheckIt.Compilation;
+
     using Microsoft.CodeAnalysis;
 
     public class CompilationInfoBase : ICompilationInfo
     {
+        private static readonly Dictionary<string, CheckClassVisitor> CompilationDocumentResult = new Dictionary<string, CheckClassVisitor>();
+
         public ICompilationProject Project { get; protected set; }
 
         public IEnumerable<T> Get<T>(ICompilationDocument document)
         {
             var syntaxTreeAsync = document.SyntaxTree;
-            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile);
+            var checkClasses = Visit<T>(syntaxTreeAsync, document.Compile, this, document);
 
             foreach (var checkClass in checkClasses)
             {
@@ -19,19 +23,8 @@ namespace CheckIt
             }
         }
 
-        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Compilation compile)
-        {
-            var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
-
-            var visitor = new CheckClassVisitor(semanticModel);
-
-            visitor.Visit(syntaxTreeAsync.GetRoot());
-
-            return visitor.Get<T>();
-        }
-
         public IEnumerable<T>
-            Get<T>() where T : CheckType
+            Get<T>()
         {
             foreach (var document in this.Project.Documents)
             {
@@ -40,6 +33,24 @@ namespace CheckIt
                     yield return checkClass;
                 }
             }
+        }
+
+        private static IEnumerable<T> Visit<T>(SyntaxTree syntaxTreeAsync, Microsoft.CodeAnalysis.Compilation compile, ICompilationInfo compilationInfo, ICompilationDocument document)
+        {
+            CheckClassVisitor visitor;
+
+            if (!CompilationDocumentResult.TryGetValue(document.FullName, out visitor))
+            {
+                var semanticModel = compile.GetSemanticModel(syntaxTreeAsync);
+
+                visitor = new CheckClassVisitor(document, semanticModel, compilationInfo);
+
+                visitor.Visit(syntaxTreeAsync.GetRoot());
+
+                CompilationDocumentResult.Add(document.FullName, visitor);
+            }
+
+            return visitor.Get<T>();
         }
     }
 }

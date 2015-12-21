@@ -4,101 +4,60 @@ namespace CheckIt
     using System.IO;
     using System.Linq;
 
-    public class CheckProjects : CheckEnumerableBase<CheckProject>, IProjects, IObjectsFinder
+    using CheckIt.ObjectsFinder;
+    using CheckIt.Syntax;
+
+    internal class CheckProjects : CheckEnumerableBase<IProject>, IProjects, IProjectMatcher
     {
-        private readonly string basePath;
+        private readonly IEnumerable<FileInfo> files;
 
         private readonly string projectfilePattern;
 
-        public CheckProjects(string basePath, string projectfilePattern)
+        public CheckProjects(IEnumerable<FileInfo> files, string pattern)
         {
-            this.basePath = basePath;
-            this.projectfilePattern = projectfilePattern;
+            this.files = files;
+            this.projectfilePattern = pattern;
         }
 
-        protected override IEnumerable<CheckProject> Gets()
+        public ICheckContains<ICheckProjectContains> Contains()
         {
-            foreach (var file in this.GetFiles())
-            {
-                yield return new CheckProject(file);
-            }
+            return new CheckContains(new CheckSpecificContains(new ProjectsObjectsFinder(this)));
         }
 
-        private IEnumerable<FileInfo> GetFiles()
+        public IProjectMatcher Have()
+        {
+            return this;
+        }
+
+        public CheckMatch AssemblyName()
+        {
+            var assemblies = from p in this
+                             select new CheckMatchValue(p.Assembly().Name, p.Assembly().Name, null);
+
+            return new CheckMatch(assemblies.ToList(), "assemblies");
+        }
+
+        public CheckMatch Name()
+        {
+            var assemblies = from p in this
+                             select new CheckMatchValue(p.Name, p.Name, null);
+
+            return new CheckMatch(assemblies.ToList(), "projects");
+        }
+
+        protected override IEnumerable<IProject> Gets()
         {
             var hasFiles = false;
-            foreach (var file in this.GetFiles(this.basePath))
+            foreach (var file in this.files)
             {
                 hasFiles = true;
-                yield return file;
+                yield return new CheckProject(file);
             }
 
             if (!hasFiles)
             {
                 throw new MatchException(string.Format("No project found that match '{0}'.", this.projectfilePattern));
             }
-        }
-
-        private IEnumerable<FileInfo> GetFiles(string path)
-        {
-
-            foreach (var file in Directory.GetFiles(path, this.projectfilePattern))
-            {
-                yield return new FileInfo(file);
-            }
-
-            foreach (var directory in Directory.GetDirectories(path))
-            {
-                foreach (var fileInfo in this.GetFiles(directory))
-                {
-                    yield return fileInfo;
-                }
-            }
-        }
-
-        public CheckClasses Class(string pattern)
-        {
-            return new CheckClasses(this.GetClassess(pattern));
-        }
-
-        private IEnumerable<CheckClass> GetClassess(string classPattern)
-        {
-            return this.SelectMany(s => s.Class(classPattern));
-        }
-
-        public CheckAssemblies Assembly(string matchAssemblies)
-        {
-            return new CheckAssemblies(this.Select(s => s.Assembly()), matchAssemblies);
-        }
-
-        public CheckFiles File(string matchFiles)
-        {
-            return new CheckFiles(this.SelectMany(p => p.File(matchFiles)));
-        }
-
-        public CheckInterfaces Interfaces(string pattern)
-        {
-            return new CheckInterfaces(this.GetInterfaces(pattern));
-        }
-
-        private IEnumerable<CheckInterface> GetInterfaces(string pattern)
-        {
-            return this.SelectMany(c => c.Interface(pattern));
-        }
-
-        public ICheckContains<ICheckProjectContains> Contains()
-        {
-            return new CheckContains<CheckSpecificContains>(new CheckSpecificContains(this));
-        }
-
-        public IProjects Have()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public CheckReferences Reference(string pattern)
-    {
-            return new CheckReferences(this.SelectMany(p => p.Reference(pattern)));
         }
     }
 }

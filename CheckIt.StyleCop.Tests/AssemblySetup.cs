@@ -1,5 +1,6 @@
 namespace CheckIt.Tests.CheckAssembly
 {
+    using CheckIt.Compilation;
     using CheckIt.Compilation.Custom;
 
     public static class AssemblySetup

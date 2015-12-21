@@ -40,5 +40,7 @@ namespace CheckIt.Compilation.MsBuild
                 throw new System.NotImplementedException();
             }
         }
+
+        public string Name { get; private set; }
     }
 }

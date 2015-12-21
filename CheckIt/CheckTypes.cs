@@ -1,17 +1,18 @@
 namespace CheckIt
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
 
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using CheckIt.Compilation;
+    using CheckIt.Syntax;
 
-    public abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
-        where T : CheckType
-        where T2 : IEnumerable<T>, IPatternContains<T3, T4>
+    internal abstract class CheckTypes<T, T2, T3, T4> : CheckEnumerableBase<T>
+        where T : IType
+        where T3 : IEnumerable<T>, IPatternContains<T2, T4>
     {
-        protected readonly string pattern;
+        protected readonly string Pattern;
 
         private readonly string typeName;
 
@@ -27,11 +28,6 @@ namespace CheckIt
         {
         }
 
-        private CheckTypes(IEnumerable<T> classes, string pattern, string typeName)
-			: this(classes.Where(c => FileUtil.FilenameMatchesPattern(c.Name, pattern)), typeName)
-        {
-        }
-
         protected CheckTypes(IEnumerable<T> classes, string typeName)
         {
             this.classes = classes;
@@ -40,8 +36,27 @@ namespace CheckIt
 
         protected CheckTypes(string pattern, string typeName)
         {
-            this.pattern = pattern;
+            this.Pattern = pattern;
             this.typeName = typeName;
+        }
+
+        private CheckTypes(IEnumerable<T> classes, string pattern, string typeName)
+            : this(classes.Where(c => FileUtil.FilenameMatchesPattern(c.Name, pattern)), typeName)
+        {
+        }
+
+        public CheckMatch Name()
+        {
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name, c.Position)).ToList();
+
+            return new CheckMatch(values, this.typeName);
+        }
+
+        public CheckMatch NameSpace()
+        {
+            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace, c.Position)).ToList();
+
+            return new CheckMatch(values, this.typeName);
         }
 
         protected override IEnumerable<T> Gets()
@@ -55,32 +70,23 @@ namespace CheckIt
             }
             else
             {
-                foreach (var checkType in this.GetFromProject("*.csproj"))
+                var foundClass = false;
+                foreach (var checkType in this.GetTypes())
                 {
+                    if (FileUtil.FilenameMatchesPattern(checkType.Name, this.Pattern))
+                    {
+                        foundClass = true;
                     yield return checkType;
                 }
             }
-        }
 
-        protected abstract T2 GetFromProject(string pattern);
-
-        public CheckMatch Name()
+                if (!foundClass)
         {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.Name)).ToList();
-
-            return new CheckMatch(values, this.typeName);
+                    throw new MatchException("No class found that match '{0}'.", this.Pattern);
+                }
+        }
         }
 
-        public CheckMatch NameSpace()
-        {
-            var values = this.Select(c => new CheckMatchValue(c.Name, c.NameSpace)).ToList();
-
-            return new CheckMatch(values, this.typeName);
-        }
-
-        public IPatternContains<T3, T4> FromProject(string pattern)
-        {
-            return this.GetFromProject(pattern);
-        }
+        protected abstract IEnumerable<T> GetTypes();
     }
 }

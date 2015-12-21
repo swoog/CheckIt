@@ -2,9 +2,13 @@ namespace CheckIt
 {
     using System.Collections.Generic;
 
-    public class CheckInterfaces : CheckTypes<CheckInterface, CheckInterfaces, IInterfaces, ICheckInterfacesContains>, IInterfaces, IPatternContains<IInterfaces, ICheckInterfacesContains>
+    using CheckIt.Compilation;
+    using CheckIt.ObjectsFinder;
+    using CheckIt.Syntax;
+
+    internal class CheckInterfaces : CheckTypes<IInterface, IInterfaceMatcher, ICheckInterfaces, ICheckInterfacesContains>, ICheckInterfaces, IInterfaceMatcher
     {
-        public CheckInterfaces(IEnumerable<CheckInterface> interfaces)
+        public CheckInterfaces(IEnumerable<IInterface> interfaces)
             : base(interfaces, "interface")
         {
         }
@@ -12,7 +16,6 @@ namespace CheckIt
         public CheckInterfaces(string pattern)
             : base(pattern, "interface")
         {
-
         }
 
         public CheckInterfaces(ICompilationInfo compilationInfo, string pattern)
@@ -20,24 +23,24 @@ namespace CheckIt
         {
         }
 
-        protected override CheckInterfaces GetFromProject(string pattern)
-        {
-            return Check.GetProjects(pattern).Interfaces(this.pattern);
-        }
-
         public ICheckContains<ICheckInterfacesContains> Contains()
         {
-            throw new System.NotImplementedException();
+            return new CheckContains(new CheckSpecificContains(new InterfacesObjectsFinder(this)));
         }
 
-        public IInterfaces Have()
+        public IInterfaceMatcher Have()
         {
             return this;
         }
 
-        public IPatternContains<IInterfaces, ICheckInterfacesContains> FromAssembly(string pattern)
+        public IPatternContains<IInterfaceMatcher, ICheckInterfacesContains> FromAssembly(string pattern)
         {
-            return Check.GetProjects().Assembly(pattern).Interfaces(this.pattern);
+            return new CheckInterfaces(Check.GetProjects().Assembly(pattern).Interfaces(this.Pattern).ToList<IInterface>());
+        }
+
+        protected override IEnumerable<IInterface> GetTypes()
+        {
+            return new CheckInterfaces(Check.GetProjects().Interfaces(this.Pattern).ToList<IInterface>());
         }
     }
 }

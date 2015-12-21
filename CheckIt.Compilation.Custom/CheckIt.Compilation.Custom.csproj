@@ -72,6 +72,7 @@
     <Compile Include="CustomCompilationInfoFactory.cs" />
     <Compile Include="CustomDocument.cs" />
     <Compile Include="CustomProject.cs" />
+    <Compile Include="CustomReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

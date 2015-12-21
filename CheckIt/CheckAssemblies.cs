@@ -3,43 +3,32 @@ namespace CheckIt
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CheckAssemblies : CheckEnumerableBase<CheckAssembly>, IAssemblies
+    using CheckIt.ObjectsFinder;
+    using CheckIt.Syntax;
+
+    internal class CheckAssemblies : CheckEnumerableBase<IAssembly>, IAssemblies
     {
-        private readonly IEnumerable<CheckAssembly> checkAssemblies;
+        private readonly IEnumerable<IAssembly> checkAssemblies;
 
         private readonly string matchAssemblies;
 
-        public CheckAssemblies(IEnumerable<CheckAssembly> checkAssemblies, string matchAssemblies)
+        public CheckAssemblies(IEnumerable<IAssembly> checkAssemblies, string matchAssemblies)
         {
             this.checkAssemblies = checkAssemblies.Where(a => FileUtil.FilenameMatchesPattern(a.FileName, matchAssemblies));
             this.matchAssemblies = matchAssemblies;
         }
 
-        public CheckMatch Name()
+        public ICheckContains<ICheckAssemblyContains> Contains()
         {
-            var values = this.Select(a => new CheckMatchValue(a.Name, a.Name)).ToList();
-
-            return new CheckMatch(values, "assembly");
+            return new CheckContains(new CheckSpecificContains(new AssembliesObjectsFinder(this)));
         }
 
-	    public CheckMatch FileName()
-	    {
-			var values = this.Select(a => new CheckMatchValue(a.Name, a.FileName)).ToList();
-
-			return new CheckMatch(values, "assembly");
-		}
-
-		public CheckClasses Class(string pattern)
+        public IAssemblyMatcher Have()
         {
-            return new CheckClasses(this.SelectMany(a => a.Class(pattern)));
+            return new AssemblyMatcher(this);
         }
 
-        public CheckInterfaces Interfaces(string pattern)
-        {
-            return new CheckInterfaces(this.SelectMany(a => a.Interface(pattern)));
-        }
-
-        protected override IEnumerable<CheckAssembly> Gets()
+        protected override IEnumerable<IAssembly> Gets()
         {
             var hasAssemblies = false;
 
@@ -55,15 +44,5 @@ namespace CheckIt
                 throw new MatchException(string.Format("No assembly found that match '{0}'", this.matchAssemblies));
             }
         }
-
-	    public ICheckContains<ICheckAssemblyContains> Contains()
-	    {
-		    throw new System.NotImplementedException();
-	    }
-
-	    public IAssemblies Have()
-	    {
-		    return this;
-	    }
     }
 }
